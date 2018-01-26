@@ -1,0 +1,8 @@
+{
+  "name": "suplo-ionic",
+  "app_id": "b72dd2bf",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}
