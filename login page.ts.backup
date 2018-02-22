@@ -1,0 +1,207 @@
+import { UserProvider } from './../../providers/user/user';
+import { ItemProvider } from './../../providers/item/item';
+import { Component, ViewChild, ElementRef, Renderer2, ChangeDetectorRef } from '@angular/core';
+import { IonicPage, NavController, NavParams, LoadingController, Loading } from 'ionic-angular';
+
+@IonicPage()
+@Component({
+  selector: 'page-me',
+  templateUrl: 'me.html',
+})
+export class MePage {
+  @ViewChild('iframeAccount') iframeAccount: ElementRef;
+  @ViewChild('iframeLogin') iframeLogin: ElementRef;
+  loggedFromMemory:boolean = false;
+  user:boolean = null;
+  loader:Loading;
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams,
+    public userProvider: UserProvider,
+    public renderer: Renderer2,
+    public loadCtrl: LoadingController
+  ) {
+    this.showLoad();
+
+    this.checkUserLogin();
+  }
+
+  showLoad() {
+    this.loader = this.loadCtrl.create({
+      content: 'Vui lòng đợi...'
+    })
+    this.loader.present();
+  }
+
+  ionViewDidLoad() {
+    
+  }
+
+  checkUserLogin() {
+    if (this.userProvider.user != null) {
+      console.log('user ready now,user state:',this.userProvider.user)
+     this.checkLogic(this.userProvider.user);
+    } 
+    else {
+      console.log('user not ready now, get from storage')
+      this.userProvider.checkUser()
+      .then(user => {
+        console.log('user state from storage:',this.userProvider.user)
+        this.checkLogic(user);
+      })
+    }
+  }
+
+  checkLogic(user) {
+    if (user) {
+      // go to account page
+      this.user = user;
+      this.loggedFromMemory = true;
+     
+    } else {
+      // go to login page
+      console.log("show LOGIN iframe", this.user);
+    }
+  }
+
+// ====================================================== 
+
+  accountLoad(event,iframe) {
+    this.loader.present();
+    let location:string = iframe.contentWindow.location.href;
+    console.log('accountLoad location:',location);
+    // if logout successful
+    if (this.user == true && location.endsWith('https://suplo-food.myharavan.com/')) {
+      this.user = false;
+      this.userProvider.userState(false);
+    }
+    else if (!this.user && location.endsWith('https://suplo-food.myharavan.com/account')) {
+      this.user = true;
+      this.userProvider.userState(true);
+    }  
+    // if login successful
+    if (this.loggedFromMemory) console.log("show ACCOUNT iframe DIRECTLY", this.user)
+    else console.log("show ACCOUNT iframe NOT LEGAL", this.user)
+    if (this.user) this.accountFrame(event,iframe)
+    else this.loginFrame(event,iframe)
+  }
+
+  accountFrame(event,iframe) {
+    var iWindow = iframe.contentWindow
+    // var doc =  || iframe.contentWindow.document;
+    var doc:Document =  iframe.contentWindow.document || iframe.contentDocument;
+    // console.log('Account frame event',event)
+    // console.debug('Account doc ready?',iframe);
+    // console.log('Account content window?',iframe.contentWindow);
+    
+    // hidden web component
+    this.renderer.setStyle(doc.getElementById('tai-khoan'),'padding-bottom','80px');
+    this.renderer.setStyle(doc.getElementById('tai-khoan'),'padding-top','1px');
+    this.renderer.setStyle(doc.getElementById('header'),'display','none')
+    this.renderer.setStyle(doc.getElementById('breadcrumb-wrapper'),'display','none')
+    this.renderer.setStyle(doc.getElementById('footer'),'display','none')
+    this.renderer.setStyle(doc.getElementById('mobile-bottom-navigation'),'display','none')
+    this.renderer.setStyle(doc.getElementById('back-to-top'),'display','none')
+
+
+    // SCRIPT logout user #customer_logout_link
+    let logout = doc.getElementById('customer_logout_link');
+    let username = doc.getElementsByClassName('h5')[0];
+    let result = username.parentNode.insertBefore(logout,username.nextSibling);
+    if(logout) {
+      let logoutListener = this.renderer.listen(logout,'click',(event) =>{
+        logoutListener();
+        this.loader = this.loadCtrl.create({
+          content: 'Vui lòng đợi...'
+        })
+        this.loader.present();
+        this.renderer.setStyle(iframe,'display','none');
+      })
+    }
+
+    // logout.addEventListener('click',() =>{
+    //   console.log('clicked logout')
+    //   // this.renderer.setStyle(iframe,'display','none');
+    //   this.showAccount = false;
+    //   this.cd.detectChanges()
+    //   // this.user = false;
+    // })
+    
+    // SCRIPT get username
+    console.log('username:',username,username.innerHTML)
+
+
+    // show iframe
+    this.renderer.setStyle(iframe,'display','block');
+    this.loader.dismissAll();
+  }
+
+  loginLoad(event,iframe) {
+    this.loader.present();
+    let location:string = iframe.contentWindow.location.href;
+    console.log('loginLoad location:',location);
+    // if logout successful
+    if (this.user == true && location.endsWith('https://suplo-food.myharavan.com/')) {
+      this.user = false;
+      this.userProvider.userState(false);
+    }
+    else if (!this.user && location.endsWith('https://suplo-food.myharavan.com/account')) {
+      this.user = true;
+      this.userProvider.userState(true);
+      this.loggedFromMemory = false;
+    }  
+    // if login successful
+    console.log(this.user)
+    if (this.user) this.accountFrame(event,iframe)
+    else this.loginFrame(event,iframe)
+  }
+
+  loginFrame(event,iframe) {
+
+    var iWindow = iframe.contentWindow
+    // var doc =  || iframe.contentWindow.document;
+    var doc:Document =  iframe.contentWindow.document || iframe.contentDocument;
+    // console.log('Login frame event',event)
+    // console.debug('Login doc ready?',iframe);
+    // console.log('Login content window?',iframe.contentWindow);
+    
+    // CSS hidden web component
+    this.renderer.setStyle(doc.getElementById('tai-khoan'),'padding-bottom','80px');
+    this.renderer.setStyle(doc.getElementById('tai-khoan'),'padding-top','1px');
+    this.renderer.setStyle(doc.getElementById('breadcrumb-wrapper'),'display','none')
+    this.renderer.setStyle(doc.getElementById('header'),'display','none')
+    this.renderer.setStyle(doc.getElementById('footer'),'display','none')
+    this.renderer.setStyle(doc.getElementById('mobile-bottom-navigation'),'display','none')
+    this.renderer.setStyle(doc.getElementById('back-to-top'),'display','none')
+
+    let login = doc.querySelector('input[value="Đăng nhập"]');
+    if (login) {
+      let loginListener = this.renderer.listen(login,'click',(event) =>{
+        loginListener();
+        this.loader = this.loadCtrl.create({
+          content: 'Vui lòng đợi...'
+        })
+        this.loader.present();
+        this.renderer.setStyle(iframe,'display','none');
+        
+      })
+  }
+
+    //  = login.addEventListener('click',() =>{
+    //   console.log('clicked login')
+    //   // this.renderer.setStyle(iframe,'display','none');
+    //   // this.user = true;
+    //   // this.showLogin = false;
+    //   loginListener
+    //   this.cd.detectChanges()
+    // })
+
+
+    // show iframe
+        this.renderer.setStyle(iframe,'display','block'); 
+        this.loader.dismissAll();
+  }
+
+
+  
+}

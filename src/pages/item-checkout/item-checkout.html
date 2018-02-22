@@ -1,0 +1,14 @@
+
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Thanh toán</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <iframe #iframe class="iframe-checkout" [src]="checkoutLink" frameborder="0" (load)="frameLoad(iframe)"></iframe>
+</ion-content>
+

@@ -1,0 +1,4 @@
+<div *ngFor="let option of options">
+  <h5>{{option.name}}</h5>
+  <button class="detail" ion-button outline *ngFor="let detail of option.details" [color]="option.selectedDetail == detail? 'primary':'light'" (click)="selectedDetail(option,detail)">{{detail}}</button>
+</div>

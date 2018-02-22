@@ -1,0 +1,22 @@
+<ion-list>
+    <ion-grid>
+      <ion-row>
+        <ion-col class="product-item" col-6 *ngFor="let product of products">
+          <!-- <ion-item> -->
+            <ion-card class="collection-item">
+              <div class="top-box">
+                  <p class="price-format">{{product.price_format}}</p>
+                  <p *ngIf="product.sale != '-0%' " class="sale">{{product.sale}}</p>
+                  <img (click)="goDetail.emit(product.handle)" tappable [src]="product.featured_image">
+                  <p class="title" (click)="goDetail.emit(product.handle)" tappable>{{product.title}}</p>
+              </div>
+              <button class="addtocart" full ion-button outline clear (click)="addToCart.emit(product)">
+                <ion-icon name="cart"></ion-icon>
+                Thêm vào giỏ
+              </button>
+            </ion-card>
+          <!-- </ion-item> -->
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-list>

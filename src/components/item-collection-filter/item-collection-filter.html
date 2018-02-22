@@ -1,0 +1,6 @@
+<ion-item>
+  <ion-label>Khoảng giá</ion-label>
+  <ion-select [(ngModel)]="priceRange" (ionChange)="filterEvent.emit($event)">
+    <ion-option [value]="price.range" [selected]="price.selected" *ngFor="let price of priceList">{{price.name}}</ion-option>
+  </ion-select>
+</ion-item>

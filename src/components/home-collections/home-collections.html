@@ -1,0 +1,10 @@
+<ion-grid>
+  <ion-row>
+    <ion-col col-6 *ngFor="let collection of collections">
+      <ion-card>
+        <img [src]="collection.imgSrc" [alt]="collection.name" tappable (click)="goCollection(collection)">
+        <p class="collection-title" tappable (click)="goCollection(collection)">{{collection.name}}</p>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+</ion-grid>

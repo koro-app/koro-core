@@ -1,0 +1,32 @@
+<!--
+  Generated template for the ItemProductPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar >
+    <ion-title *ngIf="product">{{product.title}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content *ngIf="product" padding>
+  <!-- basic information -->
+  <div class="item">
+    <p class="item-sale" *ngIf="product.sale != '-Infinity'">-{{product.sale}}%</p>
+    <img [src]="product.featured_image"/>
+    <p class="item-price">{{product.price}}₫</p>
+    <p class="item-title">{{product.title}}</p>
+    <item-product-variants *ngIf="options" [options]="options" (selectedVariant)="selectedVariant($event)"></item-product-variants>
+    <div class="item-description" [innerHTML]="product.description" tappable (click)="presentModal()"></div>
+  </div>
+
+  <!-- add cart -->
+  <div class="add-cart">
+    <button (click)="addToCart(product)" ion-button large round>
+      Thêm vào giỏ hàng
+    </button>
+  </div>
+</ion-content>

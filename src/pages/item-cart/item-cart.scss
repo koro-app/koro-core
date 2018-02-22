@@ -1,0 +1,80 @@
+page-item-cart {
+    position: relative;
+    
+        ion-content {
+            background-color: #f4f4f7!important;
+        }
+    
+        .variant {
+            box-shadow: 0 1px 2px rgba(0,0,0,.3);
+        }
+    
+       .delete-button {
+            position: absolute;
+            top: 0;
+            right: 0;
+            z-index: 999;
+        }
+    
+        .left-side {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+    
+            p.single-price {
+                text-align: center;
+                margin-top:0.5em
+            }
+            .quantity-button {
+                display: flex;
+                align-items: center;
+                justify-content: space-around;
+                button.button {
+                    height: unset;
+                }
+            }
+        }
+    
+        .right-side {
+            display: flex;
+            flex-direction: column;
+            font-size: x-large;
+            height: 100%;
+            justify-content: space-around;
+            
+            ion-title {
+                padding-bottom: 0.5em;
+                div.toolbar-title {
+                    padding-left: 0;
+                }
+            }
+    
+            p.title {
+                font-size: large;
+                font-weight: 600;
+                text-align: center;
+            }
+    
+            p.variant-title {
+                white-space: normal;
+                padding: 1.5em 0;
+            }
+          
+            p.subtotal {
+                text-align: center;
+                font-size: medium;
+                font-weight: 500;
+            }
+        }
+    
+        .botbar {
+            display: flex;
+            .gross {
+                font-size: 1.7rem;
+                font-weight: 600;
+                color: #000;
+                pointer-events: auto;
+            }
+        }
+}

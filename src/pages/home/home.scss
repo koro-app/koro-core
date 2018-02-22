@@ -1,3 +1,16 @@
 page-home {
+    .checkout-cart {
+        margin-right: 1em;
+        position: relative;
+        ion-badge {
+            position: absolute;
+            top: -0.6em;
+            right: -1.2em;
+        }
+    }
+}
 
+.iframe {
+    height: 100%;
+    width: 100%;
 }
