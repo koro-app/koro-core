@@ -1,4 +1,5 @@
 import { Component, Output, EventEmitter } from '@angular/core';
+// import { Select } from 'ionic-angular';
 
 /**
  * Generated class for the ItemCollectionFilterComponent component.
@@ -52,10 +53,21 @@ export class ItemCollectionFilterComponent {
   priceRange: any;
 
   @Output() filterEvent: EventEmitter<any> = new EventEmitter();
-
+    settings: any = {
+      title: 'Pizza Toppings',
+      subTitle: 'Select your toppings',
+      mode: 'md'
+    };
   constructor(
+    // public select: Select
   ) {
     
   }
+
+  // 
+  // selectFilter(){
+  //   this.select.options = this.settings
+  //   this.select.open();
+  // }
 
 }

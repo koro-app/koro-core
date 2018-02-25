@@ -4,6 +4,7 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform, NavController, App } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { ItemProvider } from '../providers/item/item';
 
 @Component({
   templateUrl: 'app.html'
@@ -15,12 +16,15 @@ export class MyApp {
 
   pages: Array<{title: string,name:string, index: number}>;
 
+  colorPrimary = "#000000";
+
   constructor(
     public platform: Platform, 
     public statusBar: StatusBar, 
     public splashScreen: SplashScreen,
     public app:App,
-    public userProvider: UserProvider
+    public userProvider: UserProvider,
+    public itemProvider: ItemProvider
   ) {
     this.initializeApp();
 
@@ -38,7 +42,15 @@ export class MyApp {
     this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-      this.statusBar.styleDefault();
+      // this.statusBar.overlaysWebView(true);
+      // this.itemProvider.getConfig()
+      // .subscribe((data:any) => {
+      //   this.colorPrimary = data.home.color.primary;
+      //   this.statusBar.backgroundColorByHexString(this.colorPrimary);
+      // });
+      // if (this.platform.is('android')) {
+        this.statusBar.backgroundColorByHexString("#33000000");
+      // }
       this.splashScreen.hide();
     });
   }

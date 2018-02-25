@@ -1,9 +1,13 @@
-<ion-tabs [color]="'primary'" class="tab3-secondary" #myTabs  [selectedIndex]="selectedIndex" tabsPlacement="bottom" (ionChange)="tabChange($event)">
-  <ion-tab [root]="tab1Root" tabTitle="Trang chủ" tabIcon="home"></ion-tab>
+<ion-tabs class="tabs-bottom" #myTabs  [selectedIndex]="selectedIndex" tabsPlacement="bottom" (ionChange)="tabChange($event)"  [ngClass]="{'hidden': hideTabs}">
+  <ion-tab [root]="tab1Root" tabTitle="Trang chủ" tabIcon="customicon-home"></ion-tab>
   
-  <ion-tab [root]="tab2Root" tabTitle="Nhóm sản phẩm" tabIcon="apps"></ion-tab>
-  <ion-tab [root]="tab3Root" tabTitle="Giỏ hàng" tabIcon="cart"></ion-tab>
-  <ion-tab  [root]="tab4Root" tabTitle="Tài khoản" tabIcon="contact"></ion-tab>
+  <ion-tab [root]="tab2Root" tabTitle="Danh mục" tabIcon="customicon-list"></ion-tab>
+  <ion-tab [root]="tab2Root" tabTitle="Yêu thích" tabIcon="customicon-like"></ion-tab>
+  <ion-tab [root]="tab3Root" *ngIf="productNumber | async; let productNumber" tabTitle="Giỏ hàng" tabIcon="customicon-cart" tabBadge="{{productNumber}}" tabBadgeStyle="white">
+  </ion-tab>
+  <ion-tab [root]="tab3Root" tabIcon="customicon-cart" tabTitle="Giỏ hàng" tabBadge="3" tabBadgeStyle="white">
+  </ion-tab>
+  <ion-tab  [root]="tab4Root" tabTitle="Tài khoản" tabIcon="customicon-contact"></ion-tab>
 </ion-tabs>
 
 

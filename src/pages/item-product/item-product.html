@@ -5,28 +5,259 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
-  <ion-navbar >
-    <ion-title *ngIf="product">{{product.title}}</ion-title>
+  <ion-navbar>
+    <ion-title></ion-title>
+    <!-- search button  -->
+    <ion-buttons end>
+      <button ion-button icon-only>
+        <!-- <ion-icon name="search"></ion-icon> -->
+        <i class="fas fa-search"></i>
+      </button>
+    </ion-buttons>
+    <!-- call button  -->
+    <ion-buttons end>
+      <button ion-button icon-only>
+        <!-- <ion-icon name="call"></ion-icon> -->
+        <i class="fas fa-phone-volume"></i>
+      </button>
+    </ion-buttons>
+    <!-- noti button  -->
+    <ion-buttons end>
+      <button class="noti-btn" ion-button icon-only>
+        <!-- <ion-icon name="notifications"></ion-icon> -->
+        <i class="fas fa-bell"></i>
+        <ion-badge item-end class="badge-header">0</ion-badge>
+      </button>
+    </ion-buttons>
   </ion-navbar>
-
 </ion-header>
-
-<ion-content *ngIf="product" padding>
+<ion-content *ngIf="product">
   <!-- basic information -->
-  <div class="item">
+  <ion-grid class="item-product">
+    <ion-row>
+      <ion-col col-12>
+        <ion-slides pager>
+          <ion-slide *ngFor="let img of product.images">
+            <img [src]="img">
+          </ion-slide>
+        </ion-slides>
+      </ion-col>
+      <ion-col col-12>
+        <p class="item-title" no-margin text-uppercase>{{product.title}}</p>
+        <div class="item-price">
+          <span class="current-price">{{product.price}}₫</span>
+          <span class="original-price"><s>{{product.compare_at_price}}₫</s></span>
+          <span class="sale"><i>(Bạn đã tiết kiệm được {{product.compare_at_price - product.price}}₫)</i></span>
+        </div>
+      </ion-col>
+      <ion-col col-12 class="no-pd-top">
+        <div class="item-review-barcode">
+          <span class="review">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="far fa-star"></i>
+            (123)
+          </span>
+          <span class="barcode">Mã sản phẩm: {{product.variants[0].sku}}</span>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <!-- btn share and like -->
+  <ion-grid no-padding>
+    <ion-row no-padding>
+      <ion-col col-12 no-padding>
+        <div class="line-item">
+          <div class="btn-group-item">
+            <span class="btn-share">
+              <i class="fas fa-share-alt"></i>
+            </span>
+            <span class="btn-like">
+              <i class="far fa-heart"></i>
+            </span>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <!-- policies -->
+  <ion-grid class="bg-white boder-bottom" padding-top>
+    <ion-row>
+      <ion-col col-4>
+        <ion-row no-padding class="policy" align-items-center>
+          <ion-col col-2 no-padding>
+            <div class="policy-img">
+              <img src="assets/icon/free-delivery.png">
+            </div>
+          </ion-col>
+          <ion-col col-10 no-padding>
+            <div class="policy-text" text-uppercase>
+              Miễn phí giao hàng
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+      <ion-col col-4>
+        <ion-row no-padding class="policy" align-items-center>
+          <ion-col col-2 no-padding>
+            <div class="policy-img">
+              <img src="assets/icon/medal.png">
+            </div>
+          </ion-col>
+          <ion-col col-10 no-padding>
+            <div class="policy-text" text-uppercase>
+              Chất lượng đảm bảo
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+      <ion-col col-4>
+        <ion-row no-padding class="policy" align-items-center>
+          <ion-col col-2 no-padding>
+            <div class="policy-img">
+              <img src="assets/icon/refund.png">
+            </div>
+          </ion-col>
+          <ion-col col-10 no-padding>
+            <div class="policy-text" text-uppercase>
+              Đổi trả dễ dàng
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <!-- description -->
+  <ion-grid class="item-product" no-padding>
+    <ion-row>
+      <ion-col col-12 class="ion-customer-header">
+        <div class="text-title" text-uppercase>
+          Mô tả sản phẩm
+        </div>
+        <div class="icon-title" tappable (click)="presentModal()">
+          <i class="fas fa-angle-right"></i>
+        </div>
+      </ion-col>
+      <ion-col col-12 no-padding>
+        <div class="detail-product">
+          <div class="detail-inner" [innerHTML]="product.description"></div>
+            <!-- <ion-icon name="arrow-down"></ion-icon> -->
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- related product -->
+  <ion-grid class="item-product" no-padding>
+    <ion-row>
+      <ion-col col-12 class="ion-customer-header">
+        <div class="text-title" text-uppercase>
+          Sản phẩm liên quan
+        </div>
+        <div class="icon-title">
+          <i class="fas fa-angle-right"></i>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-6 col-md-3 col-lg-3 col-xl-4 *ngFor="let related of product.related_products">
+        <div class="product-item">
+          <div class="product-img">
+            <a text-center tappable (click)="viewProduct(related)">
+              <img [src]="related.featured_image" [alt]="related.title">
+            </a>
+            <div class="product-tags">
+              <div class="tag-saleoff" text-center>{{related.sale}}</div>
+            </div>
+          </div>
+          <div class="product-info">
+            <div class="product-title" text-uppercase tappable (click)="viewProduct(related)">
+              {{related.title}}
+            </div>
+            <div class="product-price" text-center>
+              <span class="current-price">{{related.price_format}}</span>
+              <span class="original-price">
+              <s>{{related.compare_at_price_format}}</s>
+            </span>
+            </div>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- seen product -->
+  <ion-grid class="item-product" no-padding>
+    <ion-row>
+      <ion-col col-12 class="ion-customer-header">
+        <div class="text-title" text-uppercase>
+          Sản phẩm đã xem
+        </div>
+        <div class="icon-title">
+          <i class="fas fa-angle-right"></i>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-6 col-md-3 col-lg-3 col-xl-4 *ngFor="let seen of product.related_products">
+        <div class="product-item">
+          <div class="product-img">
+            <a text-center tappable (click)="viewProduct(seen)">
+              <img [src]="seen.featured_image" [alt]="seen.title">
+            </a>
+            <div class="product-tags">
+              <div class="tag-saleoff" text-center>{{seen.sale}}</div>
+            </div>
+          </div>
+          <div class="product-info">
+            <div class="product-title" text-uppercase tappable (click)="viewProduct(seen)">
+              {{seen.title}}
+            </div>
+            <div class="product-price" text-center>
+              <span class="current-price">{{seen.price_format}}</span>
+              <span class="original-price">
+              <s>{{seen.compare_at_price_format}}</s>
+            </span>
+            </div>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+  <!-- <div class="item">
     <p class="item-sale" *ngIf="product.sale != '-Infinity'">-{{product.sale}}%</p>
-    <img [src]="product.featured_image"/>
+    <img [src]="product.featured_image" />
     <p class="item-price">{{product.price}}₫</p>
     <p class="item-title">{{product.title}}</p>
     <item-product-variants *ngIf="options" [options]="options" (selectedVariant)="selectedVariant($event)"></item-product-variants>
     <div class="item-description" [innerHTML]="product.description" tappable (click)="presentModal()"></div>
-  </div>
-
+  </div> -->
   <!-- add cart -->
-  <div class="add-cart">
+  <!-- <div class="add-cart">
     <button (click)="addToCart(product)" ion-button large round>
       Thêm vào giỏ hàng
     </button>
-  </div>
+  </div> -->
 </ion-content>
+
+<!-- view variant -->
+<ion-footer *ngIf="product">
+  <ion-grid class="bottom-fixed" no-padding>
+    <ion-row>
+      <ion-col col-2>
+        <div class="bt-f-left" tappable>
+          <i class="fas fa-home"></i>
+        </div>
+      </ion-col>
+      <ion-col col-10>
+        <div class="bt-f-right" text-uppercase tappable (tap)="viewVariant()">
+          <i class="fas fa-shopping-cart"></i> Mua hàng
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>

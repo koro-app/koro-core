@@ -1,55 +1,228 @@
 page-item-product {
-    .scroll-content {
-        margin-top: 56px;
-        padding-top: 0;
+  // .scroll-content {
+  //     margin-top: 56px;
+  //     padding-top: 0;
+  // }
+  .scroll-content {
+    background: #d5d5d5;
+  }
+
+  // slides
+  ion-slides {
+    height: fit-content;
+    .swiper-pagination-bullet-active {
+      // outline: rgba(0,0,0,0.2) 3px solid;
+      width: 10px;
+      height: 10px;
+      background:  color($colors, black) !important;
+      position: relative;
+    }
+    .swiper-pagination-bullet {
+      border: 1px solid  color($colors, black);
+      opacity: 1;
+      width: 10px;
+      height: 10px;
+      background: transparent;
+    }
+  }
+
+  .item-product {
+    border-bottom: 1px solid #b7b7b7;
+    border-top: 1px solid #b7b7b7;
+    margin: 10px 0;
+    background: color($colors, white);
+    &:first-child {
+      border-top: none !important;
+      border-bottom: none;
+      margin-bottom: 0;
+      margin-top: 0;
+    }
+    .item-title {
+      margin: 0;
+      font-size: 14px;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+    .item-price {
+      padding-top: 3px;
+      .current-price {
+        color: color($colors, price);
+        font-size: 14px;
+        font-weight: bold;
+      }
+      .original-price {
+        font-size: 10px;
+        color: color($colors, gray);
+        padding-left: 10px;
+      }
+      .sale {
+        font-size: 11px;
+        padding-left: 10px;
+      }
+    }
+    .item-review-barcode {
+      padding-bottom: 6px;
+      .review {
+        font-size: 11px;
+        .fa-star {
+          color: color($colors, star);
+        }
+      }
+      .barcode {
+        font-size: 11px;
+        padding-left: 10px;
+      }
+    } 
+  }
+    // policy
+    .policy {
+      .policy-img {
+        img {}
+      }
+      .policy-text {
+        padding-left: 5px;
+        font-size: 8px;
+        text-transform: uppercase;
+        font-weight: bold;
+      }
     }
 
-   .item {
+  .line-item {
+    position: relative;
+    .btn-group-item {
+      color: #292929;
+      .btn-share {
+        position: absolute;
+        right: 50px;
+        border-radius: 50%;
+        height: 28px;
+        width: 28px;
         text-align: center;
+        margin: 0 auto;
+        top: -14px;
+        line-height: 28px;
+        background: color($colors, white);
+        cursor: pointer;
+        z-index: 10;
+        border: 1px solid #b7b7b7;
+      }
+      .btn-like {
+        position: absolute;
+        right: 9px;
+        border-radius: 50%;
+        height: 28px;
+        width: 28px;
+        text-align: center;
+        margin: 0 auto;
+        top: -14px;
+        line-height: 28px;
+        background: color($colors, white);
+        cursor: pointer;
+        z-index: 10;
+        border: 1px solid #b7b7b7;
+      }
+    }
+  } // cus header title
+  .ion-customer-header {
+    background-color: color($colors, white);
+    border-bottom: solid 1px #b7b7b7;
+    padding: 5px 10px !important;
+    font-size: 12px;
+    font-weight: bold;
+    width: 100%;
+    .text-title {
+      text-transform: uppercase;
+      display: inline-block;
+      width: calc(100% - 55px);
+    }
+    .icon-title {
+      width: 50px;
+      right: 0;
+      text-align: right;
+      display: inline-block;
+      font-size: 18px;
+      color: color($colors, black);
+    }
+  } // description
+  .detail-product {
+    background: color($colors, white);
+    padding: 0px 5px 8px 5px;
+    position: relative;
+    overflow-x: auto;
+    min-height: .01%;
+    height: 142px;
+    overflow: hidden;
+    margin-bottom: 15px;
+  } // bottom
+  .bottom-fixed {
+    background: color($colors, white);
+    color: color($colors, white);
+    .bt-f-left {
+      background-color: color($colors, saleoff);
+      text-align: center;
+      line-height: 2.5;
+      margin: auto;
+      font-size: 16px;
+      height: 40px;
+    }
 
-        .item-sale {
-            position: absolute;
-            top: 1em;
-            background-color: #daf5ec;
-            color: #44cd9f;
-            padding: 0 1em;
-            border-radius: 50px;
-            margin: 0;
-        }
+    .bt-f-right {
+      background-color: color($colors, saleoff);
+      text-align: center;
+      line-height: 2.5;
+      margin: auto;
+      font-size: 14px;
+      margin-left: 1px;
+      height: 40px;
+    }
+  }
 
-        .item-title {
-            text-align: center;
-            color: #333333;
-            font-size: x-large;
-            font-weight: bolder;
-            margin: 0;
-        }
-        
-        .item-price {
-            text-align: center;
-            color: #BC3F44;
-            font-size: large;
-            font-weight: 600;
-            text-align: center;
-            margin-top: 0;
-        }
+  .item {
+    text-align: center;
 
-        .item-description {
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            height: 4.5em;
-            overflow: hidden;
-        }
-   }
+    .item-sale {
+      position: absolute;
+      top: 1em;
+      background-color: #daf5ec;
+      color: #44cd9f;
+      padding: 0 1em;
+      border-radius: 50px;
+      margin: 0;
+    }
 
-   .add-cart {
-       text-align: center;
-       button {
-            color: white; 
-            background: linear-gradient(to left,#333333, #BC3F44);
-            text-transform: capitalize;
-            margin-top: 1em;
-        }
-   }
+    .item-title {
+      text-align: center;
+      color: #333333;
+      font-size: x-large;
+      font-weight: bolder;
+      margin: 0;
+    }
+
+    .item-price {
+      text-align: center;
+      color: #BC3F44;
+      font-size: large;
+      font-weight: 600;
+      text-align: center;
+      margin-top: 0;
+    }
+
+    .item-description {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      height: 4.5em;
+      overflow: hidden;
+    }
+  }
+
+  .add-cart {
+    text-align: center;
+    button {
+      color: white;
+      background: linear-gradient(to left, #333333, #BC3F44);
+      text-transform: capitalize;
+      margin-top: 1em;
+    }
+  }
 }

@@ -38,13 +38,25 @@ $colors: (
   secondary:  #32db64,
   danger:     #f53d3d,
   light:      #f4f4f4,
-  dark:       #222
+  dark:       #222,
+  white: #ffffff,
+  black: #000000,
+  price: #d51c24,
+  saleoff: #ae1616,
+  gray: #4f4f4f,
+  border: #d3d3d3,
+  tabsbg: #efefef,
+  tabsborder: #b9b9b9,
+  star: #fcc001,
+  orange: #ee8f21
 );
 
 
 // App iOS Variables
 // --------------------------------------------------
 // iOS only Sass variables can go here
+$checkbox-ios-icon-border-color-on: color($colors, black);
+$checkbox-ios-background-color-on: color($colors, black);
 
 
 
@@ -52,14 +64,18 @@ $colors: (
 // App Material Design Variables
 // --------------------------------------------------
 // Material Design only Sass variables can go here
-
+$checkbox-md-icon-border-radius: 50%;
+$checkbox-md-icon-background-color-on: color($colors, black);
+$checkbox-md-icon-border-color-on: color($colors, black);
 
 
 
 // App Windows Variables
 // --------------------------------------------------
 // Windows only Sass variables can go here
-
+$checkbox-wp-icon-border-radius: 50%;
+$checkbox-wp-icon-background-color-on: color($colors, black);
+$checkbox-wp-icon-border-color-on: color($colors, black);
 
 
 

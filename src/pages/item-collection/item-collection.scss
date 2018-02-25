@@ -1,7 +1,13 @@
 page-item-collection {
-    .content .scroll-content {
-        background: #e2e1e0;
+  .content .scroll-content {
+    // background: #e2e1e0;
+  }
+  .filter-collection {
+    border-bottom: 1px solid #cdcdcd;
+    padding: 3px 5px;
+    .sort-by {
+      color: color($colors, black);
+      font-size: 11px;
     }
-
-   
+  }
 }
