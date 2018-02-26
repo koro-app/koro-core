@@ -14,6 +14,7 @@ import { ItemProvider } from '../../providers/item/item';
 export class HomePage {
   showToolbar:boolean = false;
   banner;
+  myInput:any;
   constructor(
     public navCtrl: NavController,
     public store: Store<any>,
