@@ -17,6 +17,7 @@ export class ItemCollectionListComponent {
 
   constructor() {
     console.log('Hello ItemCollectionListComponent Component');
+    // select.open()
   }
 
 }

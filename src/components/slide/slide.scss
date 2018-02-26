@@ -1,30 +1,30 @@
 slide {
-    ion-slides {
-        height: fit-content;
+  ion-slides {
+    height: fit-content;
+    .swiper-pagination-bullet-active {
+      // outline: rgba(0,0,0,0.2) 3px solid;
+      width: 10px;
+      height: 10px;
+      background: white !important;
+      position: relative;
+      // &:after {
+      //   content: '';
+      //   position: absolute;
+      //   display: block;
+      //   top: -3px;
+      //   left: -3px;
+      //   width: 12px;
+      //   height: 12px;
+      //   border-radius: 100%;
+      //   border: rgba(0, 0, 0, 0.2) 3px solid;
+      // }
     }
-    ion-slides .swiper-pagination-bullet-active {
-        // outline: rgba(0,0,0,0.2) 3px solid;
-        width: 12px;
-        height: 12px;
-        background-color: white;
-        position: relative;
+    .swiper-pagination-bullet {
+      border: 1px solid #fff;
+      opacity: 1;
+      width: 10px;
+      height: 10px;
+      background: transparent;
     }
-
-    ion-slides .swiper-pagination-bullet-active:after {
-        content: '';
-        position: absolute;
-        display: block;
-        top: -3px;
-        left: -3px;
-        width: 12px;
-        height: 12px;
-        border-radius: 100%;
-        border: rgba(0, 0, 0, 0.2) 3px solid;
-    }
-
-    ion-slides .swiper-pagination-bullet {
-        width: 12px;
-        height: 12px;
-        opacity: .5;
-    }
+  }
 }

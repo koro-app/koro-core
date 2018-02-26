@@ -1,7 +1,7 @@
 
 import { ItemProvider } from './../../providers/item/item';
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, NavParams} from 'ionic-angular';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import * as cartActions from '../../store/product-cart/product-cart.actions';
@@ -14,7 +14,6 @@ import 'rxjs/add/operator/take';
   templateUrl: 'item-cart.html',
 })
 export class ItemCartPage {
-
   variants: Observable<any>;
   gross: number = 0;
   constructor(
@@ -27,7 +26,9 @@ export class ItemCartPage {
       this.setVariants();
   }
 
-  
+  dismiss(){
+    this.navCtrl.parent.select(0);
+  }
 
   setVariants() {
     this.variants = this.store.select('cart','entities')

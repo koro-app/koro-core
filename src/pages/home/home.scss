@@ -1,16 +1,82 @@
 page-home {
-    .checkout-cart {
-        margin-right: 1em;
-        position: relative;
-        ion-badge {
-            position: absolute;
-            top: -0.6em;
-            right: -1.2em;
-        }
+  .toolbar-title {
+    padding: 0
+  } 
+
+  // no border header
+  .toolbar-background-ios {
+    border: 0 !important;
+  } 
+  .opaque .toolbar-background-ios {
+    border-width: 0 0 0.55px;
+  }
+  .toolbar-ios ion-title {
+    width: auto !important;
+    padding: 0px 80px 1px 0px;
+  }
+  
+  // style search header
+  // first
+  .search-header {
+    display: inline-block !important;
+    width: calc(100% - 65px) !important;
+    padding: 8px !important;
+    .searchbar-input-container {
+      border: 0 !important;
     }
+    .searchbar-input {
+      border-radius: 20px !important;
+      font-size: 12px !important;
+      text-align: left !important;
+      padding: 0 6px 0 40px !important;
+      background-color: #fff !important;
+      color: color($colors, black) !important;
+      line-height: 2.2rem !important;
+      height: 2.2rem !important;
+    }
+    .searchbar-search-icon {
+      top: 3px !important;
+      background-size: 16px !important;
+      left: 16px !important;
+    }
+    .searchbar-clear-icon {
+      background-size: 16px !important;
+    }
+    .searchbar-md-cancel {
+      left: 9px !important;
+      background-size: 16px !important;
+    }
+    .searchbar-input::-moz-placeholder {
+      color: #6f6f6f !important;
+    }
+    .searchbar-input:-ms-input-placeholder {
+      color: #6f6f6f !important;
+    }
+    .searchbar-input::-webkit-input-placeholder {
+      // text-indent: 0;
+      color: #6f6f6f !important;
+    }
+    .searchbar-ios-cancel,
+    .searchbar-md-cancel,
+    .searchbar-wp-cancel {
+      display: none !important;
+    }
+    &.searchbar-ios {
+      .searchbar-clear-icon {
+        background-image: url("data:image/svg+xml;charset=utf-8,<svg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20512%20512'><path%20fill='rgba(0, 0, 0, 0.5)'%20d='M403.1,108.9c-81.2-81.2-212.9-81.2-294.2,0s-81.2,212.9,0,294.2c81.2,81.2,212.9,81.2,294.2,0S484.3,190.1,403.1,108.9z%20M352,340.2L340.2,352l-84.4-84.2l-84,83.8L160,339.8l84-83.8l-84-83.8l11.8-11.8l84,83.8l84.4-84.2l11.8,11.8L267.6,256L352,340.2z'/></svg>") !important;
+      }
+      .searchbar-search-icon {
+        background-image: url("data:image/svg+xml;charset=utf-8,<svg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2013%2013'><path%20fill='rgba(0, 0, 0, 0.5)'%20d='M5,1c2.2,0,4,1.8,4,4S7.2,9,5,9S1,7.2,1,5S2.8,1,5,1%20M5,0C2.2,0,0,2.2,0,5s2.2,5,5,5s5-2.2,5-5S7.8,0,5,0%20L5,0z'/><line%20stroke='rgba(0, 0, 0, 0.5)'%20stroke-miterlimit='10'%20x1='12.6'%20y1='12.6'%20x2='8.2'%20y2='8.2'/></svg>") !important;
+      }
+    }
+  }
+  .banner-home{
+    width: 100%;
+    padding: 8px 0;
+  }
 }
 
 .iframe {
-    height: 100%;
-    width: 100%;
+  height: 100%;
+  width: 100%;
 }

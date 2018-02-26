@@ -1,0 +1,145 @@
+<!--
+  Generated template for the ItemVariantPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-footer>
+  <ion-grid class="bg-white">
+    <ion-row>
+      <ion-col col-4>
+      	<div class="img-variant">
+        	<img src="{{variant.featured_image}}" />
+      	</div>
+      </ion-col>
+      <ion-col col-8>
+        <div class="variant_price">
+          {{variant.price}}
+          <del class="variant_compare-price">{{variant.compare_at_price}}</del>
+          <div class="variant_stock" *ngIf="variant.variants[0].inventory_quantity != 0">Còn hàng</div>
+          <div class="variant_stock" *ngIf="variant.variants[0].inventory_quantity == 0">Hết hàng</div>
+        </div>
+      </ion-col>
+    </ion-row>
+    <!-- option -->
+    <ion-row class="variant-selected" align-items-center>
+      <ion-col col-3 class="label-option">Kích thước: </ion-col>
+      <ion-col col-9>
+        <ion-list radio-group no-padding>
+            <ng-container>
+              <div class="border-option">
+                <ion-item [class.item-radio-checked]="isFirst">
+                  <ion-label>
+                    <span>S</span>
+                  </ion-label>
+                  <ion-radio value="1" tappable></ion-radio>
+                </ion-item>
+              </div>
+            </ng-container>
+            <ng-container>
+              <div class="border-option">
+                <ion-item [class.item-radio-checked]="isFirst">
+                  <ion-label>
+                    <span>M</span>
+                  </ion-label>
+                  <ion-radio value="1" tappable></ion-radio>
+                </ion-item>
+              </div>
+            </ng-container>
+            <ng-container>
+              <div class="border-option">
+                <ion-item [class.item-radio-checked]="isFirst">
+                  <ion-label>
+                    <span>L</span>
+                  </ion-label>
+                  <ion-radio value="1" tappable></ion-radio>
+                </ion-item>
+              </div>
+            </ng-container>
+            <ng-container>
+              <div class="border-option">
+                <ion-item [class.item-radio-checked]="isFirst">
+                  <ion-label>
+                    <span>XL</span>
+                  </ion-label>
+                  <ion-radio value="1" tappable></ion-radio>
+                </ion-item>
+              </div>
+            </ng-container>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+    <ion-row class="variant-selected" align-items-center>
+      <ion-col col-3 class="label-option">Màu sắc: </ion-col>
+      <ion-col col-9>
+        <ion-list radio-group no-padding>
+            <ng-container>
+              <div class="border-option">
+                <ion-item [class.item-radio-checked]="isFirst">
+                  <ion-label>
+                    <span>Đen</span>
+                  </ion-label>
+                  <ion-radio value="1" tappable></ion-radio>
+                </ion-item>
+              </div>
+            </ng-container>
+            <ng-container>
+              <div class="border-option">
+                <ion-item [class.item-radio-checked]="isFirst">
+                  <ion-label>
+                    <span>Xanh dương</span>
+                  </ion-label>
+                  <ion-radio value="1" tappable></ion-radio>
+                </ion-item>
+              </div>
+            </ng-container>
+            <ng-container>
+              <div class="border-option">
+                <ion-item [class.item-radio-checked]="isFirst">
+                  <ion-label>
+                    <span>Đỏ đô</span>
+                  </ion-label>
+                  <ion-radio value="1" tappable></ion-radio>
+                </ion-item>
+              </div>
+            </ng-container>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+
+    
+  </ion-grid>
+  <ion-grid class="bg-white quantity" no-padding>
+  	<ion-row align-items-center>
+      <ion-col col-3 class="qty-title">Số lượng</ion-col>
+      <ion-col col-9 class="btn-inpt">
+        <ion-input type="number" class="qty-num" value="1" min="1" (keyup)="changeNum($event, qtynum.value)" #qtynum></ion-input>
+        <button ion-button clear class="qty-minus" tappable (tap)="doMinus()">
+          <i class="fas fa-minus"></i>
+        </button>
+        <button ion-button clear class="qty-plus" tappable (tap)="doPlus()">
+          <i class="fas fa-plus"></i>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-grid no-padding>
+    <ion-row class="btn-bottom">
+      <ion-col col-6>
+        <div class="bt-f-left" text-uppercase tappable (tap)="addCart(qtynum.value)">
+          Thêm vào giỏ
+        </div>
+      </ion-col>
+      <ion-col col-6>
+        <div class="bt-f-right" text-uppercase tappable (tap)="gotoCart(qtynum.value)">
+          Mua ngay
+        </div>
+      </ion-col>
+      <!-- <ion-col col-12 *ngIf="variantQuantity == 0">
+        <div class="bt-f-right" text-uppercase>
+          Hết hàng
+        </div>
+      </ion-col> -->
+    </ion-row>
+  </ion-grid>
+</ion-footer>
