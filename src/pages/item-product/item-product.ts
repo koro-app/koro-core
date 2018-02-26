@@ -5,6 +5,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { ModalController, PopoverController } from 'ionic-angular';
 import * as cartActions from '../../store/product-cart/product-cart.actions';
+import 'rxjs/add/operator/take'
 
 @IonicPage()
 @Component({

@@ -31,7 +31,11 @@ export class HomeCollectionsComponent {
   }
  
   goCollection(collection) {
-    this.navCtrl.push('ItemCollectionPage',collection)
+    this.navCtrl.push('ItemCollectionPage',collection);
+  }
+
+  goProduct(product) {
+    this.navCtrl.push('ItemProductPage',{handle:product.handle})
   }
 
 }
