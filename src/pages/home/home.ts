@@ -1,5 +1,6 @@
+import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController, IonicPage, Platform } from 'ionic-angular';
 import * as cartActions from '../../store/product-cart/product-cart.actions'
 import 'rxjs/add/operator/do'
@@ -12,26 +13,24 @@ import { ItemProvider } from '../../providers/item/item';
   templateUrl: 'home.html'
 })
 export class HomePage {
-  showToolbar:boolean = false;
-  banner;
+  productNumber: Observable<any>;
   constructor(
     public navCtrl: NavController,
     public store: Store<any>,
     public itemProvider: ItemProvider,
-    public platform:Platform,
-    public ref: ChangeDetectorRef
+    public platform:Platform
   ) {
     this.getProducts();
-    this.getBanner();
+    this.getProductNumber();
   }
-
-  onScroll($event: any){
-    let scrollTop = $event.scrollTop;
-    this.showToolbar = scrollTop >= 120;
-    this.ref.detectChanges();
+  
+  getProductNumber() {
+    // this.productNumber = this.store.select('cart','ids')
+    // .map(ids => ids.length)
+    this.productNumber = this.store.select('cart','ids')
+    .map(ids => ids.length)
+    // .do(data => console.log('update badge',data))
   }
- 
-
 
   getProducts() {
     this.store.dispatch(new cartActions.GetProductsAction())
@@ -41,27 +40,8 @@ export class HomePage {
     this.navCtrl.push('ItemCartPage', {}, {animate: true, direction: 'forward'})
   }
 
-  onCancel() {
-
-  }
-  onInput(ev) {
-    let val = ev.target.value;
-    
-  }
-  shouldShowCancel() {
-
-  }
-
   search() {
     this.navCtrl.push('ItemSearchPage')
-  }
-
-  // get banner
-  getBanner(){
-    this.itemProvider.getConfig()
-    .subscribe((data:any) => {
-      this.banner = data.home.banner[1].src;
-    });
   }
 
 }

@@ -1,310 +1,80 @@
 page-item-cart {
-  position: relative; 
-  // back btn
-  .back-button {
-    margin: 0;
-    padding-left: 0;
-    min-width: 33px !important;
-    display: block;
-  }
-  // custom back btn
-  // ion-header {
-  //   .toolbar-title{
-  //       padding-left: 4px;
-  //   }
-  //   .button.btn-title {
-  //     margin: 0 !important;
-  //     padding: 0 !important;
-  //     // text-transform: none !important;
-  //     width: 20px;
-  //     font-size: 20px;
-  //     margin-right: 17px !important;
-  //   }
-  //   button[disabled] {
-  //     font-weight: bold;
-  //     opacity: 1 !important;
-  //     text-transform: uppercase;
-  //     margin: 0 !important;
-  //     padding: 0 !important;
-  //   }
-  // }
-
-  .variant {
-    box-shadow: 0 1px 2px rgba(0, 0, 0, .3);
-  }
-
-  .delete-button {
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 999;
-  }
-
-  .left-side {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    p.single-price {
-      text-align: center;
-      margin-top: 0.5em
-    }
-    .quantity-button {
-      display: flex;
-      align-items: center;
-      justify-content: space-around;
-      button.button {
-        height: unset;
-      }
-    }
-  }
-
-  .right-side {
-    display: flex;
-    flex-direction: column;
-    font-size: x-large;
-    height: 100%;
-    justify-content: space-around;
-
-    ion-title {
-      padding-bottom: 0.5em;
-      div.toolbar-title {
-        padding-left: 0;
-      }
-    }
-
-    p.title {
-      font-size: large;
-      font-weight: 600;
-      text-align: center;
-    }
-
-    p.variant-title {
-      white-space: normal;
-      padding: 1.5em 0;
-    }
-
-    p.subtotal {
-      text-align: center;
-      font-size: medium;
-      font-weight: 500;
-    }
-  }
-
-  .botbar {
-    display: flex;
-    .gross {
-      font-size: 1.7rem;
-      font-weight: 600;
-      color: #000;
-      pointer-events: auto;
-    }
-  } 
-
-  // item cart
-  .item-cart{
-    padding: 8px 10px 4px 10px;
-    &:first-child{
-        padding-top: 14px;
-    }
-    .line-item{
-        border: 1px solid #b7b7b7;
-        padding-left: 5px;
-        box-shadow: 3px 3px 3px 0px #ebeae8;
-    }
-    ion-checkbox{
-        margin: 0px 8px 0px 0px !important;
-    }
-    .item-inner{
-        border-bottom: 0 !important;
-        ion-label{
-            color: color($colors, black);
-            max-width: 100%;
+    position: relative;
+    
+        ion-content {
+            background-color: #f4f4f7!important;
         }
-        .item-title{
-            font-size: 12px;
-            text-transform: uppercase;
-            padding-bottom: 2px;
-            padding-top: 0;
-            text-overflow: ellipsis;
-            overflow: hidden;
+    
+        .variant {
+            box-shadow: 0 1px 2px rgba(0,0,0,.3);
         }
-        .item-variant{
-            font-size: 11px;
-            padding-top: 0;
-            padding-bottom: 0;
+    
+       .delete-button {
+            position: absolute;
+            top: 0;
+            right: 0;
+            z-index: 999;
         }
-        .itemLine__price{
-            font-size: 12px;
-            color: color($colors, saleoff);
-            .compare-price{
-                font-size: 10px;
-                padding-left: 10px;
+    
+        .left-side {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+    
+            p.single-price {
+                text-align: center;
+                margin-top:0.5em
+            }
+            .quantity-button {
+                display: flex;
+                align-items: center;
+                justify-content: space-around;
+                button.button {
+                    height: unset;
+                }
             }
         }
-        .del-item{
-            font-size: 14px;
-            color: color($colors, saleoff);
+    
+        .right-side {
+            display: flex;
+            flex-direction: column;
+            font-size: x-large;
+            height: 100%;
+            justify-content: space-around;
+            
+            ion-title {
+                padding-bottom: 0.5em;
+                div.toolbar-title {
+                    padding-left: 0;
+                }
+            }
+    
+            p.title {
+                font-size: large;
+                font-weight: 600;
+                text-align: center;
+            }
+    
+            p.variant-title {
+                white-space: normal;
+                padding: 1.5em 0;
+            }
+          
+            p.subtotal {
+                text-align: center;
+                font-size: medium;
+                font-weight: 500;
+            }
         }
-    }
-  }
-
-  // btn plus/minus
-    .qty-plus {
-    display: inline-block;
-    color: color($colors, black);
-    position: absolute;
-    left: 104px;
-    top: 5px;
-    width: 50px;
-    height: 25px;
-    padding: 0;
-    margin: 0;
-    border-left: 1px solid #b7b7b7;
-    i{
-        font-size: 12px;
-    }
-    &.button-wp {
-      height: 4em;
-      font-size: 1.6rem;
-      margin: 0.4rem 0.2rem;
-      padding: 0 1em;
-    }
-    &.activated {
-      color: #dd4f29;
-    }
-  }
-
-  .qty-minus {
-    display: inline-block;
-    color: color($colors, black);
-    position: absolute;
-    top: 5px;
-    left: 5px;
-    width: 50px;
-    height: 25px;
-    padding: 0;
-    margin: 0;
-    border-right: 1px solid #b7b7b7;
-    i{
-        font-size: 12px;
-    }
-    &.button-wp {
-      height: 4em;
-      font-size: 1.6rem;
-      margin: 0.4rem 0.2rem;
-      padding: 0 1em;
-    }
-    &.activated {
-      color: #dd4f29;
-    }
-  }
-
-  .qty-num {
-    display: inline-block;
-    width: 150px;
-    font-weight: bold;
-    border: 1px solid #b7b7b7;
-    height: 25px;
-    input {
-      text-align: center;
-      font-size: 12px;
-      margin: 0px;
-      width: 100%;
-      padding: 5px 0;
-    }
-  }
-.btn-inpt{
-        text-align: right;
-    font-weight: bold;
-}
-
-// note
-.note{
-    padding: 4px 5px;
-    .note-content{
-        border: 1px solid #b7b7b7;
-        -webkit-box-shadow: 3px 3px 3px 0px #ebeae8;
-        box-shadow: 3px 3px 3px 0px #ebeae8;
-        height: 40px;
-        .title-note{
-            background-color: color($colors, white);
-            font-size: 12px;
-            font-weight: bold;
-            width: 100%;
+    
+        .botbar {
+            display: flex;
+            .gross {
+                font-size: 1.7rem;
+                font-weight: 600;
+                color: #000;
+                pointer-events: auto;
+            }
         }
-    }
-}
-textarea{
-    background: color($colors, white);
-    // border-radius:3px;
-    // border:none;
-    // box-shadow:0px 0px 1px 1px rgba(0,0,0,0.1);
-    border: 1px solid #b7b7b7;
-    // padding-left: 5px;
-    box-shadow: 3px 3px 3px 0px #ebeae8;
-    padding:10px;
-    -webkit-transition: height 2s ease;
-    -moz-transition: height 2s ease;
-    -ms-transition: height 2s ease;
-    -o-transition: height 2s ease;
-    transition: height 2s ease;
-  }
-
-  // check all & price
-  .pd-cart {
-    .total {
-      .title {
-        font-size: 12px;
-      }
-      .price {
-        padding-left: 10px;
-        font-size: 13px;
-        color: color($colors, saleoff);
-        font-weight: bold;
-      }
-    }
-    .bg-white.item-block {
-      border-bottom: none;
-      border-top: none;
-      min-height: 20px;
-      height: 20px;
-    }
-    .item-inner {
-      background-color: #fff;
-      border-bottom: none !important;
-      padding-right: 0 !important;
-    }
-    ion-icon {
-      font-size: 18px;
-      padding-right: 5px;
-    }
-    ion-toggle {
-      padding-right: 5px !important;
-      padding-left: 3px !important;
-      padding: 6px 5px 6px 3px !important;
-    }
-    .item-checkbox {
-      ion-checkbox {
-        margin: 9px 5px 9px 0px !important;
-      }
-      ion-label {}
-      .item-inner {
-        padding: 0 !important;
-      }
-    }
-  }
-  .novflow {
-    text-overflow: none;
-    font-size: 12px;
-  }
-  .btn-checkout {
-    background: color($colors, saleoff);
-    color: color($colors, white);
-    text-align: center;
-    line-height: 2.3;
-    font-size: 14px;
-    height: 32px;
-  }
 }

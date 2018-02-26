@@ -3,8 +3,8 @@ import { ItemProductDescriptionPage } from './../item-product-description/item-p
 import { ItemProvider } from './../../providers/item/item';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
-import { ModalController, PopoverController } from 'ionic-angular';
-import * as cartActions from '../../store/product-cart/product-cart.actions';
+import { ModalController } from 'ionic-angular';
+import * as cartActions from '../../store/product-cart/product-cart.actions'
 
 @IonicPage()
 @Component({
@@ -25,8 +25,7 @@ export class ItemProductPage {
     public itemProvider: ItemProvider,
     public modalCtrl: ModalController,
     public store: Store<any>,
-    public toastCtrl: ToastController,
-    public popoverCtrl: PopoverController
+    public toastCtrl: ToastController
   ) {
     this.getProduct();
   }
@@ -85,7 +84,7 @@ export class ItemProductPage {
   }
 
   presentModal() {
-    let modal = this.modalCtrl.create('ItemProductDescriptionPage',{description:this.product.description});
+    let modal = this.modalCtrl.create(ItemProductDescriptionPage,{description:this.product.description});
     modal.present();
   }
 
@@ -125,19 +124,6 @@ export class ItemProductPage {
     // setup product title
     variant['productTitle'] = product.title;
     return variant;
-  }
-
-  // view variant
-  viewVariant(){
-    let popover = this.popoverCtrl.create('ItemVariantPage', {
-      variant: this.product
-    }, {cssClass: 'variant-product'});
-    popover.present();
-  }
-
-  // view product
-  viewProduct(detail){
-
   }
 
 }

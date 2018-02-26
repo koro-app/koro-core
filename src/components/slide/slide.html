@@ -1,8 +1,7 @@
 <ion-slides pager>
     
   <ion-slide *ngFor="let slide of slides">
-    <img class="cover" [src]="slide.src" alt="home" (click)="goAll()">
+    <img [src]="slide" alt="" (click)="goAll()">
   </ion-slide>
-  
 
 </ion-slides>

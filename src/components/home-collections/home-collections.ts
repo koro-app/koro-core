@@ -1,6 +1,5 @@
 import { NavController } from 'ionic-angular';
 import { Component } from '@angular/core';
-import { ItemProvider } from '../../providers/item/item';
 
 /**
  * Generated class for the HomeCategoryComponent component.
@@ -13,23 +12,32 @@ import { ItemProvider } from '../../providers/item/item';
   templateUrl: 'home-collections.html'
 })
 export class HomeCollectionsComponent {
-  collections: any[];
+  collections: any[] = [
+    {
+      id: 1001093550,
+      handle: 'hot-products',
+      name: 'Sản phẩm nổi bật',
+      imgSrc: 'https://product.hstatic.net/1000259614/product/cheese-pizza_large.png'
+    },
+    {
+      id:1001093549,
+      handle: 'onsale',
+      name: 'Đang giảm giá',
+      imgSrc: 'https://product.hstatic.net/1000259614/product/garden-salad_large.png'
+    },
+    {
+      id: 1001093548,
+      handle: 'frontpage',
+      name: 'Sản phẩm mới',
+      imgSrc: 'https://product.hstatic.net/1000259614/product/garlic-bread-1_large.png'
+    }
+  ]
 
   constructor(
-    public navCtrl: NavController,
-    public itemProvider: ItemProvider
+    public navCtrl: NavController
   ) {
-    this.getHomeCollections();
   }
 
-  // get home collections
-  getHomeCollections(){
-    this.itemProvider.getConfig()
-    .subscribe((data:any) => {
-      this.collections = data.home.listcollections;
-    });
-  }
- 
   goCollection(collection) {
     this.navCtrl.push('ItemCollectionPage',collection)
   }

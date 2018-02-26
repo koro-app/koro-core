@@ -1,32 +1,22 @@
-<ion-grid>
-  <ion-row>
-    <ion-col col-6 col-md-3 col-lg-3 col-xl-4 *ngFor="let product of products">
-      <div class="product-item">
-        <div class="product-img">
-          <a text-center tappable (click)="goDetail.emit(product.handle)">
-            <img [src]="product.featured_image" [alt]="product.title">
-          </a>
-          <div class="product-tags">
-            <div class="tag-saleoff" text-center>{{product.sale}}</div>
-            <!-- if sold out -> class="tag-soldout" -->
-          </div>
-        </div>
-        <div class="product-info">
-          <div class="product-title" text-uppercase tappable (click)="goDetail.emit(product.handle)">
-            {{product.title}}
-          </div>
-          <div class="product-price" text-center>
-            <span class="current-price">{{product.price_format}}</span>
-            <span class="original-price">
-            <s>{{product.compare_at_price_format}}</s>
-          </span>
-          </div>
-        </div>
-      </div>
-      <!-- <button class="addtocart" full ion-button outline clear (click)="addToCart.emit(product)">
-        <ion-icon name="cart"></ion-icon>
-        Thêm vào giỏ
-      </button> -->
-    </ion-col>
-  </ion-row>
-</ion-grid>
+<ion-list>
+    <ion-grid>
+      <ion-row>
+        <ion-col class="product-item" col-6 *ngFor="let product of products">
+          <!-- <ion-item> -->
+            <ion-card class="collection-item">
+              <div class="top-box">
+                  <p class="price-format">{{product.price_format}}</p>
+                  <p *ngIf="product.sale != '-0%' " class="sale">{{product.sale}}</p>
+                  <img (click)="goDetail.emit(product.handle)" tappable [src]="product.featured_image">
+                  <p class="title" (click)="goDetail.emit(product.handle)" tappable>{{product.title}}</p>
+              </div>
+              <button class="addtocart" full ion-button outline clear (click)="addToCart.emit(product)">
+                <ion-icon name="cart"></ion-icon>
+                Thêm vào giỏ
+              </button>
+            </ion-card>
+          <!-- </ion-item> -->
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-list>

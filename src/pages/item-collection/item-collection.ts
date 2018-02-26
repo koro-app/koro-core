@@ -13,7 +13,7 @@ import { ToastController } from 'ionic-angular';
   templateUrl: 'item-collection.html',
 })
 export class ItemCollectionPage {
-  pageName: string = "";
+  pageName: string;
   collections: any;
   paginate: any;
   products:any[] = [];
@@ -33,7 +33,7 @@ export class ItemCollectionPage {
   }
 
   setPageName() {
-    this.pageName = this.navParams.get('title');
+    this.pageName = this.navParams.get('name');
   }
 
   startLoading() {
@@ -82,11 +82,9 @@ export class ItemCollectionPage {
         this.store.dispatch(new cartActions.IncreaseAction(variant));
         this.presentToast(`Tăng 1 sản phẩm ${product.title} bản ${variant.title}`);
       }
-      console.log('product '+JSON.stringify(product));
-      console.log('variants '+JSON.stringify(variants));
-      console.log('collectionProduct '+JSON.stringify(collectionProduct));
     })
     .subscribe();
+    
   }
 
   normalizeItem(collectionProduct) {

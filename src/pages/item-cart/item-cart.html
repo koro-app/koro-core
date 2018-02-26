@@ -1,305 +1,66 @@
+
 <ion-header>
-  <ion-navbar>
-    <ion-title>
-    <!-- button back -->
-     <!--  <button class="btn-title" ion-button color="black" clear>
-        <ion-icon class="fsize-22" name="arrow-back" tappable (tap)="dismiss()" padding-horizontal></ion-icon>
-      </button>
-      <button ion-button color="black" disabled clear text-uppercase> -->
-        Giỏ hàng
-      <!-- </button> -->
-    </ion-title>
-    <!-- del all button  -->
-    <ion-buttons end>
-      <button ion-button icon-only>
-        <i class="fas fa-trash-alt"></i>
-      </button>
-    </ion-buttons>
-  </ion-navbar>
-</ion-header>
-<ion-content>
-  <ion-list *ngIf="(variants?.length > 0) | async">
-    <ion-card class="variant" ion-item *ngFor="let variant of variants | async">
-      <button class="delete-button" color="danger" ion-button clear large (click)="remove(variant)">
-        <ion-icon name="close"></ion-icon>
-      </button>
-      <ion-grid>
-        <ion-row>
-          <!-- left-slide -->
-          <ion-col col-4>
-            <div class="left-side">
-              <img [src]="variant.featured_image ? variant.featured_image: variant.default_featured_image" [alt]="variant.title">
-              <p class="single-price">{{variant.price / 100 | number: '1.0-2' }}₫</p>
-              <!-- combo-button -->
-              <div class="quantity-button">
-                <button ion-button clear large (click)="decrease(variant)">
-                  <ion-icon name="remove-circle"></ion-icon>
-                </button>
-                <span>
+  
+    <ion-navbar>
+      <ion-title>Giỏ hàng của tôi</ion-title>
+    </ion-navbar>
+  
+  </ion-header>
+  
+  
+  <ion-content padding>
+    <ion-list>
+      <ion-card class="variant" ion-item *ngFor="let variant of variants | async">
+        <button class="delete-button" color="danger" ion-button clear large (click)="remove(variant)">
+          <ion-icon name="close"></ion-icon>
+        </button>
+        <ion-grid>
+          <ion-row>
+            <!-- left-slide -->
+            <ion-col col-4>
+              <div class="left-side">
+                  <img [src]="variant.featured_image ? variant.featured_image: variant.default_featured_image" [alt]="variant.title">
+                  <p class="single-price">{{variant.price / 100 | number: '1.0-2' }}₫</p>
+                  <!-- combo-button -->
+                  <div class="quantity-button">
+                    <button ion-button clear large (click)="decrease(variant)">
+                      <ion-icon name="remove-circle"></ion-icon>
+                    </button>
+                    <span>
                         {{variant.quantity}}
                     </span>
-                <button ion-button clear large (click)="increase(variant)">
-                  <ion-icon name="add-circle"></ion-icon>
-                </button>
+                    <button ion-button clear large (click)="increase(variant)">
+                        <ion-icon name="add-circle"></ion-icon>
+                    </button>
+                  </div>
               </div>
-            </div>
-          </ion-col>
-          <!-- right-side -->
-          <ion-col col-8>
-            <div class="right-side">
-              <p class="title">{{variant.productTitle}}</p>
-              <p class="variant-title">Phiên bản sản phẩm: {{variant.title}}</p>
-              <p class="subtotal">Thành tiền: {{variant.price * variant.quantity / 100 | number: '1.0-2' }}₫</p>
-            </div>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-card>
-  </ion-list>
-  <!-- test -->
-  <ion-list class="list-item-cart no-mg-bottom">
-    <ion-item-sliding no-padding class="item-cart">
-      <ion-item class="line-item">
-        <ion-label no-margin>
-          <ion-row no-padding align-items-center>
-            <ion-col col-2 no-padding>
-              <img src="https://product.hstatic.net/1000180292/product/anh1.jpg" tappable>
             </ion-col>
-            <ion-col col-9 class="infor-item">
-              <ion-row>
-                <ion-col col-12 class="item-title" tappable>
-                  Áo khoác da Jack & Jones Core Biker
-                </ion-col>
-              </ion-row>
-              <ion-row>
-                <ion-col col-12 class="item-variant">
-                  <span>Đen / L</span>
-                </ion-col>
-              </ion-row>
-              <ion-row align-items-center>
-                <ion-col col-12 class="no-pd-bottom">
-                  <ion-input type="number" class="qty-num" value="1" min="1" #qtynum></ion-input>
-                  <button ion-button clear class="qty-minus" tappable>
-                    <i class="fas fa-minus"></i>
-                  </button>
-                  <button ion-button clear class="qty-plus" tappable>
-                    <i class="fas fa-plus"></i>
-                  </button>
-                </ion-col>
-              </ion-row>
-              <ion-row>
-                <ion-col col-12 class="no-pd-bottom">
-                  <div class="itemLine__price" no-padding>
-                    2,000,000₫
-                    <del class="compare-price">
-                      1,700,000₫
-                    </del>
-                  </div>
-                </ion-col>
-              </ion-row>
-            </ion-col>
-            <ion-col col-1 text-right>
-              <i class="fas fa-trash-alt del-item" color="saleoff"></i>
+            <!-- right-side -->
+            <ion-col col-8>
+              <div class="right-side">
+                  <p class="title">{{variant.productTitle}}</p>
+                  <p class="variant-title">Phiên bản sản phẩm: {{variant.title}}</p>
+                  <p class="subtotal">Thành tiền: {{variant.price * variant.quantity / 100 | number: '1.0-2' }}₫</p>
+              </div>
             </ion-col>
           </ion-row>
-        </ion-label>
-        <ion-checkbox checked="true" tappable class="check-item" #itemLineCheck></ion-checkbox>
-      </ion-item>
-    </ion-item-sliding>
-    <ion-item-sliding no-padding class="item-cart">
-      <ion-item class="line-item">
-        <ion-label no-margin>
-          <ion-row no-padding align-items-center>
-            <ion-col col-2 no-padding>
-              <img src="https://product.hstatic.net/1000180292/product/anh1.jpg" tappable>
-            </ion-col>
-            <ion-col col-9 class="infor-item">
-              <ion-row>
-                <ion-col col-12 class="item-title" tappable>
-                  Áo khoác da Jack & Jones Core Biker
-                </ion-col>
-              </ion-row>
-              <ion-row>
-                <ion-col col-12 class="item-variant">
-                  <span>Đen / L</span>
-                </ion-col>
-              </ion-row>
-              <ion-row align-items-center>
-                <ion-col col-12 class="no-pd-bottom">
-                  <ion-input type="number" class="qty-num" value="1" min="1" #qtynum></ion-input>
-                  <button ion-button clear class="qty-minus" tappable>
-                    <i class="fas fa-minus"></i>
-                  </button>
-                  <button ion-button clear class="qty-plus" tappable>
-                    <i class="fas fa-plus"></i>
-                  </button>
-                </ion-col>
-              </ion-row>
-              <ion-row>
-                <ion-col col-12 class="no-pd-bottom">
-                  <div class="itemLine__price" no-padding>
-                    2,000,000₫
-                    <del class="compare-price">
-                      1,700,000₫
-                    </del>
-                  </div>
-                </ion-col>
-              </ion-row>
-            </ion-col>
-            <ion-col col-1 text-right>
-              <i class="fas fa-trash-alt del-item" color="saleoff"></i>
-            </ion-col>
-          </ion-row>
-        </ion-label>
-        <ion-checkbox checked="true" tappable class="check-item" #itemLineCheck></ion-checkbox>
-      </ion-item>
-    </ion-item-sliding>
-    <ion-item-sliding no-padding class="item-cart">
-      <ion-item class="line-item">
-        <ion-label no-margin>
-          <ion-row no-padding align-items-center>
-            <ion-col col-2 no-padding>
-              <img src="https://product.hstatic.net/1000180292/product/anh1.jpg" tappable>
-            </ion-col>
-            <ion-col col-9 class="infor-item">
-              <ion-row>
-                <ion-col col-12 class="item-title" tappable>
-                  Áo khoác da Jack & Jones Core Biker
-                </ion-col>
-              </ion-row>
-              <ion-row>
-                <ion-col col-12 class="item-variant">
-                  <span>Đen / L</span>
-                </ion-col>
-              </ion-row>
-              <ion-row align-items-center>
-                <ion-col col-12 class="no-pd-bottom">
-                  <ion-input type="number" class="qty-num" value="1" min="1" #qtynum></ion-input>
-                  <button ion-button clear class="qty-minus" tappable>
-                    <i class="fas fa-minus"></i>
-                  </button>
-                  <button ion-button clear class="qty-plus" tappable>
-                    <i class="fas fa-plus"></i>
-                  </button>
-                </ion-col>
-              </ion-row>
-              <ion-row>
-                <ion-col col-12 class="no-pd-bottom">
-                  <div class="itemLine__price" no-padding>
-                    2,000,000₫
-                    <del class="compare-price">
-                      1,700,000₫
-                    </del>
-                  </div>
-                </ion-col>
-              </ion-row>
-            </ion-col>
-            <ion-col col-1 text-right>
-              <i class="fas fa-trash-alt del-item" color="saleoff"></i>
-            </ion-col>
-          </ion-row>
-        </ion-label>
-        <ion-checkbox checked="true" tappable class="check-item" #itemLineCheck></ion-checkbox>
-      </ion-item>
-    </ion-item-sliding>
-    <ion-item-sliding no-padding class="item-cart">
-      <ion-item class="line-item">
-        <ion-label no-margin>
-          <ion-row no-padding align-items-center>
-            <ion-col col-2 no-padding>
-              <img src="https://product.hstatic.net/1000180292/product/anh1.jpg" tappable>
-            </ion-col>
-            <ion-col col-9 class="infor-item">
-              <ion-row>
-                <ion-col col-12 class="item-title" tappable>
-                  Áo khoác da Jack & Jones Core Biker
-                </ion-col>
-              </ion-row>
-              <ion-row>
-                <ion-col col-12 class="item-variant">
-                  <span>Đen / L</span>
-                </ion-col>
-              </ion-row>
-              <ion-row align-items-center>
-                <ion-col col-12 class="no-pd-bottom">
-                  <ion-input type="number" class="qty-num" value="1" min="1" #qtynum></ion-input>
-                  <button ion-button clear class="qty-minus" tappable>
-                    <i class="fas fa-minus"></i>
-                  </button>
-                  <button ion-button clear class="qty-plus" tappable>
-                    <i class="fas fa-plus"></i>
-                  </button>
-                </ion-col>
-              </ion-row>
-              <ion-row>
-                <ion-col col-12 class="no-pd-bottom">
-                  <div class="itemLine__price" no-padding>
-                    2,000,000₫
-                    <del class="compare-price">
-                      1,700,000₫
-                    </del>
-                  </div>
-                </ion-col>
-              </ion-row>
-            </ion-col>
-            <ion-col col-1 text-right>
-              <i class="fas fa-trash-alt del-item" color="saleoff"></i>
-            </ion-col>
-          </ion-row>
-        </ion-label>
-        <ion-checkbox checked="true" tappable class="check-item" #itemLineCheck></ion-checkbox>
-      </ion-item>
-    </ion-item-sliding>
-  </ion-list>
-  <ion-grid>
-    <ion-row class="note">
-      <ion-col col-12 class="note-content">
-        <!-- <textarea rows="3"></textarea> -->
-        <div class="title-note" text-uppercase>
-          Ghi chú:
-        </div>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-</ion-content>
-<ion-footer>
-  <ion-grid>
-    <ion-row align-items-center class="pd-cart">
-      <ion-col col-4 class="count-item">
-        <ion-list no-margin>
-          <ion-item no-padding class="bg-white">
-            <ion-label no-margin class="fsize-12 novflow">
-              Chọn tất cả
-            </ion-label>
-            <ion-checkbox color="royal" class="check-all" tappable></ion-checkbox>
-          </ion-item>
-        </ion-list>
-      </ion-col>
-      <ion-col col-8 text-right class="total">
-        <p class="title" no-margin>Tổng cộng:
-          <span class="price">{{gross / 100 | number: '1.0-2' }}₫</span>
+        </ion-grid>
+        
+      </ion-card>
+    </ion-list>
+  </ion-content>
+  
+  <ion-footer>
+      <ion-toolbar class="botbar">
+        <p start class="gross">
+          Tổng: {{gross / 100 | number: '1.0-2' }}₫
         </p>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-  <ion-grid no-padding>
-    <ion-row>
-      <ion-col col-12>
-        <div class="btn-checkout" text-uppercase tappable (tap)="checkout()">
-          Tiến hành thanh toán
-        </div>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-  <!-- <ion-toolbar class="botbar">
-    <p start class="gross">
-      Tổng: {{gross / 100 | number: '1.0-2' }}₫
-    </p>
-    <ion-buttons end>
-      <button ion-button icon-start outline color="secondary" (click)="checkout()">
-        <ion-icon name="cart"></ion-icon>
-        Thanh toán
-      </button>
-    </ion-buttons>
-  </ion-toolbar> -->
-</ion-footer>
+        <ion-buttons end>
+          <button ion-button icon-start outline color="secondary" (click)="checkout()">
+            <ion-icon name="cart"></ion-icon>
+            Thanh toán
+          </button>
+        </ion-buttons>
+      
+      </ion-toolbar>
+    </ion-footer>

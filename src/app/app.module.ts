@@ -28,10 +28,7 @@ Object.assign(REDUCERS_TOKEN, reducers)
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp,{
-      // Tabs config
-      tabsHideOnSubPages: true,
-    }),
+    IonicModule.forRoot(MyApp),
     HttpClientModule,
     ProductCartStoreModule,
     TabsPageModule,

@@ -10,32 +10,27 @@ export class ItemProvider {
     public http: HttpClient,
     public platform: Platform,
   ) {
-    if (platform.is('cordova')) this.endpoint = 'https://suplo-fashion.myharavan.com';
-  }
-
-  getConfig(){
-    return this.http.get(`${this.endpoint}/?view=settings.app.json`)
+    if (platform.is('cordova')) this.endpoint = 'https://suplo-food.myharavan.com';
   }
 
   getProducts(handle="all") {
-    return this.http.get(`${this.endpoint}/collections/${handle}?view=app.json`)
+    return this.http.get(`${this.endpoint}/collections/${handle}?view=suplo.json`)
   }
 
   getProduct(handle) {
     return this.http.get(`${this.endpoint}/products/${handle}.js`)
-    // return this.http.get(`${this.endpoint}/products/${handle}?view=app.json`)
   }
 
   searchRange(collectionId,min,max) {
     if (collectionId) {
-      return this.http.get(`${this.endpoint}/search?&q=filter=(((collectionid:product=${collectionId})&&(price:product>${min})&&(price:product<${max})))&view=app.json`)
+      return this.http.get(`${this.endpoint}/search?&q=filter=(((collectionid:product=${collectionId})&&(price:product>${min})&&(price:product<${max})))&view=suplo.json`)
     }
-    return this.http.get(`${this.endpoint}/search?&q=filter=(((price:product>${min})&&(price:product<${max})))&view=app.json`)
+    return this.http.get(`${this.endpoint}/search?&q=filter=(((price:product>${min})&&(price:product<${max})))&view=suplo.json`)
   }
 
   searchString(string) {
-    console.log(`${this.endpoint}/search?&q=filter=((title:product**${string}))&view=app.json`)
-    return this.http.get(`${this.endpoint}/search?&q=filter=((title:product**${string}))&view=app.json`)
+    console.log(`${this.endpoint}/search?&q=filter=((title:product**${string}))&view=suplo.json`)
+    return this.http.get(`${this.endpoint}/search?&q=filter=((title:product**${string}))&view=suplo.json`)
   }
 
 }
