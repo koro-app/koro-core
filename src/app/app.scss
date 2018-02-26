@@ -12,13 +12,17 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+// platform ios
+.back-button-text-ios{
+	display: none;
+}
 // .platform-android {
 .ion-page {
   ion-header {
-    // padding-top: $cordova-md-statusbar-padding;
+    padding-top: $cordova-md-statusbar-padding;
     // background-color: color($colors, primary);
     .noti-btn {
-      margin-right: 1em;
+      // margin-right: 1em;
       position: relative;
       ion-badge {
         position: absolute;
@@ -29,12 +33,20 @@
     .toolbar .bar-buttons .bar-button {
       font-size: 16px;
       width: 24px;
+      color: color($colors, black);
+    }
+    .bar-button{
+    	color: color($colors, black);
     }
     .toolbar-title {
       font-size: 14px;
       text-transform: uppercase;
       font-weight: bold;
     }
+  }
+  .toolbar-ios ion-title{
+  	padding: 0 45px 1px;
+  	width: inherit;
   }
 }
 
@@ -45,9 +57,9 @@
   min-width: 33px !important;
 }
 
-// content padding top
+// content padding top when statusbar overlay
 .scroll-content{
-    margin-top: 56px;
+    margin-top: 76px;
 }
 
 // }
@@ -89,6 +101,9 @@ page-home {
 }
 
 // }
+
+
+
 // home slider
 .slide-zoom {
   position: relative;
@@ -159,7 +174,10 @@ page-home {
 // custom icon tabs btn
 .ion-ios-customicon-home,
 .ion-wp-customicon-home,
-.ion-md-customicon-home {
+.ion-md-customicon-home,
+.ion-ios-customicon-home-outline,
+.ion-ios-customicon-home-outline 
+ {
   content: url(../../assets/icon/shelter.png);
   width: 24px;
   height: 24px;
@@ -167,7 +185,9 @@ page-home {
 
 .ion-ios-customicon-list,
 .ion-wp-customicon-list,
-.ion-md-customicon-list {
+.ion-md-customicon-list,
+.ion-ios-customicon-list-outline,
+.ion-ios-customicon-list-outline  {
   content: url(../../assets/icon/list.png);
   width: 24px;
   height: 24px;
@@ -175,15 +195,19 @@ page-home {
 
 .ion-ios-customicon-like,
 .ion-wp-customicon-like,
-.ion-md-customicon-like {
+.ion-md-customicon-like,
+.ion-ios-customicon-like-outline,
+.ion-ios-customicon-like-outline {
   content: url(../../assets/icon/heart.png);
   width: 24px;
   height: 24px;
 }
 
 .ion-ios-customicon-cart,
+.ion-ios-customicon-cart-outline,
+.ion-md-customicon-cart,
 .ion-wp-customicon-cart,
-.ion-md-customicon-cart {
+.ion-ios-customicon-cart-outline {
   content: url(../../assets/icon/shopping-cart-empty-side-view.png);
   width: 24px;
   height: 24px;
@@ -191,7 +215,9 @@ page-home {
 
 .ion-ios-customicon-contact,
 .ion-wp-customicon-contact,
-.ion-md-customicon-contact {
+.ion-md-customicon-contact,
+.ion-ios-customicon-contact-outline,
+.ion-ios-customicon-contact-outline  {
   content: url(../../assets/icon/profile.png);
   width: 24px;
   height: 24px;

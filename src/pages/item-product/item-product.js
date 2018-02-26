@@ -30,6 +30,7 @@ var ItemProductPage = /** @class */ (function () {
         this.store = store;
         this.toastCtrl = toastCtrl;
         this.popoverCtrl = popoverCtrl;
+        this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
         this.getProduct();
     }
     ItemProductPage.prototype.getProduct = function () {
@@ -43,23 +44,26 @@ var ItemProductPage = /** @class */ (function () {
     };
     ItemProductPage.prototype.normalize = function (data) {
         this.product = data;
+        this.productDetail = data.product;
         // create sale percent
-        this.product['sale'] = Math.round(100 - data.price / data.compare_at_price * 100);
+        // this.product['sale'] = Math.round(100 - data.price/data.compare_at_price*100)
         // recaculate price
-        this.product['price'] = Math.round(this.product.price / 100);
+        // this.product['price'] = Math.round(this.product.price/100);
         // // for VND style price
         // this.product['showPrice'] = new Intl.NumberFormat('vi', { style: 'currency', currency: 'VND' }).format(this.product.price);
         // for wrong image
-        if (this.product.featured_image.startsWith('//')) {
-            this.product['featured_image'] = 'https:' + this.product.featured_image;
-        }
+        // if ((<string>this.productDetail.featured_image).startsWith('//')) {
+        //   this.productDetail['featured_image'] = 'https:' + this.productDetail.featured_image;
+        // }
         // creating options variant
-        this.options = this.generateOptions(this.product.options, this.product.variants);
+        this.options = this.generateOptions(this.productDetail.options, this.productDetail.variants);
     };
     ItemProductPage.prototype.generateOptions = function (options, variants) {
         var _this = this;
         return options.map(function (option) {
-            var details = variants.map(function (variant) { return variant["option" + option.position]; });
+            var details = variants.map(function (variant) {
+                return variant["option" + option.position];
+            });
             details = _this.uniqueArray(details);
             /*
               return value is:
@@ -82,7 +86,7 @@ var ItemProductPage = /** @class */ (function () {
     ItemProductPage.prototype.ionViewDidLoad = function () {
     };
     ItemProductPage.prototype.presentModal = function () {
-        var modal = this.modalCtrl.create('ItemProductDescriptionPage', { description: this.product.description });
+        var modal = this.modalCtrl.create('ItemProductDescriptionPage', { description: this.productDetail.body_html });
         modal.present();
     };
     ItemProductPage.prototype.addToCart = function (product) {
@@ -123,12 +127,25 @@ var ItemProductPage = /** @class */ (function () {
     // view variant
     ItemProductPage.prototype.viewVariant = function () {
         var popover = this.popoverCtrl.create('ItemVariantPage', {
-            variant: this.product
+            variants: this.productDetail.variants,
+            options: this.options
         }, { cssClass: 'variant-product' });
         popover.present();
     };
     // view product
     ItemProductPage.prototype.viewProduct = function (detail) {
+    };
+    // hide tabbar on page product
+    ItemProductPage.prototype.ionViewWillEnter = function () {
+        if (this.tabBarElement != null) {
+            this.tabBarElement.style.display = 'none';
+        }
+    };
+    // show normail tabbar
+    ItemProductPage.prototype.ionViewWillLeave = function () {
+        if (this.tabBarElement != null) {
+            this.tabBarElement.style.display = 'flex';
+        }
     };
     ItemProductPage = __decorate([
         IonicPage(),

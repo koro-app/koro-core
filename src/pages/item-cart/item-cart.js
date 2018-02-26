@@ -21,6 +21,7 @@ var ItemCartPage = /** @class */ (function () {
         this.store = store;
         this.itemProvider = itemProvider;
         this.gross = 0;
+        this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
         this.setVariants();
     }
     ItemCartPage.prototype.dismiss = function () {
@@ -58,6 +59,18 @@ var ItemCartPage = /** @class */ (function () {
             .subscribe(function (variants) {
             _this.navCtrl.push('ItemCheckoutPage', { variants: variants });
         });
+    };
+    // hide tabbartabroot cart
+    ItemCartPage.prototype.ionViewWillEnter = function () {
+        if (this.tabBarElement != null) {
+            this.tabBarElement.style.display = 'none';
+        }
+    };
+    // show normail tabbar
+    ItemCartPage.prototype.ionViewWillLeave = function () {
+        if (this.tabBarElement != null) {
+            this.tabBarElement.style.display = 'flex';
+        }
     };
     ItemCartPage = __decorate([
         IonicPage(),

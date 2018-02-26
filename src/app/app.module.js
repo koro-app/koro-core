@@ -37,7 +37,12 @@ var AppModule = /** @class */ (function () {
                 BrowserModule,
                 IonicModule.forRoot(MyApp, {
                     // Tabs config
-                    tabsHideOnSubPages: true,
+                    // tabsHideOnSubPages: true,
+                    backButtonText: '',
+                    backButtonIcon: "md-arrow-back",
+                    platforms: {
+                        ios: {}
+                    }
                 }),
                 HttpClientModule,
                 ProductCartStoreModule,

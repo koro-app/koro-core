@@ -26,7 +26,6 @@ var TabsPage = /** @class */ (function () {
         this.tab3Root = 'ItemCartPage';
         this.tab4Root = 'MePage';
         this.selectedIndex = 0;
-        this.hideTabs = false;
         this.selectedIndex = navParams.data.tabIndex || 0;
         this.events.subscribe('selectTabs', function (select) {
             _this.tabRef.select(select);
@@ -36,10 +35,6 @@ var TabsPage = /** @class */ (function () {
         this.getProductNumber();
     }
     TabsPage.prototype.tabChange = function (event) {
-        // hide tabsbar in pagecart
-        // if (event.id == "t0-3") {
-        //   this.hideTabs = true;
-        // }
         // if (event.id == "t0-3") {
         //   this.userProvider.checkUser().then(user =>{
         //     if (user) this.userProvider.inAppAccount()
@@ -52,7 +47,7 @@ var TabsPage = /** @class */ (function () {
         // .map(ids => ids.length)
         this.productNumber = this.store.select('cart', 'ids')
             .map(function (ids) { return ids.length; });
-        // .do(data => console.log('update badge',data))
+        // .do(data => console.log('data',data))
     };
     __decorate([
         ViewChild('myTabs'),

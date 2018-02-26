@@ -8,7 +8,7 @@
     <ion-col col-6 col-md-3 col-lg-3 col-xl-4 *ngFor="let product of collection.products">
       <div class="product-item">
         <div class="product-img">
-          <a text-center tappable (click)="goCollection(collection)">
+          <a text-center tappable (click)="goProduct(product.handle)">
             <img [src]="product.featured_image" [alt]="product.title">
           </a>
           <div class="product-tags">
@@ -16,7 +16,7 @@
           </div>
         </div>
         <div class="product-info">
-          <div class="product-title" text-uppercase tappable (click)="goCollection(collection)">
+          <div class="product-title" text-uppercase tappable (click)="goProduct(product.handle)">
             {{product.title}}
           </div>
           <div class="product-price" text-center>

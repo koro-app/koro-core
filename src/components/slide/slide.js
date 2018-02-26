@@ -21,7 +21,6 @@ var SlideComponent = /** @class */ (function () {
         var _this = this;
         this.navCtrl = navCtrl;
         this.itemProvider = itemProvider;
-        this.slides = [];
         // get slides
         this.itemProvider.getConfig()
             .subscribe(function (data) {

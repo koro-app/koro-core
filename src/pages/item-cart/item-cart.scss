@@ -1,33 +1,53 @@
 page-item-cart {
   position: relative; 
   // back btn
-  .back-button {
-    margin: 0;
-    padding-left: 0;
-    min-width: 33px !important;
-    display: block;
-  }
-  // custom back btn
-  // ion-header {
-  //   .toolbar-title{
-  //       padding-left: 4px;
-  //   }
-  //   .button.btn-title {
-  //     margin: 0 !important;
-  //     padding: 0 !important;
-  //     // text-transform: none !important;
-  //     width: 20px;
-  //     font-size: 20px;
-  //     margin-right: 17px !important;
-  //   }
-  //   button[disabled] {
-  //     font-weight: bold;
-  //     opacity: 1 !important;
-  //     text-transform: uppercase;
-  //     margin: 0 !important;
-  //     padding: 0 !important;
-  //   }
+  // .back-button {
+  //   margin: 0;
+  //   padding-left: 0;
+  //   min-width: 33px !important;
+  //   display: block;
   // }
+  // custom back btn
+   ion-header {
+    .toolbar-title{
+        padding-left: 4px;
+    }
+    .button.btn-title {
+      margin: 0 !important;
+      padding: 0 !important;
+      // text-transform: none !important;
+      width: 20px;
+      font-size: 20px;
+      margin-right: 17px !important;
+    }
+    button[disabled] {
+      font-weight: bold;
+      opacity: 1 !important;
+      text-transform: uppercase;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+  }
+  &.ion-page .toolbar-ios ion-title{
+    padding: 0;
+    width: inherit;
+    align-items: left !important;
+    -webkit-box-align: start;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    -webkit-box-align: start;
+    -webkit-align-items: left;
+    -ms-flex-align: lef;
+    align-items: left;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
 
   .variant {
     box-shadow: 0 1px 2px rgba(0, 0, 0, .3);
@@ -102,6 +122,16 @@ page-item-cart {
     }
   } 
 
+  // item ouline focus
+.list-md .item-input{
+    &.input-has-focus:last-child, .item-input-has-focus:last-child{
+        // border-bottom: none !important;
+        border-bottom-color: #b7b7b7 !important;
+        box-shadow: 3px 3px 3px 0px #ebeae8 !important;
+    }
+    
+}
+
   // item cart
   .item-cart{
     padding: 8px 10px 4px 10px;
@@ -112,15 +142,20 @@ page-item-cart {
         border: 1px solid #b7b7b7;
         padding-left: 5px;
         box-shadow: 3px 3px 3px 0px #ebeae8;
+        &:last-child{
+            border-bottom: 1px solid #b7b7b7;
+        }
     }
     ion-checkbox{
         margin: 0px 8px 0px 0px !important;
     }
     .item-inner{
         border-bottom: 0 !important;
+        z-index: 10;
         ion-label{
             color: color($colors, black);
             max-width: 100%;
+            pointer-events: auto;
         }
         .item-title{
             font-size: 12px;
@@ -141,6 +176,7 @@ page-item-cart {
             .compare-price{
                 font-size: 10px;
                 padding-left: 10px;
+                color: color($colors, black);
             }
         }
         .del-item{
@@ -155,7 +191,7 @@ page-item-cart {
     display: inline-block;
     color: color($colors, black);
     position: absolute;
-    left: 104px;
+    left: 100px;
     top: 5px;
     width: 50px;
     height: 25px;
@@ -165,14 +201,8 @@ page-item-cart {
     i{
         font-size: 12px;
     }
-    &.button-wp {
-      height: 4em;
-      font-size: 1.6rem;
-      margin: 0.4rem 0.2rem;
-      padding: 0 1em;
-    }
     &.activated {
-      color: #dd4f29;
+      // color: #dd4f29;
     }
   }
 
@@ -190,20 +220,14 @@ page-item-cart {
     i{
         font-size: 12px;
     }
-    &.button-wp {
-      height: 4em;
-      font-size: 1.6rem;
-      margin: 0.4rem 0.2rem;
-      padding: 0 1em;
-    }
     &.activated {
-      color: #dd4f29;
+      // color: #dd4f29;
     }
   }
 
   .qty-num {
     display: inline-block;
-    width: 150px;
+    width: 145px;
     font-weight: bold;
     border: 1px solid #b7b7b7;
     height: 25px;
@@ -211,8 +235,10 @@ page-item-cart {
       text-align: center;
       font-size: 12px;
       margin: 0px;
-      width: 100%;
-      padding: 5px 0;
+      width: 145px;
+      padding: 5px 50px 5px 50px;
+      height: 23px;
+      border: 0;
     }
   }
 .btn-inpt{

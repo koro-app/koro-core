@@ -30,7 +30,15 @@ Object.assign(REDUCERS_TOKEN, reducers)
     BrowserModule,
     IonicModule.forRoot(MyApp,{
       // Tabs config
-      tabsHideOnSubPages: true,
+      // tabsHideOnSubPages: true,
+      backButtonText: '',
+      backButtonIcon: "md-arrow-back",
+      platforms: {
+        ios: {
+          // statusbarPadding: false,
+          // menuType: 'overlay'
+        }
+      }
     }),
     HttpClientModule,
     ProductCartStoreModule,

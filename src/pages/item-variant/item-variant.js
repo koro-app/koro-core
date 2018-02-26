@@ -19,10 +19,12 @@ var ItemVariantPage = /** @class */ (function () {
     function ItemVariantPage(navCtrl, navParams) {
         this.navCtrl = navCtrl;
         this.navParams = navParams;
-        this.variant = this.navParams.get('variant');
+        this.variants = this.navParams.get('variants');
+        this.options = this.navParams.get('options');
+        console.log('options', this.options);
     }
     ItemVariantPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad ItemVariantPage');
+        // console.log('ionViewDidLoad ItemVariantPage');
     };
     ItemVariantPage = __decorate([
         IonicPage(),

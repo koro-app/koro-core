@@ -22,8 +22,8 @@ export class ItemProvider {
   }
 
   getProduct(handle) {
-    return this.http.get(`${this.endpoint}/products/${handle}.js`)
-    // return this.http.get(`${this.endpoint}/products/${handle}?view=app.json`)
+    // return this.http.get(`${this.endpoint}/products/${handle}.js`)
+    return this.http.get(`${this.endpoint}/products/${handle}?view=app.json`)
   }
 
   searchRange(collectionId,min,max) {

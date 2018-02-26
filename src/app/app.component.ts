@@ -48,9 +48,15 @@ export class MyApp {
       //   this.colorPrimary = data.home.color.primary;
       //   this.statusBar.backgroundColorByHexString(this.colorPrimary);
       // });
-      // if (this.platform.is('android')) {
+      if (this.platform.is('ios') || this.platform.is('windows')) {
+        this.statusBar.styleBlackTranslucent();
+        this.statusBar.overlaysWebView(false);
+        this.statusBar.backgroundColorByName('transparent');
+      }else{
         this.statusBar.backgroundColorByHexString("#33000000");
-      // }
+        this.statusBar.overlaysWebView(true);
+      }
+      // this.statusBar.backgroundColorByHexString('#000');
       this.splashScreen.hide();
     });
   }

@@ -18,7 +18,6 @@ export class TabsPage {
   selectedIndex: number = 0;
   // tab3Root = 'SidePage';
   productNumber: Observable<any>;
-  public hideTabs:boolean = false;
 
   constructor(
     public navCtrl: NavController,
@@ -38,10 +37,6 @@ export class TabsPage {
   }
 
   tabChange(event) {
-    // hide tabsbar in pagecart
-    // if (event.id == "t0-3") {
-    //   this.hideTabs = true;
-    // }
     // if (event.id == "t0-3") {
     //   this.userProvider.checkUser().then(user =>{
     //     if (user) this.userProvider.inAppAccount()
@@ -55,8 +50,7 @@ export class TabsPage {
     // .map(ids => ids.length)
     this.productNumber = this.store.select('cart','ids')
     .map(ids => ids.length)
-    // .do(data => console.log('update badge',data))
+    // .do(data => console.log('data',data))
   }
 
- 
 }

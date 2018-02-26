@@ -36,17 +36,11 @@ page-item-variant {
     right: 40px;
     top: 0;
     width: 32px;
-    height: 32px;
+    height: 30px;
     padding: 0;
     margin: 0;
-    &.button-wp {
-      height: 4em;
-      font-size: 1.6rem;
-      margin: 0.4rem 0.2rem;
-      padding: 0 1em;
-    }
     &.activated {
-      color: #dd4f29;
+      // color: #dd4f29;
     }
   }
 
@@ -55,31 +49,28 @@ page-item-variant {
     color: color($colors, black);
     position: absolute;
     top: 0;
-    right: 120px;
+    right: 116px;
     width: 32px;
-    height: 32px;
+    height: 30px;
     padding: 0;
     margin: 0;
-    &.button-wp {
-      height: 4em;
-      font-size: 1.6rem;
-      margin: 0.4rem 0.2rem;
-      padding: 0 1em;
-    }
     &.activated {
-      color: #dd4f29;
+      // color: #dd4f29;
     }
   }
 
   .qty-num {
     display: inline-block;
-    width: 112px;
-    right: 40px;
+    width: 96px;
+    right: 45px;
     input {
       text-align: center;
       font-size: 14px;
-	  margin: 8px;
-      width: 100px;
+      width: 96px;
+      height: 30px;
+      margin: 0;
+      padding: 5px 25px;
+      border: 0;
     }
   }
 .btn-inpt{

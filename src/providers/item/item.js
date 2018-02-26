@@ -26,8 +26,8 @@ var ItemProvider = /** @class */ (function () {
         return this.http.get(this.endpoint + "/collections/" + handle + "?view=app.json");
     };
     ItemProvider.prototype.getProduct = function (handle) {
-        return this.http.get(this.endpoint + "/products/" + handle + ".js");
-        // return this.http.get(`${this.endpoint}/products/${handle}?view=app.json`)
+        // return this.http.get(`${this.endpoint}/products/${handle}.js`)
+        return this.http.get(this.endpoint + "/products/" + handle + "?view=app.json");
     };
     ItemProvider.prototype.searchRange = function (collectionId, min, max) {
         if (collectionId) {

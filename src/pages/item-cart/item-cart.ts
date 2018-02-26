@@ -16,6 +16,7 @@ import 'rxjs/add/operator/take';
 export class ItemCartPage {
   variants: Observable<any>;
   gross: number = 0;
+  tabBarElement: any = document.querySelector('.tabbar.show-tabbar');
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
@@ -64,6 +65,20 @@ export class ItemCartPage {
     .subscribe((variants:string) =>{
       this.navCtrl.push('ItemCheckoutPage',{variants})
     })
+  }
+
+  // hide tabbartabroot cart
+  ionViewWillEnter() {
+    if (this.tabBarElement != null) {
+      this.tabBarElement.style.display = 'none';
+    }
+  }
+
+  // show normail tabbar
+  ionViewWillLeave() {
+    if (this.tabBarElement != null) {
+      this.tabBarElement.style.display = 'flex';
+    }
   }
 
 }
