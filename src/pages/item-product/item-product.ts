@@ -14,12 +14,14 @@ import 'rxjs/add/operator/take'
 })
 export class ItemProductPage {
   product: any;
+  productDetail: any;
   options:{
     position: number,
     name: string,
     details: string[],
     selectedDetail: string
   }[];
+  tabBarElement: any = document.querySelector('.tabbar.show-tabbar');
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams, 
@@ -44,24 +46,27 @@ export class ItemProductPage {
 
   normalize(data) {
     this.product = data;
+    this.productDetail = data.product;
     // create sale percent
-    this.product['sale'] = Math.round(100 - data.price/data.compare_at_price*100)
+    // this.product['sale'] = Math.round(100 - data.price/data.compare_at_price*100)
     // recaculate price
-    this.product['price'] = Math.round(this.product.price/100);
+    // this.product['price'] = Math.round(this.product.price/100);
     // // for VND style price
     // this.product['showPrice'] = new Intl.NumberFormat('vi', { style: 'currency', currency: 'VND' }).format(this.product.price);
     // for wrong image
-    if ((<string>this.product.featured_image).startsWith('//')) {
-      this.product['featured_image'] = 'https:' + this.product.featured_image;
-    }
+    // if ((<string>this.productDetail.featured_image).startsWith('//')) {
+    //   this.productDetail['featured_image'] = 'https:' + this.productDetail.featured_image;
+    // }
     // creating options variant
-    this.options = this.generateOptions(this.product.options,this.product.variants);
+    this.options = this.generateOptions(this.productDetail.options,this.productDetail.variants);
   }
 
   generateOptions(options,variants) {
     return options.map(option => {
-      let details = variants.map(variant => variant[`option${option.position}`]);
-      details = this.uniqueArray(details);
+      let details = variants.map(variant => 
+        variant[`option${option.position}`]
+      );
+      details = this.uniqueArray(details)
       /* 
         return value is: 
         {
@@ -86,7 +91,7 @@ export class ItemProductPage {
   }
 
   presentModal() {
-    let modal = this.modalCtrl.create('ItemProductDescriptionPage',{description:this.product.description});
+    let modal = this.modalCtrl.create('ItemProductDescriptionPage',{description:this.productDetail.body_html});
     modal.present();
   }
 
@@ -131,7 +136,8 @@ export class ItemProductPage {
   // view variant
   viewVariant(){
     let popover = this.popoverCtrl.create('ItemVariantPage', {
-      variant: this.product
+      variants: this.productDetail.variants,
+      options: this.options
     }, {cssClass: 'variant-product'});
     popover.present();
   }
@@ -139,6 +145,19 @@ export class ItemProductPage {
   // view product
   viewProduct(detail){
 
+  }
+  // hide tabbar on page product
+  ionViewWillEnter() {
+    if (this.tabBarElement != null) {
+      this.tabBarElement.style.display = 'none';
+    }
+  }
+
+  // show normail tabbar
+  ionViewWillLeave() {
+    if (this.tabBarElement != null) {
+      this.tabBarElement.style.display = 'flex';
+    }
   }
 
 }

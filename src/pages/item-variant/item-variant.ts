@@ -14,13 +14,16 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'item-variant.html',
 })
 export class ItemVariantPage {
-  variant;
+  options;
+  variants;
   constructor(public navCtrl: NavController, public navParams: NavParams) {
-  	this.variant = this.navParams.get('variant');
+  	this.variants = this.navParams.get('variants');
+  	this.options = this.navParams.get('options');
+  	console.log('options', this.options);
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ItemVariantPage');
+    // console.log('ionViewDidLoad ItemVariantPage');
   }
 
 }

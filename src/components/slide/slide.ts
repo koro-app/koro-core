@@ -14,7 +14,7 @@ import { ItemProvider } from '../../providers/item/item';
 })
 export class SlideComponent {
 
-  slides: any[] = [];
+  slides: any[];
 
   constructor(
     public navCtrl: NavController,

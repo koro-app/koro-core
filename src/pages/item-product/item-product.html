@@ -37,17 +37,17 @@
     <ion-row>
       <ion-col col-12>
         <ion-slides pager>
-          <ion-slide *ngFor="let img of product.images">
+          <ion-slide *ngFor="let img of productDetail.images">
             <img [src]="img">
           </ion-slide>
         </ion-slides>
       </ion-col>
       <ion-col col-12>
-        <p class="item-title" no-margin text-uppercase>{{product.title}}</p>
+        <p class="item-title" no-margin text-uppercase>{{productDetail.title}}</p>
         <div class="item-price">
-          <span class="current-price">{{product.price}}₫</span>
-          <span class="original-price"><s>{{product.compare_at_price}}₫</s></span>
-          <span class="sale"><i>(Bạn đã tiết kiệm được {{product.compare_at_price - product.price}}₫)</i></span>
+          <span class="current-price">{{productDetail.price}}₫</span>
+          <span class="original-price"><s>{{productDetail.compare_at_price}}₫</s></span>
+          <span class="sale"><i>(Bạn đã tiết kiệm được {{productDetail.compare_at_price - productDetail.price}}₫)</i></span>
         </div>
       </ion-col>
       <ion-col col-12 class="no-pd-top">
@@ -60,7 +60,7 @@
             <i class="far fa-star"></i>
             (123)
           </span>
-          <span class="barcode">Mã sản phẩm: {{product.variants[0].sku}}</span>
+          <span class="barcode">Mã sản phẩm: {{productDetail.variants[0].sku}}</span>
         </div>
       </ion-col>
     </ion-row>
@@ -142,7 +142,7 @@
       </ion-col>
       <ion-col col-12 no-padding>
         <div class="detail-product">
-          <div class="detail-inner" [innerHTML]="product.description"></div>
+          <div class="detail-inner" [innerHTML]="productDetail.body_html"></div>
             <!-- <ion-icon name="arrow-down"></ion-icon> -->
         </div>
       </ion-col>
@@ -150,7 +150,7 @@
   </ion-grid>
 
   <!-- related product -->
-  <ion-grid class="item-product" no-padding>
+  <ion-grid class="item-product related_products" no-padding>
     <ion-row>
       <ion-col col-12 class="ion-customer-header">
         <div class="text-title" text-uppercase>
@@ -161,8 +161,8 @@
         </div>
       </ion-col>
     </ion-row>
-    <ion-row>
-      <ion-col col-6 col-md-3 col-lg-3 col-xl-4 *ngFor="let related of product.related_products">
+    <ion-row class="list-products">
+      <ion-col class="product-lineitem" col-6 col-md-3 col-lg-3 col-xl-4 *ngFor="let related of product.related_products">
         <div class="product-item">
           <div class="product-img">
             <a text-center tappable (click)="viewProduct(related)">
@@ -189,7 +189,7 @@
   </ion-grid>
 
   <!-- seen product -->
-  <ion-grid class="item-product" no-padding>
+  <ion-grid class="item-product related_products" no-padding>
     <ion-row>
       <ion-col col-12 class="ion-customer-header">
         <div class="text-title" text-uppercase>
@@ -200,8 +200,8 @@
         </div>
       </ion-col>
     </ion-row>
-    <ion-row>
-      <ion-col col-6 col-md-3 col-lg-3 col-xl-4 *ngFor="let seen of product.related_products">
+    <ion-row class="list-products">
+      <ion-col class="product-lineitem" col-6 col-md-3 col-lg-3 col-xl-4 *ngFor="let seen of product.related_products">
         <div class="product-item">
           <div class="product-img">
             <a text-center tappable (click)="viewProduct(seen)">

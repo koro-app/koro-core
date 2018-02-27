@@ -9,105 +9,36 @@
     <ion-row>
       <ion-col col-4>
       	<div class="img-variant">
-        	<img src="{{variant.featured_image}}" />
+        	<img src="{{variants[0].image}}" />
       	</div>
       </ion-col>
       <ion-col col-8>
         <div class="variant_price">
-          {{variant.price}}
-          <del class="variant_compare-price">{{variant.compare_at_price}}</del>
-          <div class="variant_stock" *ngIf="variant.variants[0].inventory_quantity != 0">Còn hàng</div>
-          <div class="variant_stock" *ngIf="variant.variants[0].inventory_quantity == 0">Hết hàng</div>
+          {{variants[0].price}}
+          <del class="variant_compare-price">{{variants[0].compare_at_price}}</del>
+          <div class="variant_stock" *ngIf="variants[0].inventory_quantity != 0">Còn hàng</div>
+          <div class="variant_stock" *ngIf="variants[0].inventory_quantity == 0">Hết hàng</div>
         </div>
       </ion-col>
     </ion-row>
     <!-- option -->
-    <ion-row class="variant-selected" align-items-center>
-      <ion-col col-3 class="label-option">Kích thước: </ion-col>
+    <ion-row class="variant-selected" align-items-center *ngFor="let option of options">
+      <ion-col col-3 class="label-option">{{option.name}}: </ion-col>
       <ion-col col-9>
         <ion-list radio-group no-padding>
             <ng-container>
-              <div class="border-option">
+              <div class="border-option" *ngFor="let detail of option.details; let isFirst = first; let num = index">
                 <ion-item [class.item-radio-checked]="isFirst">
                   <ion-label>
-                    <span>S</span>
+                    <span>{{detail}}</span>
                   </ion-label>
-                  <ion-radio value="1" tappable></ion-radio>
-                </ion-item>
-              </div>
-            </ng-container>
-            <ng-container>
-              <div class="border-option">
-                <ion-item [class.item-radio-checked]="isFirst">
-                  <ion-label>
-                    <span>M</span>
-                  </ion-label>
-                  <ion-radio value="1" tappable></ion-radio>
-                </ion-item>
-              </div>
-            </ng-container>
-            <ng-container>
-              <div class="border-option">
-                <ion-item [class.item-radio-checked]="isFirst">
-                  <ion-label>
-                    <span>L</span>
-                  </ion-label>
-                  <ion-radio value="1" tappable></ion-radio>
-                </ion-item>
-              </div>
-            </ng-container>
-            <ng-container>
-              <div class="border-option">
-                <ion-item [class.item-radio-checked]="isFirst">
-                  <ion-label>
-                    <span>XL</span>
-                  </ion-label>
-                  <ion-radio value="1" tappable></ion-radio>
+                  <ion-radio value="{{detail}}" tappable (click)="selectedDetail(option,detail)"></ion-radio>
                 </ion-item>
               </div>
             </ng-container>
         </ion-list>
       </ion-col>
     </ion-row>
-    <ion-row class="variant-selected" align-items-center>
-      <ion-col col-3 class="label-option">Màu sắc: </ion-col>
-      <ion-col col-9>
-        <ion-list radio-group no-padding>
-            <ng-container>
-              <div class="border-option">
-                <ion-item [class.item-radio-checked]="isFirst">
-                  <ion-label>
-                    <span>Đen</span>
-                  </ion-label>
-                  <ion-radio value="1" tappable></ion-radio>
-                </ion-item>
-              </div>
-            </ng-container>
-            <ng-container>
-              <div class="border-option">
-                <ion-item [class.item-radio-checked]="isFirst">
-                  <ion-label>
-                    <span>Xanh dương</span>
-                  </ion-label>
-                  <ion-radio value="1" tappable></ion-radio>
-                </ion-item>
-              </div>
-            </ng-container>
-            <ng-container>
-              <div class="border-option">
-                <ion-item [class.item-radio-checked]="isFirst">
-                  <ion-label>
-                    <span>Đỏ đô</span>
-                  </ion-label>
-                  <ion-radio value="1" tappable></ion-radio>
-                </ion-item>
-              </div>
-            </ng-container>
-        </ion-list>
-      </ion-col>
-    </ion-row>
-
-    
   </ion-grid>
   <ion-grid class="bg-white quantity" no-padding>
   	<ion-row align-items-center>
