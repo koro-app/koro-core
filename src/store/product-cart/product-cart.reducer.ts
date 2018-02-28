@@ -163,6 +163,14 @@ export function reducer(state = initialState, action: productCart.Actions): Stat
       };
     }
 
+    case productCart.REMOVE_ALL: {
+      return {
+        ...state,
+         entities: {},
+        ids:[]
+      };
+    }
+
     // DEFAULT
     default: {
       return state;

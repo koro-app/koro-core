@@ -26,6 +26,45 @@ export class ItemProvider {
     return this.http.get(`${this.endpoint}/products/${handle}?view=app.json`)
   }
 
+  getBlog() {
+    // return this.http.get(`${this.endpoint}/products/${handle}.js`)
+    return this.http.get(`${this.endpoint}/blogs/news/?view=app.json`)
+    /*
+      return {
+        paginate{
+          pages
+          items
+          current_page
+          hasNext
+        }
+        articles[
+          {
+            url
+            seen 
+            title
+            published_at
+            commentCount
+            image
+          }
+        ]
+      }
+    */
+  }
+
+  getArticle(handle) {
+    // return this.http.get(`${this.endpoint}/products/${handle}.js`)
+    return this.http.get(`${this.endpoint}/blogs/news/${handle}?view=app.json`)
+    /*
+      return {
+        title
+        content
+        published_at
+        number_of_comments
+        image
+      }
+    */
+  }
+
   searchRange(collectionId,min,max) {
     if (collectionId) {
       return this.http.get(`${this.endpoint}/search?&q=filter=(((collectionid:product=${collectionId})&&(price:product>${min})&&(price:product<${max})))&view=app.json`)

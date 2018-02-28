@@ -34,11 +34,11 @@ var ItemVariantPage = /** @class */ (function () {
         // };
         this.listOptionStockOut = [];
         this.getFirstVariant();
-        this.emitVariant();
         this.checkVariantStockIn();
         this.checkDetail();
         this.findVariantStockOut();
         this.disableOption1StockOut();
+        this.emitVariant();
         // this.selectedVariant(this.options[0],this.options[0].details[this.indexDetailStockIn],this.indexDetailStockIn);
     }
     // first
@@ -86,24 +86,14 @@ var ItemVariantPage = /** @class */ (function () {
         this.firstSelectedVariant(this.options[0].details[indexFirstOption1]);
     };
     ItemVariantPage.prototype.firstSelectedVariant = function (detail) {
-        console.log('indexDetailStockIn', this.indexDetailStockIn);
-        console.log('detail', detail);
         var canFind1 = false;
         for (var i = 0; i <= this.variants.length - 1; i++) {
-            // if(this.variants[i].inventory_quantity > 0){
-            // 	this.indexVariantStockIn = i;
-            // }
             if (this.variants[i].inventory_quantity > 0) {
                 canFind1 = true;
                 this.selectedIndex = i;
+                this.options[0].selectedDetail = detail.name;
                 break;
             }
-            // else if(canFind1 == false && i == this.variants.length - 1){
-            // 	this.selectedIndex = this.indexVariantStockIn;
-            // 	// this.titleOptionSelected = this.variants[this.indexVariantStockIn].option2;
-            // 	console.log('this.variants[i]',i,this.variants[i].inventory_quantity,this.variants[i].option1,this.selectedIndex,this.indexVariantStockIn);
-            // 	break;
-            // }
         }
         for (var i = 0; i <= this.variants.length - 1; i++) {
             console.log('detail.name', detail.name);
@@ -132,19 +122,23 @@ var ItemVariantPage = /** @class */ (function () {
             }
         }
     };
-    ItemVariantPage.prototype.addToCart = function (product) {
+    ItemVariantPage.prototype.addToCart = function (variant) {
         var _this = this;
+        // setup product title
+        variant['productTitle'] = this.navParams.get('title');
+        variant['selected'] = true;
+        console.log('title', this.navParams.get('title'));
         this.store.select('cart', 'entities')
             .take(1)
             .subscribe(function (variants) {
-            var variant = _this.getVariantByTitle(product, product.selectedVariant);
-            if (variants[variant.id] == undefined || variants[variant.id].selectedVariant != variant.selectedVariant) {
+            // let variant = this.getVariantByTitle(product,product.selectedVariant);
+            if (variants[variant.id] == undefined) {
                 _this.store.dispatch(new cartActions.AddAction(variant));
-                _this.presentToast("\u0110\u00E3 th\u00EAm " + product.title + " lo\u1EA1i " + variant.title);
+                _this.presentToast("\u0110\u00E3 th\u00EAm s\u1EA3n ph\u1EA9m v\u00E0o gi\u1ECF h\u00E0ng");
             }
             else {
                 _this.store.dispatch(new cartActions.IncreaseAction(variant));
-                _this.presentToast("T\u0103ng 1 s\u1EA3n ph\u1EA9m " + product.title + " b\u1EA3n " + variant.title);
+                _this.presentToast("\u0110\u00E3 gia t\u0103ng th\u00EAm 1 s\u1EA3n ph\u1EA9m n\u00E0y");
             }
         });
     };
@@ -168,6 +162,18 @@ var ItemVariantPage = /** @class */ (function () {
                 break;
             }
         }
+    };
+    ItemVariantPage.prototype.selectedDetail = function (option, detail, num) {
+        this.first1 = false;
+        this.options[option.position - 1].selectedDetail = detail.name;
+        this.emitVariant();
+        this.selectedVariant(option, detail, num);
+    };
+    ItemVariantPage.prototype.emitVariant = function () {
+        this.titleVariant = this.options
+            .map(function (option) { return option.selectedDetail; })
+            .join(' / ');
+        console.log('this.titleVariant', this.titleVariant);
     };
     ItemVariantPage.prototype.selectedVariant = function (option, detail, num) {
         var canFind1 = false;
@@ -204,8 +210,6 @@ var ItemVariantPage = /** @class */ (function () {
     ItemVariantPage.prototype.selectDetailFollow = function (option, detail) {
         if (option.position - 1 == 0) {
             this.resetOptions();
-            var canFind2 = false;
-            var titleOption2 = detail.name;
             for (var i = 0; i <= this.variants.length - 1; i++) {
                 if (detail.name == this.variants[i].option1) {
                     for (var j = 0; j <= this.options.length - 1; j++) {
@@ -215,17 +219,11 @@ var ItemVariantPage = /** @class */ (function () {
                                     this.options[j].details[z].disabled = false;
                                     this.options[j].details[z].checked = true;
                                     this.titleOptionSelected = this.options[j].details[z].name;
-                                    canFind2 = true;
-                                    // console.log('canfind', canFind2);
                                 }
                                 else {
-                                    // console.log('canfind2', canFind2);
                                     if (this.options[j].details[z].checked == false) {
                                         this.options[j].details[z].disabled = true;
                                     }
-                                    // if (this.options[j].details.length - 1 == z && canFind2 == false) {
-                                    // 	this.options[j].details[indexDetail2].disabled = false;
-                                    // }
                                 }
                             }
                         }
@@ -241,17 +239,6 @@ var ItemVariantPage = /** @class */ (function () {
                 this.options[j].details[z].checked = false;
             }
         }
-    };
-    ItemVariantPage.prototype.selectedDetail = function (option, detail, num) {
-        this.first1 = false;
-        this.options[option.position - 1].selectedDetail = detail.name;
-        this.emitVariant();
-        this.selectedVariant(option, detail, num);
-    };
-    ItemVariantPage.prototype.emitVariant = function () {
-        this.titleVariant = this.options
-            .map(function (option) { return option.selectedDetail; })
-            .join(' / ');
     };
     ItemVariantPage.prototype.getVariantByTitle = function (product, title) {
         var variant = product.variants.filter(function (variant) { return variant.title == title; })[0];

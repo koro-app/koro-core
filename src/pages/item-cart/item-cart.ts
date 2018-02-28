@@ -39,7 +39,10 @@ export class ItemCartPage {
       variants.map(variant => {
         this.gross += variant.price * variant.quantity;
       })
-    }) ;
+    })
+    .do((variants) => {
+      console.log('variants', variants);
+    })
   }
 
   ionViewDidLoad() {
@@ -56,6 +59,10 @@ export class ItemCartPage {
 
   remove(variant) {
     this.store.dispatch(new cartActions.RemoveAction(variant))
+  }
+
+  removeAll(){
+    this.store.dispatch(new cartActions.RemoveAllAction());
   }
 
   checkout() {

@@ -36,6 +36,9 @@ var ItemCartPage = /** @class */ (function () {
             variants.map(function (variant) {
                 _this.gross += variant.price * variant.quantity;
             });
+        })
+            .do(function (variants) {
+            console.log('variants', variants);
         });
     };
     ItemCartPage.prototype.ionViewDidLoad = function () {
@@ -50,6 +53,9 @@ var ItemCartPage = /** @class */ (function () {
     };
     ItemCartPage.prototype.remove = function (variant) {
         this.store.dispatch(new cartActions.RemoveAction(variant));
+    };
+    ItemCartPage.prototype.removeAll = function () {
+        this.store.dispatch(new cartActions.RemoveAllAction());
     };
     ItemCartPage.prototype.checkout = function () {
         var _this = this;

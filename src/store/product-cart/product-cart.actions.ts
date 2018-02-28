@@ -114,6 +114,15 @@ export class RemoveFailAction implements Action {
   constructor(public payload: any) { }
 }
 
+// REMOVE ALL PRODUCT
+
+export const REMOVE_ALL =                 '[Product Cart] Remove All';
+
+export class RemoveAllAction implements Action {
+  readonly type = REMOVE_ALL;
+  constructor() { }
+}
+
 export type Actions =
   | GetProductsAction
   | GetProductsSuccessAction
@@ -130,6 +139,7 @@ export type Actions =
   | RemoveAction
   | RemoveSuccessAction
   | RemoveFailAction
+  | RemoveAllAction
 
 
 

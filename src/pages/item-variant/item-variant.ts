@@ -37,11 +37,11 @@ export class ItemVariantPage {
     public toastCtrl: ToastController,
   	) {
   	this.getFirstVariant();
+    this.checkVariantStockIn();
+    this.checkDetail();
+    this.findVariantStockOut();
+    this.disableOption1StockOut();
   	this.emitVariant();
-  	this.checkVariantStockIn();
-  	this.checkDetail();
-  	this.findVariantStockOut();
-  	this.disableOption1StockOut();
 	// this.selectedVariant(this.options[0],this.options[0].details[this.indexDetailStockIn],this.indexDetailStockIn);
   }
 
@@ -100,7 +100,7 @@ export class ItemVariantPage {
 	  }
   	}
   	for (let i = 0; i <= this.variants.length - 1; i++) {
-  	  console.log('detail.name',detail.name);
+  	console.log('detail.name',detail.name);
 	  if (detail.name == this.variants[i].option1) {
 	  	for (let j = 1; j <= this.options.length - 1; j++) {
   			for (let z = 0; z <= this.options[j].details.length - 1; z++) {
@@ -128,7 +128,10 @@ export class ItemVariantPage {
 
   addToCart(variant) {
 		// setup product title
-		// variant['productTitle'] = product.title;
+    variant['productTitle'] = this.navParams.get('title');
+		variant['selected'] = true;
+    console.log('title',this.navParams.get('title'));
+
     this.store.select('cart','entities')
     .take(1)
     .subscribe((variants) => {
@@ -168,6 +171,20 @@ export class ItemVariantPage {
   	}
   }
 
+  selectedDetail(option,detail,num) {
+    this.first1 = false;
+    this.options[option.position-1].selectedDetail = detail.name;
+    this.emitVariant();
+    this.selectedVariant(option,detail,num);
+  }
+
+  emitVariant() {
+    this.titleVariant = this.options
+    .map(option => option.selectedDetail)
+    .join(' / ');
+    console.log('this.titleVariant',this.titleVariant);
+  }
+
   selectedVariant(option,detail,num){
   	let canFind1 = false;
   	for (let i = 0; i <= this.variants.length - 1; i++) {
@@ -205,33 +222,24 @@ export class ItemVariantPage {
   selectDetailFollow(option,detail){
   	if (option.position-1 == 0) {
   		this.resetOptions();
-  		let canFind2 = false;
-  		let titleOption2 = detail.name;
 	  	for (let i = 0; i <= this.variants.length - 1; i++) {
-		  if (detail.name == this.variants[i].option1) {
-		  	for (let j = 0; j <= this.options.length - 1; j++) {
-		  		if (option.position-1 != j) {
-		  			for (let z = 0; z <= this.options[j].details.length - 1; z++) {
-		  				if(this.variants[i].inventory_quantity > 0 && this.options[j].details[z].name == this.variants[i].option2 || this.options[j].details[z].name == this.variants[i].option3){
-				  			this.options[j].details[z].disabled = false;
-				  			this.options[j].details[z].checked = true;
-				  			this.titleOptionSelected = this.options[j].details[z].name;
-				  			canFind2 = true;
-				  			// console.log('canfind', canFind2);
-		  				}else{
-				  			// console.log('canfind2', canFind2);
-		  					if (this.options[j].details[z].checked == false) {
-		  						this.options[j].details[z].disabled = true;
-		  					}
-		  					// if (this.options[j].details.length - 1 == z && canFind2 == false) {
-		  					// 	this.options[j].details[indexDetail2].disabled = false;
-		  					// }
-				  		}
-		  			}
-		  		}
-		  	}
-
-		  }
+  		  if (detail.name == this.variants[i].option1) {
+  		  	for (let j = 0; j <= this.options.length - 1; j++) {
+  		  		if (option.position-1 != j) {
+  		  			for (let z = 0; z <= this.options[j].details.length - 1; z++) {
+  		  				if(this.variants[i].inventory_quantity > 0 && this.options[j].details[z].name == this.variants[i].option2 || this.options[j].details[z].name == this.variants[i].option3){
+  				  			this.options[j].details[z].disabled = false;
+  				  			this.options[j].details[z].checked = true;
+  				  			this.titleOptionSelected = this.options[j].details[z].name;
+  		  				}else{
+  		  					if (this.options[j].details[z].checked == false) {
+  		  						this.options[j].details[z].disabled = true;
+  		  					}
+  				  		}
+  		  			}
+  		  		}
+  		  	}
+		    }
 	  	}
   	}
   }
@@ -243,19 +251,6 @@ export class ItemVariantPage {
 			this.options[j].details[z].checked = false;
 		}
   	}
-  }
-
-  selectedDetail(option,detail,num) {
-  	this.first1 = false;
-    this.options[option.position-1].selectedDetail = detail.name;
-    this.emitVariant();
-    this.selectedVariant(option,detail,num);
-  }
-
-  emitVariant() {
-    this.titleVariant = this.options
-    .map(option => option.selectedDetail)
-    .join(' / ');
   }
 
   getVariantByTitle(product,title) {

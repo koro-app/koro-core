@@ -56,6 +56,11 @@ var ItemProductPage = /** @class */ (function () {
         // if ((<string>this.productDetail.featured_image).startsWith('//')) {
         //   this.productDetail['featured_image'] = 'https:' + this.productDetail.featured_image;
         // }
+        for (var j = 0; j <= this.productDetail.variants.length - 1; j++) {
+            if (this.productDetail.variants[j].image == '' || this.productDetail.variants[j].image == null) {
+                this.productDetail.variants[j].image = this.productDetail.images[0];
+            }
+        }
         // creating options variant
         this.options = this.generateOptions(this.productDetail.options, this.productDetail.variants);
         this.options = this.options.map(function (option) {
@@ -150,6 +155,7 @@ var ItemProductPage = /** @class */ (function () {
     // view variant
     ItemProductPage.prototype.viewVariant = function () {
         var popover = this.popoverCtrl.create('ItemVariantPage', {
+            title: this.productDetail.title,
             variants: this.productDetail.variants,
             options: this.options
         }, { cssClass: 'variant-product' });

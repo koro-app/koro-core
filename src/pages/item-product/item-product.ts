@@ -56,6 +56,12 @@ export class ItemProductPage {
     // if ((<string>this.productDetail.featured_image).startsWith('//')) {
     //   this.productDetail['featured_image'] = 'https:' + this.productDetail.featured_image;
     // }
+    for (let j = 0; j <= this.productDetail.variants.length-1; j++) {
+      if (this.productDetail.variants[j].image == '' || this.productDetail.variants[j].image == null) {
+        this.productDetail.variants[j].image = this.productDetail.images[0];
+      }
+    }
+
     // creating options variant
     this.options = this.generateOptions(this.productDetail.options,this.productDetail.variants);
     this.options = this.options.map(option => {
@@ -157,6 +163,7 @@ export class ItemProductPage {
   // view variant
   viewVariant(){
     let popover = this.popoverCtrl.create('ItemVariantPage', {
+      title: this.productDetail.title,
       variants: this.productDetail.variants,
       options: this.options
     }, {cssClass: 'variant-product'});

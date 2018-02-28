@@ -1,0 +1,15 @@
+page-item-notifications {
+ion-buttons button {
+    color: #ffffff !important;
+    opacity: 1 !important;
+    &.bar-button-md {
+      font-size: 18px !important;
+    }
+    &.bar-button-wp, &.bar-button-ios {
+      font-size: 30px !important;
+    }
+    &.seen-news, &.seen-notis{
+      opacity: 0.7 !important;
+    }
+  }
+}

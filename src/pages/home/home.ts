@@ -69,4 +69,8 @@ export class HomePage {
     });
   }
 
+  viewNoti(){
+    this.navCtrl.push('ItemNotificationsPage')
+  }
+
 }

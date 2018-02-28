@@ -57,6 +57,9 @@ var HomePage = /** @class */ (function () {
             _this.banner = data.home.banner[1].src;
         });
     };
+    HomePage.prototype.viewNoti = function () {
+        this.navCtrl.push('ItemNotificationsPage');
+    };
     HomePage = __decorate([
         IonicPage(),
         Component({
