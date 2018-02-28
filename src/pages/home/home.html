@@ -12,8 +12,8 @@
       <ion-searchbar
         [(ngModel)]="myInput"
         [showCancelButton]="shouldShowCancel"
-        (ionCancel)="onCancel($event)" 
-        (keypress)="onInput($event, $event.keyCode)"
+        (ionInput)="onInput($event)"
+        (ionCancel)="onCancel($event)"
         placeholder="Bạn muốn mua gì?"
         class="search-header">
       </ion-searchbar>

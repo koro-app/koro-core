@@ -9,15 +9,15 @@
     <ion-row>
       <ion-col col-4>
       	<div class="img-variant">
-        	<img src="{{variants[selectedIndex].image}}" />
+        	<img src="{{variants[0].image}}" />
       	</div>
       </ion-col>
       <ion-col col-8>
         <div class="variant_price">
-          {{variants[selectedIndex].price_format}}
-          <del class="variant_compare-price">{{variants[selectedIndex].compare_at_price_format}}</del>
-          <div class="variant_stock" *ngIf="variants[selectedIndex].inventory_quantity != 0">Còn hàng</div>
-          <div class="variant_stock" *ngIf="variants[selectedIndex].inventory_quantity == 0">Hết hàng</div>
+          {{variants[0].price}}
+          <del class="variant_compare-price">{{variants[0].compare_at_price}}</del>
+          <div class="variant_stock" *ngIf="variants[0].inventory_quantity != 0">Còn hàng</div>
+          <div class="variant_stock" *ngIf="variants[0].inventory_quantity == 0">Hết hàng</div>
         </div>
       </ion-col>
     </ion-row>
@@ -25,23 +25,18 @@
     <ion-row class="variant-selected" align-items-center *ngFor="let option of options">
       <ion-col col-3 class="label-option">{{option.name}}: </ion-col>
       <ion-col col-9>
-      	<ng-container>
-	        <ion-list radio-group no-padding>
-	          <div class="border-option" *ngFor="let detail of option.details; let isFirst = first; let num = index">
-	            <ion-item>
-	             <!--  [class.item-radio-checked]="isFirst" [ngClass]="{'item-radio-checked': detail.name == variants[selectedIndex]}"[ngClass]="{'item-radio-checked': selectedIndex == indexCol}" -->
-	             <!-- [ngClass]="{' item-radio-disabled': selectedIndex == indexCol}" disabled="true" [disabled]="detail.disabled" [(ngModel)]="detail.selected"-->
-	              <ion-label>
-	                <span>{{detail.name}}</span>
-	                <img class="crossed-out" src="assets/icon/soldout.png">
-	              </ion-label>
-	              <!-- (!detail.disabled && !isFirst) || variants[selectedIndex].option1 == detail.name || variants[selectedIndex].option2 == detail.name  || variants[selectedIndex].option3 == detail.name -->
-	              <ion-radio tappable (click)="selectedDetail(option,detail,num)" [disabled]="detail.disabled" [checked]="option.selectedDetail == detail.name" #optionSelected></ion-radio>
-	              <!-- <ion-radio tappable (click)="selectedDetail(option,detail,num)" [disabled]="(!first1 && titleOptionSelected == detail.name) || (!first1 && titleOptionSelected == detail.name)" [checked]="(first1 && isFirst) || (!first1 && titleOptionSelected == detail.name)" #optionSelected></ion-radio> -->
-	            </ion-item>
-	          </div>
-	        </ion-list>
-    	</ng-container>
+        <ion-list radio-group no-padding>
+            <ng-container>
+              <div class="border-option" *ngFor="let detail of option.details; let isFirst = first; let num = index">
+                <ion-item [class.item-radio-checked]="isFirst">
+                  <ion-label>
+                    <span>{{detail}}</span>
+                  </ion-label>
+                  <ion-radio value="{{detail}}" tappable (click)="selectedDetail(option,detail)"></ion-radio>
+                </ion-item>
+              </div>
+            </ng-container>
+        </ion-list>
       </ion-col>
     </ion-row>
   </ion-grid>

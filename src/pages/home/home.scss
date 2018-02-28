@@ -2,11 +2,6 @@ page-home {
   &.ion-page ion-header .toolbar .bar-buttons .bar-button {
     color: color($colors, white);
   }
-  &.ion-page .toolbar-ios ion-title{
-    padding-left: 0;
-    padding-right: 0;
-    width: calc(100% - 65px);
-  }
   .toolbar-title {
     padding: 0 0 0 5px;
   } // no border header
@@ -19,7 +14,7 @@ page-home {
   .toolbar-ios {
     &.statusbar-padding {
         ion-title {
-          // padding: 0 0px 1px !important;
+          padding: 0 0px 1px !important;
           padding-top: 20px;
           padding-top: constant(safe-area-inset-top);
           padding-top: env(safe-area-inset-top);

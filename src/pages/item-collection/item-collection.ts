@@ -64,10 +64,6 @@ export class ItemCollectionPage {
     })
   }
 
-  goSearch(){
-    this.navCtrl.push('ItemSearchPage');
-  }
-
   ionViewDidLoad() {
   }
 

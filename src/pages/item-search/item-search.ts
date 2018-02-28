@@ -13,7 +13,6 @@ import 'rxjs/add/operator/debounceTime';
 })
 export class ItemSearchPage extends ItemCollectionPage {
   myInput:any;
-  tabBarElement: any = document.querySelector('.tabbar.show-tabbar');
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
@@ -30,11 +29,7 @@ export class ItemSearchPage extends ItemCollectionPage {
       store,
       loadingCtrl,
       toastCtrl
-    );
-    this.myInput = this.navParams.get('value');
-    if (this.myInput != null && this.myInput != undefined) {
-      this.getResults();
-    }
+    )
   }
 
   ionViewDidLoad() {
@@ -53,8 +48,9 @@ export class ItemSearchPage extends ItemCollectionPage {
     // we dont do this, so let it empty
   }
 
-  getResults() {
-    this.itemProvider.searchString(this.myInput)
+  onInput(ev) {
+    let val = ev.target.value;
+    this.itemProvider.searchString(val)
     .take(1)
     .debounceTime(500)
     .subscribe((data:{products:any[],paginate:any}) => {
@@ -69,43 +65,11 @@ export class ItemSearchPage extends ItemCollectionPage {
     })
   }
 
-  onInput(ev, keycode) {
-    let val = ev.target.value;
-    if (keycode == 13) {
-      this.itemProvider.searchString(val)
-      .take(1)
-      .debounceTime(500)
-      .subscribe((data:{products:any[],paginate:any}) => {
-        data.products.map((product) => {
-          if ((<string>product.featured_image).startsWith('//')) {
-            product['featured_image'] = 'https:' + product.featured_image;
-          }
-          return product;
-        })
-        this.products = data.products;
-        this.paginate = data.paginate;
-      })
-    }
-  }
-
   shouldShowCancel() {
 
   }
 
   back() {
     this.viewCtrl.dismiss();
-  }
-  // hide tabbar on page search
-  ionViewWillEnter() {
-    if (this.tabBarElement != null) {
-      this.tabBarElement.style.display = 'none';
-    }
-  }
-
-  // show normail tabbar
-  ionViewWillLeave() {
-    if (this.tabBarElement != null) {
-      this.tabBarElement.style.display = 'flex';
-    }
   }
 }

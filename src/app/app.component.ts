@@ -48,13 +48,13 @@ export class MyApp {
       //   this.colorPrimary = data.home.color.primary;
       //   this.statusBar.backgroundColorByHexString(this.colorPrimary);
       // });
-      this.statusBar.styleBlackTranslucent();
       if (this.platform.is('ios') || this.platform.is('windows')) {
-        // this.statusBar.overlaysWebView(false);
-        // this.statusBar.backgroundColorByName('transparent');
+        this.statusBar.styleBlackTranslucent();
+        this.statusBar.overlaysWebView(false);
+        this.statusBar.backgroundColorByName('transparent');
       }else{
-        // this.statusBar.backgroundColorByHexString("#000000");
-        // this.statusBar.overlaysWebView(true);
+        this.statusBar.backgroundColorByHexString("#33000000");
+        this.statusBar.overlaysWebView(true);
       }
       // this.statusBar.backgroundColorByHexString('#000');
       this.splashScreen.hide();

@@ -15,15 +15,14 @@
     <ion-searchbar
       [(ngModel)]="myInput"
       [showCancelButton]="shouldShowCancel"
-      (keypress)="onInput($event, $event.keyCode)"
-      (ionCancel)="onCancel($event)"
-      class="search-header">
+      (ionInput)="onInput($event)"
+      (ionCancel)="onCancel($event)">
     </ion-searchbar>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content>
+<ion-content padding>
     <item-collection-list [products]="products" (goDetail)="goDetail($event)" (addToCart)="addToCart($event)"></item-collection-list>
 </ion-content>
