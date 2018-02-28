@@ -126,17 +126,19 @@ export class ItemVariantPage {
   	}
   }
 
-  addToCart(product) {
+  addToCart(variant) {
+		// setup product title
+		// variant['productTitle'] = product.title;
     this.store.select('cart','entities')
     .take(1)
     .subscribe((variants) => {
-      let variant = this.getVariantByTitle(product,product.selectedVariant);
-      if (variants[variant.id] == undefined || variants[variant.id].selectedVariant != variant.selectedVariant) {
+      // let variant = this.getVariantByTitle(product,product.selectedVariant);
+      if (variants[variant.id] == undefined) {
         this.store.dispatch(new cartActions.AddAction(variant));
-        this.presentToast(`Đã thêm ${product.title} loại ${variant.title}`);
+        this.presentToast(`Đã thêm sản phẩm vào giỏ hàng`);
       } else {
         this.store.dispatch(new cartActions.IncreaseAction(variant));
-        this.presentToast(`Tăng 1 sản phẩm ${product.title} bản ${variant.title}`);
+        this.presentToast(`Đã gia tăng thêm 1 sản phẩm này`);
       }
     })
     
