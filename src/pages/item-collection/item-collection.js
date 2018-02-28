@@ -57,6 +57,9 @@ var ItemCollectionPage = /** @class */ (function () {
             loading.dismiss();
         });
     };
+    ItemCollectionPage.prototype.goSearch = function () {
+        this.navCtrl.push('ItemSearchPage');
+    };
     ItemCollectionPage.prototype.ionViewDidLoad = function () {
     };
     ItemCollectionPage.prototype.goDetail = function (handle) {

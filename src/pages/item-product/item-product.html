@@ -9,7 +9,7 @@
     <ion-title></ion-title>
     <!-- search button  -->
     <ion-buttons end>
-      <button ion-button icon-only>
+      <button ion-button icon-only tappable (click)="goSearch()">
         <!-- <ion-icon name="search"></ion-icon> -->
         <i class="fas fa-search"></i>
       </button>
@@ -45,9 +45,9 @@
       <ion-col col-12>
         <p class="item-title" no-margin text-uppercase>{{productDetail.title}}</p>
         <div class="item-price">
-          <span class="current-price">{{productDetail.price}}₫</span>
-          <span class="original-price"><s>{{productDetail.compare_at_price}}₫</s></span>
-          <span class="sale"><i>(Bạn đã tiết kiệm được {{productDetail.compare_at_price - productDetail.price}}₫)</i></span>
+          <span class="current-price">{{productDetail.price_format}}₫</span>
+          <span class="original-price"><s>{{productDetail.compare_at_price_format}}₫</s></span>
+          <div class="sale"><i>(Bạn đã tiết kiệm được {{ ((productDetail.compare_at_price - productDetail.price) / 100) | number: '1.0-2' }}₫)</i></div>
         </div>
       </ion-col>
       <ion-col col-12 class="no-pd-top">

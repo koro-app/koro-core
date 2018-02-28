@@ -21,6 +21,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { ModalController, PopoverController } from 'ionic-angular';
 import * as cartActions from '../../store/product-cart/product-cart.actions';
+import 'rxjs/add/operator/take';
 var ItemProductPage = /** @class */ (function () {
     function ItemProductPage(navCtrl, navParams, itemProvider, modalCtrl, store, toastCtrl, popoverCtrl) {
         this.navCtrl = navCtrl;
@@ -57,6 +58,28 @@ var ItemProductPage = /** @class */ (function () {
         // }
         // creating options variant
         this.options = this.generateOptions(this.productDetail.options, this.productDetail.variants);
+        this.options = this.options.map(function (option) {
+            option.details = option.details.map(function (detail) {
+                return {
+                    name: detail,
+                    disabled: false,
+                    checked: false
+                };
+            });
+            /*
+              return value is:
+              {
+                name: 'Đường kính',
+                position: '1',
+                details: [{
+                  name: 40cm,
+                  disabled: false
+                }],
+                selectedDetail: '40cm'
+              }
+            */
+            return option;
+        });
     };
     ItemProductPage.prototype.generateOptions = function (options, variants) {
         var _this = this;
@@ -134,6 +157,9 @@ var ItemProductPage = /** @class */ (function () {
     };
     // view product
     ItemProductPage.prototype.viewProduct = function (detail) {
+    };
+    ItemProductPage.prototype.goSearch = function () {
+        this.navCtrl.push('ItemSearchPage');
     };
     // hide tabbar on page product
     ItemProductPage.prototype.ionViewWillEnter = function () {

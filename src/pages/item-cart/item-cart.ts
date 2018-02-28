@@ -58,10 +58,6 @@ export class ItemCartPage {
     this.store.dispatch(new cartActions.RemoveAction(variant))
   }
 
-  back() {
-    this.navCtrl.parent.select(0);
-  }
-
   checkout() {
     this.variants.map(variants => variants.map(variant =>variant.id+':'+variant.quantity))
     .take(1)

@@ -35,6 +35,11 @@ var ItemSearchPage = /** @class */ (function (_super) {
         _this.store = store;
         _this.loadingCtrl = loadingCtrl;
         _this.toastCtrl = toastCtrl;
+        _this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
+        _this.myInput = _this.navParams.get('value');
+        if (_this.myInput != null && _this.myInput != undefined) {
+            _this.getResults();
+        }
         return _this;
     }
     ItemSearchPage.prototype.ionViewDidLoad = function () {
@@ -48,10 +53,9 @@ var ItemSearchPage = /** @class */ (function (_super) {
     ItemSearchPage.prototype.getProducts = function () {
         // we dont do this, so let it empty
     };
-    ItemSearchPage.prototype.onInput = function (ev) {
+    ItemSearchPage.prototype.getResults = function () {
         var _this = this;
-        var val = ev.target.value;
-        this.itemProvider.searchString(val)
+        this.itemProvider.searchString(this.myInput)
             .take(1)
             .debounceTime(500)
             .subscribe(function (data) {
@@ -65,10 +69,41 @@ var ItemSearchPage = /** @class */ (function (_super) {
             _this.paginate = data.paginate;
         });
     };
+    ItemSearchPage.prototype.onInput = function (ev, keycode) {
+        var _this = this;
+        var val = ev.target.value;
+        if (keycode == 13) {
+            this.itemProvider.searchString(val)
+                .take(1)
+                .debounceTime(500)
+                .subscribe(function (data) {
+                data.products.map(function (product) {
+                    if (product.featured_image.startsWith('//')) {
+                        product['featured_image'] = 'https:' + product.featured_image;
+                    }
+                    return product;
+                });
+                _this.products = data.products;
+                _this.paginate = data.paginate;
+            });
+        }
+    };
     ItemSearchPage.prototype.shouldShowCancel = function () {
     };
     ItemSearchPage.prototype.back = function () {
         this.viewCtrl.dismiss();
+    };
+    // hide tabbar on page search
+    ItemSearchPage.prototype.ionViewWillEnter = function () {
+        if (this.tabBarElement != null) {
+            this.tabBarElement.style.display = 'none';
+        }
+    };
+    // show normail tabbar
+    ItemSearchPage.prototype.ionViewWillLeave = function () {
+        if (this.tabBarElement != null) {
+            this.tabBarElement.style.display = 'flex';
+        }
     };
     ItemSearchPage = __decorate([
         IonicPage(),

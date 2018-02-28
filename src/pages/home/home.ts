@@ -45,9 +45,13 @@ export class HomePage {
   onCancel() {
 
   }
-  onInput(ev) {
+
+  onInput(ev, keycode) {
     let val = ev.target.value;
-    
+    console.log('keycode',keycode);
+    if (keycode == 13) {
+      this.navCtrl.push('ItemSearchPage',{value:val});
+    }
   }
   shouldShowCancel() {
 

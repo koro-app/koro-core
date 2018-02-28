@@ -34,7 +34,6 @@ var HomeCollectionsComponent = /** @class */ (function () {
         this.navCtrl.push('ItemCollectionPage', collection);
     };
     HomeCollectionsComponent.prototype.goProduct = function (handle) {
-        console.log('handle', handle);
         this.navCtrl.push('ItemProductPage', { handle: handle });
     };
     HomeCollectionsComponent = __decorate([

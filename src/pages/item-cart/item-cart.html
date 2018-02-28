@@ -18,46 +18,44 @@
   </ion-navbar>
 </ion-header>
 <ion-content>
-  <ng-container  *ngIf="variants | async; let variants">
-    <ion-list *ngIf="variants?.length > 0">
-      <ion-card class="variant" ion-item *ngFor="let variant of variants | async">
-        <button class="delete-button" color="danger" ion-button clear large (click)="remove(variant)">
-          <ion-icon name="close"></ion-icon>
-        </button>
-        <ion-grid>
-          <ion-row>
-            <!-- left-slide -->
-            <ion-col col-4>
-              <div class="left-side">
-                <img [src]="variant.featured_image ? variant.featured_image: variant.default_featured_image" [alt]="variant.title">
-                <p class="single-price">{{variant.price / 100 | number: '1.0-2' }}₫</p>
-                <!-- combo-button -->
-                <div class="quantity-button">
-                  <button ion-button clear large (click)="decrease(variant)">
-                    <ion-icon name="remove-circle"></ion-icon>
-                  </button>
-                  <span>
-                          {{variant.quantity}}
-                      </span>
-                  <button ion-button clear large (click)="increase(variant)">
-                    <ion-icon name="add-circle"></ion-icon>
-                  </button>
-                </div>
+  <ion-list *ngIf="(variants?.length > 0) | async">
+    <ion-card class="variant" ion-item *ngFor="let variant of variants | async">
+      <button class="delete-button" color="danger" ion-button clear large (click)="remove(variant)">
+        <ion-icon name="close"></ion-icon>
+      </button>
+      <ion-grid>
+        <ion-row>
+          <!-- left-slide -->
+          <ion-col col-4>
+            <div class="left-side">
+              <img [src]="variant.featured_image ? variant.featured_image: variant.default_featured_image" [alt]="variant.title">
+              <p class="single-price">{{variant.price / 100 | number: '1.0-2' }}₫</p>
+              <!-- combo-button -->
+              <div class="quantity-button">
+                <button ion-button clear large (click)="decrease(variant)">
+                  <ion-icon name="remove-circle"></ion-icon>
+                </button>
+                <span>
+                        {{variant.quantity}}
+                    </span>
+                <button ion-button clear large (click)="increase(variant)">
+                  <ion-icon name="add-circle"></ion-icon>
+                </button>
               </div>
-            </ion-col>
-            <!-- right-side -->
-            <ion-col col-8>
-              <div class="right-side">
-                <p class="title">{{variant.productTitle}}</p>
-                <p class="variant-title">Phiên bản sản phẩm: {{variant.title}}</p>
-                <p class="subtotal">Thành tiền: {{variant.price * variant.quantity / 100 | number: '1.0-2' }}₫</p>
-              </div>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card>
-    </ion-list>
-  </ng-container>
+            </div>
+          </ion-col>
+          <!-- right-side -->
+          <ion-col col-8>
+            <div class="right-side">
+              <p class="title">{{variant.productTitle}}</p>
+              <p class="variant-title">Phiên bản sản phẩm: {{variant.title}}</p>
+              <p class="subtotal">Thành tiền: {{variant.price * variant.quantity / 100 | number: '1.0-2' }}₫</p>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card>
+  </ion-list>
   <!-- test -->
   <ion-list class="list-item-cart no-mg-bottom">
     <ion-item-sliding no-padding class="item-cart">

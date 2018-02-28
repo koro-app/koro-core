@@ -31,6 +31,9 @@ var ItemListCollectionPage = /** @class */ (function () {
     }
     ItemListCollectionPage.prototype.openCollection = function (collection) {
     };
+    ItemListCollectionPage.prototype.goSearch = function () {
+        this.navCtrl.push('ItemSearchPage');
+    };
     ItemListCollectionPage.prototype.ionViewDidLoad = function () {
         console.log('ionViewDidLoad ItemListCollectionPage');
     };

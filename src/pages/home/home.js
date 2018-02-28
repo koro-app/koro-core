@@ -37,8 +37,12 @@ var HomePage = /** @class */ (function () {
     };
     HomePage.prototype.onCancel = function () {
     };
-    HomePage.prototype.onInput = function (ev) {
+    HomePage.prototype.onInput = function (ev, keycode) {
         var val = ev.target.value;
+        console.log('keycode', keycode);
+        if (keycode == 13) {
+            this.navCtrl.push('ItemSearchPage', { value: val });
+        }
     };
     HomePage.prototype.shouldShowCancel = function () {
     };
