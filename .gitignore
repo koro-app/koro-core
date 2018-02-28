@@ -33,9 +33,7 @@ $RECYCLE.BIN/
 .DS_Store
 Thumbs.db
 UserInterfaceState.xcuserstate
-<<<<<<< HEAD
 
 src/**/*.js
 src/**/*.map
-=======
->>>>>>> parent of 5f4f644... update git irgnore
+
