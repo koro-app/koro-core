@@ -11,7 +11,7 @@
     </ion-title>
     <!-- view all button  -->
     <ion-buttons end>
-      <button ion-button icon-only tappable (tap)="readAll()">
+      <button ion-button icon-only tappable (tap)="readAll()" [ngClass]="{'seen': seenAll}" [disabled]="seenAll">
         <ion-icon name="done-all"></ion-icon>
       </button>
     </ion-buttons>
@@ -20,13 +20,13 @@
 <ion-content>
   <ng-container>
     <ion-list *ngIf=" blogs?.length > 0">
-      <ion-item-sliding *ngFor="let article of blogs">
+      <ion-item-sliding *ngFor="let article of blogs" class="item-article">
         <ion-item tappable (tap)="viewArticle(article)">
-          <ion-thumbnail item-start>
+          <ion-thumbnail item-start class="item-article_img">
             <img src="{{article.image}}">
           </ion-thumbnail>
           <h4>{{article.title}}</h4>
-          <ion-col class="fsize-12" col-8 no-padding>
+          <ion-col class="item-article_date" col-8 no-padding>
             {{article.published_at | date: 'dd/MM/yyyy H:mm'}}
           </ion-col>
           <button ion-button item-end class="read-more" clear>

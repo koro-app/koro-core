@@ -1,0 +1,55 @@
+<!--
+  Generated template for the ItemBarcodePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<!--
+  Generated template for the CodePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar>
+    <ion-title>Quét mã</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <ion-grid>
+    <button ion-button full icon-left (click)="scanCode()" *ngIf="scannedCode" color="soldout">
+      <ion-icon name="qr-scanner"></ion-icon> Quét Mã
+    </button>
+    <ion-card>
+      <ion-card-content>
+        Thông tin mã bạn vừa quét: {{ scannedCode }}
+      </ion-card-content>
+      <ion-row name="collection products">
+        <ion-col col-6 *ngFor="let product of results">
+          <div class="product-item">
+            <div class="product-img">
+              <a text-center tappable (click)="viewProduct(product.handle)">
+            <img [src]="product.featured_image" [alt]="product.title">
+          </a>
+              <div class="product-tags">
+                <div class="tag-saleoff" text-center>{{product.sale}}</div>
+                <!-- if sold out -> class="tag-soldout" -->
+              </div>
+            </div>
+            <div class="product-info">
+              <div class="product-title" text-uppercase tappable (click)="viewProduct(product.handle)">
+                {{product.title}}
+              </div>
+              <div class="product-price" text-center>
+                <span class="current-price">{{product.price_format}}</span>
+                <span class="original-price">
+            <s>{{product.compare_at_price_format}}</s>
+          </span>
+              </div>
+            </div>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-card>
+  </ion-grid>
+</ion-content>

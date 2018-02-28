@@ -51,11 +51,16 @@ var ItemCartPage = /** @class */ (function () {
         if (variant.quantity != 1)
             this.store.dispatch(new cartActions.DecreaseAction(variant));
     };
+    ItemCartPage.prototype.select = function () {
+    };
     ItemCartPage.prototype.remove = function (variant) {
         this.store.dispatch(new cartActions.RemoveAction(variant));
     };
     ItemCartPage.prototype.removeAll = function () {
         this.store.dispatch(new cartActions.RemoveAllAction());
+    };
+    ItemCartPage.prototype.viewProduct = function (handle) {
+        this.navCtrl.push('ItemProductPage', { handle: handle });
     };
     ItemCartPage.prototype.checkout = function () {
         var _this = this;

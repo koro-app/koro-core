@@ -25,11 +25,11 @@
           <ion-label no-margin>
             <ion-row no-padding align-items-center>
               <ion-col col-2 no-padding>
-                <img src="{{variant.image}}" tappable>
+                <img src="{{variant.image}}" tappable (tap)="viewProduct(variant.handle)">
               </ion-col>
               <ion-col col-9 class="infor-item">
                 <ion-row>
-                  <ion-col col-12 class="item-title" tappable>
+                  <ion-col col-12 class="item-title" tappable (tap)="viewProduct(variant.handle)">
                     {{variant.productTitle}}
                   </ion-col>
                 </ion-row>

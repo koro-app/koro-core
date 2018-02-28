@@ -53,7 +53,7 @@ export class ItemProvider {
 
   getArticle(handle) {
     // return this.http.get(`${this.endpoint}/products/${handle}.js`)
-    return this.http.get(`${this.endpoint}/blogs/news/${handle}?view=app.json`)
+    return this.http.get(`${this.endpoint}${handle}?view=app.json`)
     /*
       return {
         title
@@ -75,6 +75,9 @@ export class ItemProvider {
   searchString(string) {
     console.log(`${this.endpoint}/search?&q=filter=((title:product**${string}))&view=app.json`)
     return this.http.get(`${this.endpoint}/search?&q=filter=((title:product**${string}))&view=app.json`)
+  }
+  searchByCode(value: string) {
+    return this.http.get(`${this.endpoint}/search?q=${value}&view=app.json`)
   }
 
 }

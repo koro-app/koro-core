@@ -7,15 +7,40 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Component } from '@angular/core';
+import { Component, Pipe } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { ViewController } from 'ionic-angular/navigation/view-controller';
+import { DomSanitizer } from '@angular/platform-browser';
 /**
  * Generated class for the ItemProductDescriptionPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
+var SafePipe = /** @class */ (function () {
+    function SafePipe(_sanitizer) {
+        this._sanitizer = _sanitizer;
+    }
+    SafePipe.prototype.transform = function (value, type) {
+        if (type === void 0) { type = 'html'; }
+        switch (type) {
+            case 'html': return this._sanitizer.bypassSecurityTrustHtml(value);
+            case 'style': return this._sanitizer.bypassSecurityTrustStyle(value);
+            case 'script': return this._sanitizer.bypassSecurityTrustScript(value);
+            case 'url': return this._sanitizer.bypassSecurityTrustUrl(value);
+            case 'resourceUrl': return this._sanitizer.bypassSecurityTrustResourceUrl(value);
+            default: throw new Error("Err: " + type);
+        }
+    };
+    SafePipe = __decorate([
+        Pipe({
+            name: 'safe'
+        }),
+        __metadata("design:paramtypes", [DomSanitizer])
+    ], SafePipe);
+    return SafePipe;
+}());
+export { SafePipe };
 var ItemProductDescriptionPage = /** @class */ (function () {
     function ItemProductDescriptionPage(navCtrl, navParams, viewCtrl) {
         this.navCtrl = navCtrl;

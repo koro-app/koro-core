@@ -57,12 +57,20 @@ export class ItemCartPage {
     if (variant.quantity != 1) this.store.dispatch(new cartActions.DecreaseAction(variant))
   }
 
+  select(){
+    
+  }
+
   remove(variant) {
     this.store.dispatch(new cartActions.RemoveAction(variant))
   }
 
   removeAll(){
     this.store.dispatch(new cartActions.RemoveAllAction());
+  }
+
+  viewProduct(handle){
+    this.navCtrl.push('ItemProductPage',{handle});
   }
 
   checkout() {

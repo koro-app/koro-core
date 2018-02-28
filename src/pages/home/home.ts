@@ -39,7 +39,7 @@ export class HomePage {
   }
 
   checkout() {
-    this.navCtrl.push('ItemCartPage', {}, {animate: true, direction: 'forward'})
+    this.navCtrl.push('ItemCartPage', {}, {animate: true, direction: 'forward'});
   }
 
   onCancel() {
@@ -58,7 +58,7 @@ export class HomePage {
   }
 
   search() {
-    this.navCtrl.push('ItemSearchPage')
+    this.navCtrl.push('ItemSearchPage');
   }
 
   // get banner
@@ -69,8 +69,12 @@ export class HomePage {
     });
   }
 
+  scanBarCode(){
+    this.navCtrl.push('ItemBarcodePage');
+  }
+
   viewNoti(){
-    this.navCtrl.push('ItemNotificationsPage')
+    this.navCtrl.push('ItemNotificationsPage');
   }
 
 }
