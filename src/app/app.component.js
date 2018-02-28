@@ -44,14 +44,14 @@ var MyApp = /** @class */ (function () {
             //   this.colorPrimary = data.home.color.primary;
             //   this.statusBar.backgroundColorByHexString(this.colorPrimary);
             // });
+            _this.statusBar.styleBlackTranslucent();
             if (_this.platform.is('ios') || _this.platform.is('windows')) {
-                _this.statusBar.styleBlackTranslucent();
-                _this.statusBar.overlaysWebView(false);
-                _this.statusBar.backgroundColorByName('transparent');
+                // this.statusBar.overlaysWebView(false);
+                // this.statusBar.backgroundColorByName('transparent');
             }
             else {
-                _this.statusBar.backgroundColorByHexString("#33000000");
-                _this.statusBar.overlaysWebView(true);
+                // this.statusBar.backgroundColorByHexString("#000000");
+                // this.statusBar.overlaysWebView(true);
             }
             // this.statusBar.backgroundColorByHexString('#000');
             _this.splashScreen.hide();

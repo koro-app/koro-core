@@ -5,8 +5,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { ModalController, PopoverController } from 'ionic-angular';
 import * as cartActions from '../../store/product-cart/product-cart.actions';
-import 'rxjs/add/operator/take'
-
+import 'rxjs/add/operator/take';
 @IonicPage()
 @Component({
   selector: 'page-item-product',
@@ -59,6 +58,28 @@ export class ItemProductPage {
     // }
     // creating options variant
     this.options = this.generateOptions(this.productDetail.options,this.productDetail.variants);
+    this.options = this.options.map(option => {
+      (<any>option.details) = option.details.map(detail => {
+        return {
+          name: detail,
+          disabled: false,
+          checked: false
+        }
+      })
+      /* 
+        return value is: 
+        {
+          name: 'Đường kính',
+          position: '1',
+          details: [{
+            name: 40cm,
+            disabled: false
+          }],
+          selectedDetail: '40cm'
+        }
+      */
+      return option;
+    })
   }
 
   generateOptions(options,variants) {
@@ -81,7 +102,7 @@ export class ItemProductPage {
   }
 
   uniqueArray(arrArg:any[]) {
-    return arrArg.filter((elem, i,arr) => {
+    return arrArg.filter((elem, i, arr) => {
       return arr.indexOf(elem) == i;
     });
   };
@@ -146,6 +167,11 @@ export class ItemProductPage {
   viewProduct(detail){
 
   }
+
+  goSearch(){
+    this.navCtrl.push('ItemSearchPage');
+  }
+
   // hide tabbar on page product
   ionViewWillEnter() {
     if (this.tabBarElement != null) {
