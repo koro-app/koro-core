@@ -24,7 +24,6 @@ export class ItemBarcodePage {
   constructor(
   	public navCtrl: NavController,
   	public navParams: NavParams,
-  	private alertCtrl: AlertController,
   	public itemProvider: ItemProvider,
   	private barcodeScanner: BarcodeScanner
   	) {

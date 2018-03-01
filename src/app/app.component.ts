@@ -1,7 +1,7 @@
 import { UserProvider } from './../providers/user/user';
 import { TabsPage } from './../pages/tabs/tabs';
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform, NavController, App } from 'ionic-angular';
+import { Nav, Platform, App } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { ItemProvider } from '../providers/item/item';

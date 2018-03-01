@@ -1,9 +1,11 @@
 import { ActionReducerMap} from "@ngrx/store";
-import { reducer, initialState } from "./product-cart/product-cart.reducer";
+import { reducer as cartReducer, initialState as initalCart } from "./product-cart/product-cart.reducer";
 
+import { reducer as seenProductReducer, initialState as initialSeenProduct } from "./seen-product/seen-product.reducer";
 
 export const INITIAL_APPLICATION_STATE = {
-    cart: initialState,
+    cart: initalCart,
+    seenProduct: initialSeenProduct
 };
 
 export function getInitialState() {
@@ -11,7 +13,8 @@ export function getInitialState() {
 }
 
 export const reducers: ActionReducerMap<any> = {
-    cart: reducer
+    cart: cartReducer,
+    seenProduct: seenProductReducer
 }
 
 

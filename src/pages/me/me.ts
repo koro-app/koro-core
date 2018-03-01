@@ -1,6 +1,6 @@
 import { UserProvider } from './../../providers/user/user';
 import { ItemProvider } from './../../providers/item/item';
-import { Component, ViewChild, ElementRef, Renderer2, ChangeDetectorRef } from '@angular/core';
+import { Component, Renderer2 } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, Loading } from 'ionic-angular';
 
 @IonicPage()

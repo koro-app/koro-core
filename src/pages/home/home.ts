@@ -2,6 +2,7 @@ import { Store } from '@ngrx/store';
 import { Component, ChangeDetectorRef } from '@angular/core';
 import { NavController, IonicPage, Platform } from 'ionic-angular';
 import * as cartActions from '../../store/product-cart/product-cart.actions'
+import * as seenProductActions from '../../store/seen-product/seen-product.actions'
 import 'rxjs/add/operator/do'
 import { ItemProvider } from '../../providers/item/item';
 
@@ -24,6 +25,7 @@ export class HomePage {
   ) {
     this.getProducts();
     this.getBanner();
+    this.getSeenProducts();
   }
 
   onScroll($event: any){
@@ -32,7 +34,9 @@ export class HomePage {
     this.ref.detectChanges();
   }
  
-
+  getSeenProducts() {
+    this.store.dispatch(new seenProductActions.GetAllSeenAction())
+  }
 
   getProducts() {
     this.store.dispatch(new cartActions.GetProductsAction())

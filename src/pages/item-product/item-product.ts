@@ -1,10 +1,10 @@
 import { Store } from '@ngrx/store';
-import { ItemProductDescriptionPage } from './../item-product-description/item-product-description';
 import { ItemProvider } from './../../providers/item/item';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { ModalController, PopoverController } from 'ionic-angular';
 import * as cartActions from '../../store/product-cart/product-cart.actions';
+import * as seenProductActions from '../../store/seen-product/seen-product.actions';
 import 'rxjs/add/operator/take';
 @IonicPage()
 @Component({
@@ -40,6 +40,7 @@ export class ItemProductPage {
     .take(1)
     .subscribe((data:any) => {
       this.normalize(data);
+      this.store.dispatch(new seenProductActions.AddSeenAction(data.product))
     })
   }
 

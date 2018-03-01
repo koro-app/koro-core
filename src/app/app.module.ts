@@ -15,6 +15,7 @@ import { ProductCartStoreModule } from '../store/product-cart/product-cart.modul
 import { reducers, getInitialState } from '../store/root.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { UserProvider } from '../providers/user/user';
+import { SeenProductStoreModule } from '../store/seen-product/seen-product.module';
 
 export const REDUCERS_TOKEN = new InjectionToken<ActionReducerMap<any>>('Registered Reducers');
 // WORKAROUND HERE 
@@ -42,6 +43,7 @@ Object.assign(REDUCERS_TOKEN, reducers)
     }),
     HttpClientModule,
     ProductCartStoreModule,
+    SeenProductStoreModule,
     TabsPageModule,
     StoreModule.forRoot(
       REDUCERS_TOKEN,
