@@ -7,6 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { ItemCheckoutPage } from './item-checkout';
+import { ThemeableBrowser } from '@ionic-native/themeable-browser';
 var ItemCheckoutPageModule = /** @class */ (function () {
     function ItemCheckoutPageModule() {
     }
@@ -20,6 +21,9 @@ var ItemCheckoutPageModule = /** @class */ (function () {
             ],
             entryComponents: [
                 ItemCheckoutPage
+            ],
+            providers: [
+                ThemeableBrowser
             ]
         })
     ], ItemCheckoutPageModule);

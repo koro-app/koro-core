@@ -167,6 +167,9 @@ var ItemProductPage = /** @class */ (function () {
     ItemProductPage.prototype.goSearch = function () {
         this.navCtrl.push('ItemSearchPage');
     };
+    ItemProductPage.prototype.viewNoti = function () {
+        this.navCtrl.push('ItemNotificationsPage');
+    };
     // hide tabbar on page product
     ItemProductPage.prototype.ionViewWillEnter = function () {
         if (this.tabBarElement != null) {

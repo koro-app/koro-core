@@ -177,6 +177,7 @@ page-home {
 .ion-ios-customicon-home,
 .ion-wp-customicon-home,
 .ion-md-customicon-home,
+.ion-customicon-home,
 .ion-ios-customicon-home-outline,
 .ion-ios-customicon-home-outline 
  {
@@ -198,6 +199,7 @@ page-home {
 .ion-ios-customicon-like,
 .ion-wp-customicon-like,
 .ion-md-customicon-like,
+.ion-customicon-like,
 .ion-ios-customicon-like-outline,
 .ion-ios-customicon-like-outline {
   content: url(../../assets/icon/heart.png);
@@ -205,9 +207,21 @@ page-home {
   height: 24px;
 }
 
+.ion-ios-customicon-news,
+.ion-wp-customicon-news,
+.ion-md-customicon-news,
+.ion-customicon-news,
+.ion-ios-customicon-news-outline,
+.ion-ios-customicon-news-outline {
+  content: url(../../assets/icon/newspaper.png);
+  width: 24px;
+  height: 24px;
+}
+
 .ion-ios-customicon-cart,
 .ion-ios-customicon-cart-outline,
 .ion-md-customicon-cart,
+.ion-customicon-cart,
 .ion-wp-customicon-cart,
 .ion-ios-customicon-cart-outline {
   content: url(../../assets/icon/shopping-cart-empty-side-view.png);
@@ -218,6 +232,7 @@ page-home {
 .ion-ios-customicon-contact,
 .ion-wp-customicon-contact,
 .ion-md-customicon-contact,
+.ion-customicon-contact,
 .ion-ios-customicon-contact-outline,
 .ion-ios-customicon-contact-outline  {
   content: url(../../assets/icon/profile.png);

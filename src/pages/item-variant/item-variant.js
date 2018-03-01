@@ -219,6 +219,7 @@ var ItemVariantPage = /** @class */ (function () {
                                     this.options[j].details[z].disabled = false;
                                     this.options[j].details[z].checked = true;
                                     this.titleOptionSelected = this.options[j].details[z].name;
+                                    this.options[j].selectedDetail = this.options[j].details[z].name;
                                 }
                                 else {
                                     if (this.options[j].details[z].checked == false) {

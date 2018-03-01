@@ -35,6 +35,10 @@ export class ItemListCollectionPage {
     this.navCtrl.push('ItemSearchPage');
   }
 
+  viewNoti(){
+    this.navCtrl.push('ItemNotificationsPage');
+  }
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad ItemListCollectionPage');
   }

@@ -65,7 +65,7 @@
               </ion-col>
             </ion-row>
           </ion-label>
-          <ion-checkbox checked="true" tappable class="check-item" #itemLineCheck></ion-checkbox>
+          <ion-checkbox [checked]="variant.selected" [(ngModel)]="variant.selected" tappable (tap)="selectItem(i,variant.selected)" class="check-item" #itemLineCheck></ion-checkbox>
         </ion-item>
       </ion-item-sliding>
     </ion-list>
@@ -90,7 +90,7 @@
             <ion-label no-margin class="fsize-12 novflow">
               Chọn tất cả
             </ion-label>
-            <ion-checkbox color="royal" class="check-all" tappable></ion-checkbox>
+            <ion-checkbox [checked]="isSelectedAll" [(ngModel)]="isSelectedAll" class="check-all" tappable (tap)="selectAllItems(!isSelectedAll)"></ion-checkbox>
           </ion-item>
         </ion-list>
       </ion-col>
@@ -104,9 +104,9 @@
   <ion-grid no-padding>
     <ion-row>
       <ion-col col-12>
-        <div class="btn-checkout" text-uppercase tappable (tap)="checkout()">
+        <button class="btn-checkout" color="saleoff" text-uppercase tappable (tap)="checkout()" [disabled]="clicked" ion-button full>
           Tiến hành thanh toán
-        </div>
+        </button>
       </ion-col>
     </ion-row>
   </ion-grid>

@@ -125,6 +125,9 @@ var ItemCollectionPage = /** @class */ (function () {
         });
         toast.present();
     };
+    ItemCollectionPage.prototype.viewNoti = function () {
+        this.navCtrl.push('ItemNotificationsPage');
+    };
     ItemCollectionPage = __decorate([
         IonicPage(),
         Component({

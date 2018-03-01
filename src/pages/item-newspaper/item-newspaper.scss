@@ -1,0 +1,50 @@
+page-item-newspaper {
+  // back btn
+  .back-button {
+    margin: 0;
+    padding-left: 0;
+    min-width: 33px !important;
+    display: block;
+  }
+  ion-buttons button {
+    opacity: 1 !important;
+    font-size: 18px !important;
+    ion-icon {
+      font-size: 20px !important;
+    }
+    &.seen {
+      opacity: 0.5 !important;
+    }
+  }
+  .item-article {
+    padding: 5px 0;
+    &:first-child {
+      padding-top: 10px;
+    }
+    .item-article_img,
+    ion-label {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+    h4 {
+      font-size: 12px;
+      overflow: hidden;
+      text-overflow: ellipsis !important;
+      display: -webkit-box !important;
+      line-height: 16px !important;
+      max-height: 32px !important;
+      -webkit-line-clamp: 2 !important;
+      -webkit-box-orient: vertical !important;
+      white-space: normal !important;
+      min-height: 32px !important;
+    }
+    .item-article_date {
+      font-size: 11px;
+      color: #9a9a9a;
+    }
+    .read-more {
+      font-size: 9px;
+      color: color($colors, black);
+    }
+  }
+}

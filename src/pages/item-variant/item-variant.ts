@@ -231,6 +231,7 @@ export class ItemVariantPage {
   				  			this.options[j].details[z].disabled = false;
   				  			this.options[j].details[z].checked = true;
   				  			this.titleOptionSelected = this.options[j].details[z].name;
+                  this.options[j].selectedDetail = this.options[j].details[z].name;
   		  				}else{
   		  					if (this.options[j].details[z].checked == false) {
   		  						this.options[j].details[z].disabled = true;

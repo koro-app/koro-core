@@ -136,4 +136,8 @@ export class ItemCollectionPage {
     toast.present();
   }
 
+  viewNoti(){
+    this.navCtrl.push('ItemNotificationsPage');
+  }
+
 }

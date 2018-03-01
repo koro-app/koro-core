@@ -13,8 +13,9 @@ export class TabsPage {
   @ViewChild('myTabs') tabRef: Tabs;
   tab1Root = 'HomePage';
   tab2Root = 'ItemListCollectionPage';
-  tab3Root = 'ItemCartPage';
-  tab4Root = 'MePage';
+  tab3Root = 'ItemNewspaperPage';
+  tab4Root = 'ItemCartPage';
+  tab5Root = 'MePage';
   selectedIndex: number = 0;
   // tab3Root = 'SidePage';
   productNumber: Observable<any>;

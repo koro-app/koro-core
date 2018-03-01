@@ -4,7 +4,7 @@ import { ItemProvider } from '../../providers/item/item';
 import { Storage } from '@ionic/storage';
 
 /**
- * Generated class for the ItemNotificationsPage page.
+ * Generated class for the ItemNewspaperPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
@@ -12,20 +12,20 @@ import { Storage } from '@ionic/storage';
 
 @IonicPage()
 @Component({
-  selector: 'page-item-notifications',
-  templateUrl: 'item-notifications.html',
+  selector: 'page-item-newspaper',
+  templateUrl: 'item-newspaper.html',
 })
-export class ItemNotificationsPage {
+export class ItemNewspaperPage {
   blogs;
   total_counts = 0;
   seenAll = false;
+
   constructor(
   	public navCtrl: NavController,
   	public navParams: NavParams,
   	public itemProvider: ItemProvider,
-  	private storage: Storage
-  	) {
-  	this.getBlog();
+  	private storage: Storage) {
+	this.getBlog();
   }
 
   getBlog(){
@@ -76,7 +76,7 @@ export class ItemNotificationsPage {
   viewArticle(article){
   	article.seen = true;
     if(typeof article.url !== undefined && article.url !== ""){
-      this.navCtrl.push('ItemNotificationsDetailPage', {
+      this.navCtrl.push('ItemNewspaperDetailPage', {
         url: article.url
       });
       this.storage.get('articleseen').then((articleseen)=>{
@@ -99,7 +99,7 @@ export class ItemNotificationsPage {
   }
 
   ionViewDidLoad() {
-    // console.log('ionViewDidLoad ItemNotificationsPage');
+    // console.log('ionViewDidLoad ItemNewspaperPage');
   }
 
 }

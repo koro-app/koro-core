@@ -180,6 +180,10 @@ export class ItemProductPage {
     this.navCtrl.push('ItemSearchPage');
   }
 
+  viewNoti(){
+    this.navCtrl.push('ItemNotificationsPage');
+  }
+
   // hide tabbar on page product
   ionViewWillEnter() {
     if (this.tabBarElement != null) {
