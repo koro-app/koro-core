@@ -15,9 +15,9 @@
       <ion-col col-8>
         <div class="variant_price">
           {{variants[selectedIndex].price_format}}
-          <del class="variant_compare-price">{{variants[selectedIndex].compare_at_price_format}}</del>
+          <del class="variant_compare-price" *ngIf="variants[selectedIndex].compare_at_price_format != '0₫'">{{variants[selectedIndex].compare_at_price_format}}</del>
           <div class="variant_stock" *ngIf="variants[selectedIndex].inventory_quantity != 0">Còn hàng</div>
-          <div class="variant_stock" *ngIf="variants[selectedIndex].inventory_quantity == 0">Hết hàng</div>
+          <div class="variant_stock" *ngIf="variants[selectedIndex].inventory_quantity == 0">Hết</div>
         </div>
       </ion-col>
     </ion-row>
@@ -73,7 +73,7 @@
       </ion-col>
       <!-- <ion-col col-12 *ngIf="variantQuantity == 0">
         <div class="bt-f-right" text-uppercase>
-          Hết hàng
+          Hết
         </div>
       </ion-col> -->
     </ion-row>

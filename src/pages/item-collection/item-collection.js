@@ -99,11 +99,29 @@ var ItemCollectionPage = /** @class */ (function () {
     };
     ItemCollectionPage.prototype.changeFilter = function (filter) {
         var _this = this;
-        if (filter == "0:max")
-            this.getProducts();
+        if (filter.indexOf(':') != -1) {
+            if (filter == "0:max")
+                this.getProducts();
+            else {
+                var loading_1 = this.startLoading();
+                this.itemProvider.searchRange(this.navParams.get('id'), filter.split(":")[0], filter.split(":")[1])
+                    .take(1)
+                    .subscribe(function (data) {
+                    data.products.map(function (product) {
+                        if (product.featured_image.startsWith('//')) {
+                            product['featured_image'] = 'https:' + product.featured_image;
+                        }
+                        return product;
+                    });
+                    _this.products = data.products;
+                    _this.paginate = data.paginate;
+                    loading_1.dismiss();
+                });
+            }
+        }
         else {
-            var loading_1 = this.startLoading();
-            this.itemProvider.searchRange(this.navParams.get('id'), filter.split(":")[0], filter.split(":")[1])
+            var loading_2 = this.startLoading();
+            this.itemProvider.getProductsSortBy(this.navParams.get('handle'), filter)
                 .take(1)
                 .subscribe(function (data) {
                 data.products.map(function (product) {
@@ -114,7 +132,7 @@ var ItemCollectionPage = /** @class */ (function () {
                 });
                 _this.products = data.products;
                 _this.paginate = data.paginate;
-                loading_1.dismiss();
+                loading_2.dismiss();
             });
         }
     };

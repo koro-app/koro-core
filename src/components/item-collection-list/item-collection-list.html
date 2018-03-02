@@ -7,8 +7,8 @@
             <img [src]="product.featured_image" [alt]="product.title">
           </a>
           <div class="product-tags">
-            <div class="tag-saleoff" text-center>{{product.sale}}</div>
-            <!-- if sold out -> class="tag-soldout" -->
+            <div class="tag-saleoff" text-center *ngIf="product.available && product.sale != '-0%'">{{product.sale}}</div>
+            <div class="tag-soldout" text-center *ngIf="!product.available">Hết</div>
           </div>
         </div>
         <div class="product-info">
@@ -17,7 +17,7 @@
           </div>
           <div class="product-price" text-center>
             <span class="current-price">{{product.price_format}}</span>
-            <span class="original-price">
+            <span class="original-price" *ngIf="product.compare_at_price_format != '0₫'">
             <s>{{product.compare_at_price_format}}</s>
           </span>
           </div>

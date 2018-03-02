@@ -9,21 +9,23 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { ItemProvider } from './../../providers/item/item';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { Store } from '@ngrx/store';
 import * as cartActions from '../../store/product-cart/product-cart.actions';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/take';
 var ItemCartPage = /** @class */ (function () {
-    function ItemCartPage(navCtrl, navParams, store, itemProvider) {
+    function ItemCartPage(navCtrl, navParams, modalCtrl, store, itemProvider) {
         this.navCtrl = navCtrl;
         this.navParams = navParams;
+        this.modalCtrl = modalCtrl;
         this.store = store;
         this.itemProvider = itemProvider;
         this.gross = 0;
         this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
         this.isSelectedAll = true;
         this.clicked = false;
+        this.selectedAllClick = false;
         this.setVariants();
     }
     ItemCartPage.prototype.dismiss = function () {
@@ -36,11 +38,14 @@ var ItemCartPage = /** @class */ (function () {
             .do(function (variants) {
             _this.gross = 0;
             variants.map(function (variant) {
-                _this.gross += variant.price * variant.quantity;
+                if (variant.selected == true) {
+                    _this.gross += variant.price * variant.quantity;
+                }
             });
         })
             .do(function (variants) {
             console.log('variants', variants);
+            _this.itemsCart = variants;
         });
     };
     ItemCartPage.prototype.ionViewDidLoad = function () {
@@ -68,49 +73,82 @@ var ItemCartPage = /** @class */ (function () {
     ItemCartPage.prototype.selectAllItems = function (isSelectedAll) {
         isSelectedAll = isSelectedAll;
         if (isSelectedAll) {
-            // this.itemCarts.forEach(item => {
-            //   item.selected = true;
-            // });
-            // this.clicked = false;
+            this.itemsCart.forEach(function (item) {
+                item.selected = true;
+            });
+            this.clicked = false;
         }
         else {
-            // this.itemCarts.forEach(item => {
-            //   item.selected = false;
-            // });
+            this.itemsCart.forEach(function (item) {
+                item.selected = false;
+            });
+            this.clicked = true;
         }
-        this.disableCheckout();
+        /*
+        // ok with ionChange
+        this.selectedAllClick = true;
+        setTimeout(() => this.store.dispatch(new cartActions.SelectedAllAction(isSelectedAll)));
+        */
+    };
+    ItemCartPage.prototype.selectItem = function (isSelected, index) {
+        console.log('isSelected first', isSelected, index);
+        isSelected = !isSelected;
+        // this.storage.get('itemCarts').then((data) => {
+        //   this.storage.set('itemCarts', this.itemCarts);
+        // });
+        // this.itemsCart[index].selected = isSelected;
+        console.log('isSelected after', isSelected, index);
+        console.log('items', this.itemsCart);
+        // setTimeout(()=>{
+        if (isSelected == false) {
+            this.isSelectedAll = false;
+            this.disableCheckout();
+        }
+        else {
+            this.isSelectedAll = true;
+            for (var i = 0; i <= this.itemsCart.length - 1; i++) {
+                if (index !== i) {
+                    if (this.itemsCart[i].selected == false) {
+                        this.isSelectedAll = false;
+                        break;
+                    }
+                }
+            }
+        }
+        // }, 300)
+        /*
+        // ok with ionChange
+        if (this.selectedAllClick == false) {
+          this.selectedAllClick = false;
+          setTimeout(() => this.store.dispatch(new cartActions.SelectedAction(variant)));
+        }
+        */
     };
     // check disable btn checkout?
     ItemCartPage.prototype.disableCheckout = function () {
         var countUncheck = 0;
-        // for (var i = 0; i <= this.variants.length - 1; i++) {
-        //   if (this.variants[i].selected == false) {
-        //     countUncheck++;
-        //   }
-        // }
+        for (var i = 0; i <= this.itemsCart.length - 1; i++) {
+            if (this.itemsCart[i].selected == false) {
+                countUncheck++;
+            }
+        }
         // ko co sp nao dc chon thi disable btn checkout
-        // if (countUncheck == this.itemCarts.length) {
-        //   this.clicked = true;
-        // }else{
-        //   this.clicked = false;
-        // }
+        if (countUncheck == this.itemsCart.length) {
+            this.clicked = true;
+        }
+        else {
+            this.clicked = false;
+        }
+    };
+    ItemCartPage.prototype.addNote = function () {
+        var modal = this.modalCtrl.create('ItemCartNotePage');
+        modal.present();
     };
     ItemCartPage.prototype.checkout = function () {
         var _this = this;
+        // this.setNewCartsWhenCheckoutSuccess();
         this.variants.map(function (variants) { return variants.map(function (variant) {
             // variant =>variant.id+':'+variant.quantity)
-            //   (variant) => {
-            //     if (variant.selected == true) {
-            //     return
-            //       {
-            //         "variant_id"+':'+variant.id,
-            //         "title"+':'+variant.productTitle,
-            //         "vendor"+':'+variant.productTitle,
-            //         "quantity"+':'+variant.quantity
-            //       }
-            //     }
-            //     console.log('')
-            //   }
             if (variant.selected == true) {
                 return {
                     variant_id: variant.id,
@@ -130,6 +168,9 @@ var ItemCartPage = /** @class */ (function () {
         // .subscribe((variants:string) =>{
         //   this.navCtrl.push('ItemCheckoutPage',{variants})
         // })
+    };
+    ItemCartPage.prototype.setNewCartsWhenCheckoutSuccess = function () {
+        this.store.dispatch(new cartActions.SetNewCart(this.itemsCart));
     };
     // hide tabbartabroot cart
     ItemCartPage.prototype.ionViewWillEnter = function () {
@@ -151,6 +192,7 @@ var ItemCartPage = /** @class */ (function () {
         }),
         __metadata("design:paramtypes", [NavController,
             NavParams,
+            ModalController,
             Store,
             ItemProvider])
     ], ItemCartPage);

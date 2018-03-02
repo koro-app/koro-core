@@ -1,17 +1,32 @@
 <!-- <ion-item>
   <ion-label>Khoảng giá</ion-label>
-  <ion-select [(ngModel)]="priceRange" (ionChange)="filterEvent.emit($event)">
+  <ion-select #selector [(ngModel)]="priceRange" (ionChange)="filterEvent.emit($event)">
     <ion-option [value]="price.range" [selected]="price.selected" *ngFor="let price of priceList">{{price.name}}</ion-option>
   </ion-select>
 </ion-item> -->
 <ion-grid class="filter-collection">
   <ion-row>
-    <ion-col col-6 class="sort-by" tappable (click)="selectFilter()">
-      <i class="fas fa-filter"></i> Bộ lọc
-      <!-- <ion-icon name="funnel"></ion-icon> Bộ lọc -->
+    <ion-col col-6 class="sort-by">
+      <ion-select interface="popover" [selectOptions]="sortBy" [(ngModel)]="filterRange" (ionChange)="filterEvent.emit($event)">
+        <ion-option [value]="price.range" [selected]="price.selected" (ionSelect)="turnOffSort()" *ngFor="let price of filterList">{{price.name}}</ion-option>
+      </ion-select>
+      <div class="icon-custom"><i class="fas fa-filter"></i></div>
+    </ion-col>
+    <ion-col col-6 class="sort-by">
+      <ion-select interface="popover" [selectOptions]="sortBy" [(ngModel)]="sortRange" (ionChange)="filterEvent.emit($event)">
+        <ion-option [value]="price.range" [selected]="price.selected" (ionSelect)="turnOffFilter()" *ngFor="let price of sortList">{{price.name}}</ion-option>
+      </ion-select>
+      <div class="icon-custom"><i class="fas fa-sort"></i></div>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+<!-- <ion-grid class="filter-collection">
+  <ion-row>
+    <ion-col col-6 class="sort-by" tappable (click)="selectFilter(selector)">
+      <i class="fas fa-filter"></i>  Bộ lọc
     </ion-col>
     <ion-col col-6 class="sort-by">
       <i class="fas fa-sort"></i> Sắp xếp theo:
     </ion-col>
   </ion-row>
-</ion-grid>
+</ion-grid> -->

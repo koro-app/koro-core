@@ -108,10 +108,27 @@ export class ItemCollectionPage {
   }
 
   changeFilter(filter:string) {
-    if (filter == "0:max") this.getProducts()
-    else {
+    if (filter.indexOf(':') != -1) {
+      if (filter == "0:max") this.getProducts()
+      else {
+        let loading = this.startLoading();
+        this.itemProvider.searchRange(this.navParams.get('id'),filter.split(":")[0],filter.split(":")[1])
+        .take(1)
+        .subscribe((data:{products:any[],paginate:any}) => {
+          data.products.map((product) => {
+            if ((<string>product.featured_image).startsWith('//')) {
+              product['featured_image'] = 'https:' + product.featured_image;
+            }
+            return product;
+          })
+          this.products = data.products;
+          this.paginate = data.paginate;
+          loading.dismiss();
+        })
+      }
+    }else{
       let loading = this.startLoading();
-      this.itemProvider.searchRange(this.navParams.get('id'),filter.split(":")[0],filter.split(":")[1])
+      this.itemProvider.getProductsSortBy(this.navParams.get('handle'),filter)
       .take(1)
       .subscribe((data:{products:any[],paginate:any}) => {
         data.products.map((product) => {

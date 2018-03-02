@@ -1,5 +1,4 @@
 import { Component, Output, EventEmitter } from '@angular/core';
-// import { Select } from 'ionic-angular';
 
 /**
  * Generated class for the ItemCollectionFilterComponent component.
@@ -12,9 +11,9 @@ import { Component, Output, EventEmitter } from '@angular/core';
   templateUrl: 'item-collection-filter.html'
 })
 export class ItemCollectionFilterComponent {
-  priceList = [
+  filterList = [
     {
-      name:'Tất cả',
+      name:'Bộ lọc',
       range:'0:max',
       selected: true
     },
@@ -43,31 +42,75 @@ export class ItemCollectionFilterComponent {
       range:'1000000:1500000',
       selected: false
     },
-    
     {
       name:'Lớn hơn 1,500,000₫',
-      range:'1500000:999999999999',
+      range:'1500000:9999999999999',
       selected: false
     }
   ]
-  priceRange: any;
-
+  sortList = [
+    {
+      name:'Sắp xếp theo',
+      range:'auto',
+      selected: true
+    },
+    {
+      name:'Mới nhất',
+      range:'created-descending',
+      selected: false
+    },
+    {
+      name:'Tùy chọn',
+      range:'manual',
+      selected: false
+    },
+    {
+      name:'Cũ nhất',
+      range:'created-ascending',
+      selected: false
+    },
+    {
+      name:'Giá từ thấp tới cao',
+      range:'price-ascending',
+      selected: false
+    },
+    {
+      name:'Giá từ cao tới thấp',
+      range:'price-descending',
+      selected: false
+    },
+    {
+      name:'Theo bảng chữ cái từ A-Z',
+      range:'title-ascending',
+      selected: false
+    },
+    {
+      name:'Theo bảng chữ cái từ Z-A',
+      range:'title-descending',
+      selected: false
+    },
+    {
+      name:'Sản phẩm bán chạy',
+      range:'best-selling',
+      selected: false
+    }
+  ]
+  sortRange: any;
+  filterRange: any;
   @Output() filterEvent: EventEmitter<any> = new EventEmitter();
-    settings: any = {
-      title: 'Pizza Toppings',
-      subTitle: 'Select your toppings',
-      mode: 'md'
-    };
-  constructor(
-    // public select: Select
-  ) {
-    
+  sortBy = {
+    cssClass: 'sort-and-filter',
   }
-
-  // 
-  // selectFilter(){
-  //   this.select.options = this.settings
-  //   this.select.open();
-  // }
+  constructor(
+  ) {
+  }
+  turnOffSort(){
+    this.sortRange = 'auto';
+    console.log('this.sortRange',this.sortRange);
+  }
+  turnOffFilter(){
+    this.filterRange = '0:max';
+    console.log('this.filterRange',this.filterRange);
+  }
 
 }

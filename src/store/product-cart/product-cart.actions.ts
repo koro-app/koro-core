@@ -91,6 +91,33 @@ export class DecreaseFailAction implements Action {
   constructor(public payload: any) { }
 }
 
+// SELECTED PRODUCT
+
+export const SELECTED =                 '[Product Cart] Selected';
+
+export class SelectedAction implements Action {
+  readonly type = SELECTED;
+  constructor(public payload: any,public value: boolean) { }
+}
+
+// SET NEW PRODUCT
+
+export const SET_NEW_CART =                 '[Product Cart] Set new cart';
+
+export class SetNewCart implements Action {
+  readonly type = SET_NEW_CART;
+  constructor(public payload: any) { }
+}
+
+// SELECTED All PRODUCT
+
+export const SELECTED_ALL =                 '[Product Cart] Selected All';
+
+export class SelectedAllAction implements Action {
+  readonly type = SELECTED_ALL;
+  constructor(public payload: boolean) { }
+}
+
 // REMOVE PRODUCT
 
 export const REMOVE =                 '[Product Cart] Remove';
@@ -130,12 +157,15 @@ export type Actions =
   | AddAction
   | AddSuccessAction
   | AddFailAction
+  | SetNewCart
   | IncreaseAction
   | IncreaseSuccessAction
   | IncreaseFailAction
   | DecreaseAction
   | DecreaseSuccessAction
   | DecreaseFailAction
+  | SelectedAction
+  | SelectedAllAction
   | RemoveAction
   | RemoveSuccessAction
   | RemoveFailAction

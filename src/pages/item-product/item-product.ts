@@ -1,7 +1,7 @@
 import { Store } from '@ngrx/store';
 import { ItemProvider } from './../../providers/item/item';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, LoadingController } from 'ionic-angular';
 import { ModalController, PopoverController } from 'ionic-angular';
 import * as cartActions from '../../store/product-cart/product-cart.actions';
 import * as seenProductActions from '../../store/seen-product/seen-product.actions';
@@ -21,6 +21,7 @@ export class ItemProductPage {
     selectedDetail: string
   }[];
   tabBarElement: any = document.querySelector('.tabbar.show-tabbar');
+  seenProducts;
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams, 
@@ -28,11 +29,21 @@ export class ItemProductPage {
     public modalCtrl: ModalController,
     public store: Store<any>,
     public toastCtrl: ToastController,
-    public popoverCtrl: PopoverController
+    public popoverCtrl: PopoverController,
+    public loadingCtrl: LoadingController
   ) {
     this.getProduct();
+    this.getSeenProduct();
   }
 
+  startLoading() {
+    // start loading
+    let loading = this.loadingCtrl.create({
+      content: 'Đang tải dữ liệu...'
+    });
+    loading.present();
+    return loading;
+  }
 
   getProduct() {
     this.itemProvider
@@ -41,6 +52,14 @@ export class ItemProductPage {
     .subscribe((data:any) => {
       this.normalize(data);
       this.store.dispatch(new seenProductActions.AddSeenAction(data.product))
+    })
+  }
+
+  getSeenProduct(){
+    this.seenProducts = this.store.select('seenProduct', 'entities')
+    .map(products => Object.keys(products || {}).map(key => products[key]))
+    .do((products) => {
+      console.log('products', products);
     })
   }
 
@@ -172,12 +191,23 @@ export class ItemProductPage {
   }
 
   // view product
-  viewProduct(detail){
-
+  viewProduct(handle){
+    this.navCtrl.push('ItemProductPage',{handle});
   }
 
   goSearch(){
     this.navCtrl.push('ItemSearchPage');
+  }
+
+  goCollection(handle, title){
+    this.navCtrl.push('ItemCollectionPage',{
+      handle: handle,
+      title: title
+    });
+  }
+
+  goSeenProduct(){
+    this.navCtrl.push('ItemSeenProductPage');
   }
 
   viewNoti(){

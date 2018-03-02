@@ -67,6 +67,18 @@ export class ProductCartService {
     .mergeMap(() =>Observable.of(product))
   }
 
+  selectedItemCart(product) : Observable<any> {
+    this.cart = {
+      ...this.cart,
+      [product.id]: {
+        ...this.cart[product.id],
+        selected: !this.cart[product.id].selected
+      }
+    }
+    return Observable.from(this.checkPoint())
+    .mergeMap(() =>Observable.of(product))
+  }
+
   checkPoint() {
     // console.log('cart to save',this.cart)
     return this.storage.ready().then(() => this.storage.set('cart',this.cart))

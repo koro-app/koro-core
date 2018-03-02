@@ -44,9 +44,10 @@
       <ion-col col-12>
         <p class="item-title" no-margin text-uppercase>{{productDetail.title}}</p>
         <div class="item-price">
-          <span class="current-price">{{productDetail.price_format}}₫</span>
-          <span class="original-price"><s>{{productDetail.compare_at_price_format}}₫</s></span>
-          <span class="sale"> {{ productDetail.sale }}</span>
+          <span class="current-price">{{productDetail.price_format}}</span>
+          <span class="original-price" *ngIf="productDetail.compare_at_price_format != '0₫'"><s>{{productDetail.compare_at_price_format}}</s></span>
+          <span class="sale" *ngIf="productDetail.available && productDetail.sale != '-0%'">{{ productDetail.sale }}</span>
+          <span class="sold-out" *ngIf="!productDetail.available">Hết</span>
         </div>
       </ion-col>
       <ion-col col-12 class="no-pd-top">
@@ -155,35 +156,38 @@
         <div class="text-title" text-uppercase>
           Sản phẩm liên quan
         </div>
-        <div class="icon-title">
+        <div class="icon-title" tappable (click)="goCollection(product.related_handle, product.related_title)">
           <i class="fas fa-angle-right"></i>
         </div>
       </ion-col>
     </ion-row>
     <ion-row class="list-products">
-      <ion-col class="product-lineitem" col-6 col-md-3 col-lg-3 col-xl-4 *ngFor="let related of product.related_products">
-        <div class="product-item">
-          <div class="product-img">
-            <a text-center tappable (click)="viewProduct(related)">
-              <img [src]="related.featured_image" [alt]="related.title">
-            </a>
-            <div class="product-tags">
-              <div class="tag-saleoff" text-center>{{related.sale}}</div>
+      <ng-container *ngFor="let related of product.related_products; let i=index">
+        <ion-col class="product-lineitem" col-6 col-md-3 col-lg-3 col-xl-4 *ngIf="i<3">
+          <div class="product-item">
+            <div class="product-img">
+              <a text-center tappable (click)="viewProduct(related.handle)">
+                <img [src]="related.featured_image" [alt]="related.title">
+              </a>
+              <div class="product-tags">
+                <div class="tag-saleoff" text-center *ngIf="related.available && related.sale != '-0%'">{{related.sale}}</div>
+              <div class="tag-soldout" text-center *ngIf="!related.available">Hết</div>
+              </div>
+            </div>
+            <div class="product-info">
+              <div class="product-title" text-uppercase tappable (click)="viewProduct(related.handle)">
+                {{related.title}}
+              </div>
+              <div class="product-price" text-center>
+                <span class="current-price">{{related.price_format}}</span>
+                <span class="original-price" *ngIf="related.compare_at_price_format != '0₫'">
+                <s>{{related.compare_at_price_format}}</s>
+              </span>
+              </div>
             </div>
           </div>
-          <div class="product-info">
-            <div class="product-title" text-uppercase tappable (click)="viewProduct(related)">
-              {{related.title}}
-            </div>
-            <div class="product-price" text-center>
-              <span class="current-price">{{related.price_format}}</span>
-              <span class="original-price">
-              <s>{{related.compare_at_price_format}}</s>
-            </span>
-            </div>
-          </div>
-        </div>
-      </ion-col>
+        </ion-col>
+      </ng-container>
     </ion-row>
   </ion-grid>
 
@@ -194,35 +198,38 @@
         <div class="text-title" text-uppercase>
           Sản phẩm đã xem
         </div>
-        <div class="icon-title">
+        <div class="icon-title" tappable (click)="goSeenProduct()">
           <i class="fas fa-angle-right"></i>
         </div>
       </ion-col>
     </ion-row>
-    <ion-row class="list-products">
-      <ion-col class="product-lineitem" col-6 col-md-3 col-lg-3 col-xl-4 *ngFor="let seen of product.related_products">
-        <div class="product-item">
-          <div class="product-img">
-            <a text-center tappable (click)="viewProduct(seen)">
-              <img [src]="seen.featured_image" [alt]="seen.title">
-            </a>
-            <div class="product-tags">
-              <div class="tag-saleoff" text-center>{{seen.sale}}</div>
+    <ion-row class="list-products" *ngIf="seenProducts | async; let seenProducts">
+      <ng-container  *ngFor="let seen of seenProducts; let i=index">
+        <ion-col class="product-lineitem" col-6 col-md-3 col-lg-3 col-xl-4 *ngIf="i<3">
+          <div class="product-item">
+            <div class="product-img">
+              <a text-center tappable (click)="viewProduct(seen.handle)">
+                <img [src]="seen.images[0]" [alt]="seen.title">
+              </a>
+              <div class="product-tags">
+                <div class="tag-saleoff" text-center *ngIf="seen.available && seen.sale != '-0%'">{{seen.sale}}</div>
+                <div class="tag-soldout" text-center *ngIf="!seen.available">Hết</div>
+              </div>
+            </div>
+            <div class="product-info">
+              <div class="product-title" text-uppercase tappable (click)="viewProduct(seen.handle)">
+                {{seen.title}}
+              </div>
+              <div class="product-price" text-center>
+                <span class="current-price">{{seen.price_format}}</span>
+                <span class="original-price" *ngIf="seen.compare_at_price_format != '0₫'">
+                <s>{{seen.compare_at_price_format}}</s>
+              </span>
+              </div>
             </div>
           </div>
-          <div class="product-info">
-            <div class="product-title" text-uppercase tappable (click)="viewProduct(seen)">
-              {{seen.title}}
-            </div>
-            <div class="product-price" text-center>
-              <span class="current-price">{{seen.price_format}}</span>
-              <span class="original-price">
-              <s>{{seen.compare_at_price_format}}</s>
-            </span>
-            </div>
-          </div>
-        </div>
-      </ion-col>
+        </ion-col>
+      </ng-container>
     </ion-row>
   </ion-grid>
 

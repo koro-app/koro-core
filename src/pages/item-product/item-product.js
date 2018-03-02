@@ -18,12 +18,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { Store } from '@ngrx/store';
 import { ItemProvider } from './../../providers/item/item';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, LoadingController } from 'ionic-angular';
 import { ModalController, PopoverController } from 'ionic-angular';
 import * as cartActions from '../../store/product-cart/product-cart.actions';
+import * as seenProductActions from '../../store/seen-product/seen-product.actions';
 import 'rxjs/add/operator/take';
 var ItemProductPage = /** @class */ (function () {
-    function ItemProductPage(navCtrl, navParams, itemProvider, modalCtrl, store, toastCtrl, popoverCtrl) {
+    function ItemProductPage(navCtrl, navParams, itemProvider, modalCtrl, store, toastCtrl, popoverCtrl, loadingCtrl) {
         this.navCtrl = navCtrl;
         this.navParams = navParams;
         this.itemProvider = itemProvider;
@@ -31,9 +32,19 @@ var ItemProductPage = /** @class */ (function () {
         this.store = store;
         this.toastCtrl = toastCtrl;
         this.popoverCtrl = popoverCtrl;
+        this.loadingCtrl = loadingCtrl;
         this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
         this.getProduct();
+        this.getSeenProduct();
     }
+    ItemProductPage.prototype.startLoading = function () {
+        // start loading
+        var loading = this.loadingCtrl.create({
+            content: 'Đang tải dữ liệu...'
+        });
+        loading.present();
+        return loading;
+    };
     ItemProductPage.prototype.getProduct = function () {
         var _this = this;
         this.itemProvider
@@ -41,6 +52,14 @@ var ItemProductPage = /** @class */ (function () {
             .take(1)
             .subscribe(function (data) {
             _this.normalize(data);
+            _this.store.dispatch(new seenProductActions.AddSeenAction(data.product));
+        });
+    };
+    ItemProductPage.prototype.getSeenProduct = function () {
+        this.seenProducts = this.store.select('seenProduct', 'entities')
+            .map(function (products) { return Object.keys(products || {}).map(function (key) { return products[key]; }); })
+            .do(function (products) {
+            console.log('products', products);
         });
     };
     ItemProductPage.prototype.normalize = function (data) {
@@ -162,10 +181,20 @@ var ItemProductPage = /** @class */ (function () {
         popover.present();
     };
     // view product
-    ItemProductPage.prototype.viewProduct = function (detail) {
+    ItemProductPage.prototype.viewProduct = function (handle) {
+        this.navCtrl.push('ItemProductPage', { handle: handle });
     };
     ItemProductPage.prototype.goSearch = function () {
         this.navCtrl.push('ItemSearchPage');
+    };
+    ItemProductPage.prototype.goCollection = function (handle, title) {
+        this.navCtrl.push('ItemCollectionPage', {
+            handle: handle,
+            title: title
+        });
+    };
+    ItemProductPage.prototype.goSeenProduct = function () {
+        this.navCtrl.push('ItemSeenProductPage');
     };
     ItemProductPage.prototype.viewNoti = function () {
         this.navCtrl.push('ItemNotificationsPage');
@@ -194,7 +223,8 @@ var ItemProductPage = /** @class */ (function () {
             ModalController,
             Store,
             ToastController,
-            PopoverController])
+            PopoverController,
+            LoadingController])
     ], ItemProductPage);
     return ItemProductPage;
 }());

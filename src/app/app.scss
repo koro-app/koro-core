@@ -255,6 +255,7 @@ page-home {
       overflow: hidden;
       img {
         vertical-align: middle;
+        width: 100%;
       }
     }
     .product-tags {
@@ -315,11 +316,14 @@ page-home {
   }
 }
 
+// popover backdrop
+ion-popover ion-backdrop{
+  opacity: 0.4;
+  background-color: color($colors, black);
+}
+
 // popover view variant
 ion-popover.variant-product {
-  ion-backdrop {
-    opacity: .1;
-  }
   .popover-content {
     bottom: 0 !important;
     left: 0 !important;
@@ -429,6 +433,18 @@ ion-popover.variant-product {
           }
         }
       }
+    }
+  }
+}
+
+// popover sort and filter
+ion-popover.sort-and-filter{
+  ion-item{
+    font-size: 12px !important;
+    min-height: 35px;
+    height: 35px;
+    .item-inner{
+      height: 35px;
     }
   }
 }

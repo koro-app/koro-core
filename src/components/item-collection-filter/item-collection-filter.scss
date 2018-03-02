@@ -1,10 +1,31 @@
 item-collection-filter {
-	.filter-collection{
-	    border-bottom: 1px solid #cdcdcd;
-	    padding: 3px 5px;
-	    .sort-by{
-	    	color: color($colors, black);
-	    	font-size: 11px;
-	    }
-	}
+  .filter-collection {
+    border-bottom: 1px solid #cdcdcd;
+    padding: 3px 5px;
+    .sort-by {
+      color: color($colors, black);
+      font-size: 11px;
+      position: relative;
+      .icon-custom{
+  	    position: absolute;
+	    top: 5px;
+	    margin: auto;
+	    left: 12px;
+      }
+    }
+    ion-select {
+      max-width: 100%;
+      padding: 0px 3px 0px 3px;
+      position: relative;
+      .select-text {
+        padding-left: 20px;
+      }
+      .select-icon {
+        // position: absolute;
+        // left: 0;
+        // top: -2px;
+        display: none !important;
+      }
+    }
+  }
 }

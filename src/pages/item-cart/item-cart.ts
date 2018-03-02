@@ -1,7 +1,7 @@
 
 import { ItemProvider } from './../../providers/item/item';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams} from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController} from 'ionic-angular';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import * as cartActions from '../../store/product-cart/product-cart.actions';
@@ -15,13 +15,16 @@ import 'rxjs/add/operator/take';
 })
 export class ItemCartPage {
   variants: Observable<any>;
+  itemsCart: any[];
   gross: number = 0;
   tabBarElement: any = document.querySelector('.tabbar.show-tabbar');
   isSelectedAll: boolean = true;
   clicked: boolean = false;
+  selectedAllClick: boolean = false;
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
+    public modalCtrl: ModalController,
     public store: Store<any>,
     public itemProvider: ItemProvider
   ) {
@@ -39,11 +42,14 @@ export class ItemCartPage {
     .do((variants:any[]) => {
       this.gross = 0;
       variants.map(variant => {
-        this.gross += variant.price * variant.quantity;
+        if (variant.selected == true) {
+          this.gross += variant.price * variant.quantity;
+        }
       })
     })
     .do((variants) => {
       console.log('variants', variants);
+      this.itemsCart = variants;
     })
   }
 
@@ -64,7 +70,7 @@ export class ItemCartPage {
   }
 
   remove(variant) {
-    this.store.dispatch(new cartActions.RemoveAction(variant))
+    this.store.dispatch(new cartActions.RemoveAction(variant));
   }
 
   removeAll(){
@@ -76,52 +82,87 @@ export class ItemCartPage {
   }
 
   // checked/unchecked khi click btn chọn tất cả
-  selectAllItems(isSelectedAll) {
+  selectAllItems(isSelectedAll:boolean) {
     isSelectedAll = isSelectedAll;
     if(isSelectedAll){
-      // this.itemCarts.forEach(item => {
-      //   item.selected = true;
-      // });
-      // this.clicked = false;
+      this.itemsCart.forEach(item => {
+        item.selected = true;
+      });
+      this.clicked = false;
     }else{
-      // this.itemCarts.forEach(item => {
-      //   item.selected = false;
-      // });
+      this.itemsCart.forEach(item => {
+        item.selected = false;
+      });
+      this.clicked = true;
     }
-    this.disableCheckout();
+    /* 
+    // ok with ionChange
+    this.selectedAllClick = true;
+    setTimeout(() => this.store.dispatch(new cartActions.SelectedAllAction(isSelectedAll)));
+    */
+  }
+
+  selectItem(isSelected: boolean, index){
+
+    console.log('isSelected first', isSelected, index);
+    isSelected = !isSelected;
+    // this.storage.get('itemCarts').then((data) => {
+    //   this.storage.set('itemCarts', this.itemCarts);
+    // });
+    // this.itemsCart[index].selected = isSelected;
+    console.log('isSelected after', isSelected, index);
+    console.log('items', this.itemsCart);
+    // setTimeout(()=>{
+      if(isSelected == false){
+        this.isSelectedAll = false;
+        this.disableCheckout();
+      }else{
+        this.isSelectedAll = true;
+        for (let i = 0; i <= this.itemsCart.length - 1; i++) {
+          if(index !== i){
+            if (this.itemsCart[i].selected == false) {
+              this.isSelectedAll = false;
+              break;
+            }
+          }
+        }
+      }
+    // }, 300)
+
+    /* 
+    // ok with ionChange
+    if (this.selectedAllClick == false) {
+      this.selectedAllClick = false;
+      setTimeout(() => this.store.dispatch(new cartActions.SelectedAction(variant)));
+    }
+    */
   }
 
   // check disable btn checkout?
   disableCheckout(){
     let countUncheck = 0;
-    // for (var i = 0; i <= this.variants.length - 1; i++) {
-    //   if (this.variants[i].selected == false) {
-    //     countUncheck++;
-    //   }
-    // }
+    for (var i = 0; i <= this.itemsCart.length - 1; i++) {
+      if (this.itemsCart[i].selected == false) {
+        countUncheck++;
+      }
+    }
     // ko co sp nao dc chon thi disable btn checkout
-    // if (countUncheck == this.itemCarts.length) {
-    //   this.clicked = true;
-    // }else{
-    //   this.clicked = false;
-    // }
+    if (countUncheck == this.itemsCart.length) {
+      this.clicked = true;
+    }else{
+      this.clicked = false;
+    }
+  }
+
+  addNote(){
+    let modal = this.modalCtrl.create('ItemCartNotePage');
+    modal.present();
   }
 
   checkout() {
+    // this.setNewCartsWhenCheckoutSuccess();
     this.variants.map(variants => variants.map(variant => {
       // variant =>variant.id+':'+variant.quantity)
-      //   (variant) => {
-      //     if (variant.selected == true) {
-      //     return
-      //       {
-      //         "variant_id"+':'+variant.id,
-      //         "title"+':'+variant.productTitle,
-      //         "vendor"+':'+variant.productTitle,
-      //         "quantity"+':'+variant.quantity
-      //       }
-      //     }
-      //     console.log('')
-      //   }
       if (variant.selected == true) {
         return {
           variant_id: variant.id,
@@ -132,6 +173,22 @@ export class ItemCartPage {
       }
     })
     )
+    /*let newVariants: any[];
+    for(let iItem = 0; iItem <= this.itemsCart.length-1; iItem++) {
+      // push sp duoc chon
+      if (this.itemsCart[iItem].selected == true) {
+        // push từng sp trong cart
+        let item = {
+          "variant_id": this.itemsCart[iItem].variant.id,
+          "title":this.itemsCart[iItem].title,
+          "vendor": this.itemsCart[iItem].vendor,
+          "quantity": this.itemsCart[iItem].quantity
+        };
+        console.log('itemsCart', this.itemsCart[iItem]);
+        newVariants.push(this.itemsCart[iItem]);
+      }
+    }
+    this.navCtrl.push('ItemCheckoutPage',{newVariants})*/
     .take(1)
     // .map(variants =>variants.join(','))
     // .subscribe((variants:string) =>{
@@ -144,7 +201,10 @@ export class ItemCartPage {
     // .subscribe((variants:string) =>{
     //   this.navCtrl.push('ItemCheckoutPage',{variants})
     // })
-    
+  }
+
+  setNewCartsWhenCheckoutSuccess(){
+    this.store.dispatch(new cartActions.SetNewCart(this.itemsCart));
   }
 
 

@@ -11,6 +11,7 @@ import { Store } from '@ngrx/store';
 import { Component, ChangeDetectorRef } from '@angular/core';
 import { NavController, IonicPage, Platform } from 'ionic-angular';
 import * as cartActions from '../../store/product-cart/product-cart.actions';
+import * as seenProductActions from '../../store/seen-product/seen-product.actions';
 import 'rxjs/add/operator/do';
 import { ItemProvider } from '../../providers/item/item';
 var HomePage = /** @class */ (function () {
@@ -23,11 +24,15 @@ var HomePage = /** @class */ (function () {
         this.showToolbar = false;
         this.getProducts();
         this.getBanner();
+        this.getSeenProducts();
     }
     HomePage.prototype.onScroll = function ($event) {
         var scrollTop = $event.scrollTop;
         this.showToolbar = scrollTop >= 120;
         this.ref.detectChanges();
+    };
+    HomePage.prototype.getSeenProducts = function () {
+        this.store.dispatch(new seenProductActions.GetAllSeenAction());
     };
     HomePage.prototype.getProducts = function () {
         this.store.dispatch(new cartActions.GetProductsAction());

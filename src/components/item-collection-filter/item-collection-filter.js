@@ -8,7 +8,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { Component, Output, EventEmitter } from '@angular/core';
-// import { Select } from 'ionic-angular';
 /**
  * Generated class for the ItemCollectionFilterComponent component.
  *
@@ -17,9 +16,9 @@ import { Component, Output, EventEmitter } from '@angular/core';
  */
 var ItemCollectionFilterComponent = /** @class */ (function () {
     function ItemCollectionFilterComponent() {
-        this.priceList = [
+        this.filterList = [
             {
-                name: 'Tất cả',
+                name: 'Bộ lọc',
                 range: '0:max',
                 selected: true
             },
@@ -50,17 +49,70 @@ var ItemCollectionFilterComponent = /** @class */ (function () {
             },
             {
                 name: 'Lớn hơn 1,500,000₫',
-                range: '1500000:999999999999',
+                range: '1500000:9999999999999',
+                selected: false
+            }
+        ];
+        this.sortList = [
+            {
+                name: 'Sắp xếp theo',
+                range: 'auto',
+                selected: true
+            },
+            {
+                name: 'Mới nhất',
+                range: 'created-descending',
+                selected: false
+            },
+            {
+                name: 'Tùy chọn',
+                range: 'manual',
+                selected: false
+            },
+            {
+                name: 'Cũ nhất',
+                range: 'created-ascending',
+                selected: false
+            },
+            {
+                name: 'Giá từ thấp tới cao',
+                range: 'price-ascending',
+                selected: false
+            },
+            {
+                name: 'Giá từ cao tới thấp',
+                range: 'price-descending',
+                selected: false
+            },
+            {
+                name: 'Theo bảng chữ cái từ A-Z',
+                range: 'title-ascending',
+                selected: false
+            },
+            {
+                name: 'Theo bảng chữ cái từ Z-A',
+                range: 'title-descending',
+                selected: false
+            },
+            {
+                name: 'Sản phẩm bán chạy',
+                range: 'best-selling',
                 selected: false
             }
         ];
         this.filterEvent = new EventEmitter();
-        this.settings = {
-            title: 'Pizza Toppings',
-            subTitle: 'Select your toppings',
-            mode: 'md'
+        this.sortBy = {
+            cssClass: 'sort-and-filter',
         };
     }
+    ItemCollectionFilterComponent.prototype.turnOffSort = function () {
+        this.sortRange = 'auto';
+        console.log('this.sortRange', this.sortRange);
+    };
+    ItemCollectionFilterComponent.prototype.turnOffFilter = function () {
+        this.filterRange = '0:max';
+        console.log('this.filterRange', this.filterRange);
+    };
     __decorate([
         Output(),
         __metadata("design:type", EventEmitter)

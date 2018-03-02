@@ -65,11 +65,22 @@ export class ItemProvider {
     */
   }
 
+  getProductsSortBy(handle, sort){
+    return this.http.get(`${this.endpoint}/collections/${handle}?sort_by=${sort}&view=app.json`)
+  }
+  getProductsFilter(handle, filter){
+    return this.http.get(`${this.endpoint}/collections/${handle}?price=${filter}&view=app.json`)
+  }
+
   searchRange(collectionId,min,max) {
     if (collectionId) {
-      return this.http.get(`${this.endpoint}/search?&q=filter=(((collectionid:product=${collectionId})&&(price:product>${min})&&(price:product<${max})))&view=app.json`)
+      return this.http.get(`${this.endpoint}/search?q=filter=(((collectionid:product=${collectionId})&&(price:product>${min})&&(price:product<${max})))&view=app.json`)
+      // q=filter=(((collectionid:product=1000774012)&&(price:product>0)&&(price:product<1500000)))&view=app.json
+      // q=filter=(((collectionid:product=1000774012)&&(price:product>1500000)&&(price:product<max)))&view=app.json
+      // return this.http.get(`${this.endpoint}/search?q=filter=(((collectionid:product=${collectionId})&&(price:product>${min})&&(price:product<${max})))&view=app.json`)
+    }else{
+      return this.http.get(`${this.endpoint}/search?q=filter=(((price:product>${min})&&(price:product<${max})))&view=app.json`)
     }
-    return this.http.get(`${this.endpoint}/search?&q=filter=(((price:product>${min})&&(price:product<${max})))&view=app.json`)
   }
 
   searchString(string) {

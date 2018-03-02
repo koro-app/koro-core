@@ -12,6 +12,13 @@ export const initialState: State = {
   ids: []
 }
 
+export function pushSelectedAllItem(entities:any,ids:string[],value:boolean) {
+  for (let i = 0; i <= ids.length - 1; i++) {
+    entities[ids[i]].selected = value
+  }
+  return {...entities}
+}
+
 export function reducer(state = initialState, action: productCart.Actions): State {
   switch (action.type) {
       // GET ALL PRODUCT
@@ -104,6 +111,37 @@ export function reducer(state = initialState, action: productCart.Actions): Stat
       };
     }
 
+    // SET NEW CART
+    case productCart.SELECTED: {
+      return {
+      ...state,
+        entities: action.payload
+      }
+    }
+
+    // SELECTED PRODUCT
+    case productCart.SELECTED: {
+      return {
+     ...state,
+        entities: {
+          ...state.entities,
+          [action.payload.id]: {
+            ...state.entities[action.payload.id],
+            selected: action.value
+          }
+        }
+      }
+    }
+
+    // SELECTED ALL PRODUCT
+    case productCart.SELECTED_ALL: {
+      let newEntities = pushSelectedAllItem(state.entities,state.ids,action.payload)
+      return {
+      ...state,
+        entities: newEntities
+      }
+    }
+
     // DECREASE
 
     case productCart.DECREASE: {
@@ -162,6 +200,8 @@ export function reducer(state = initialState, action: productCart.Actions): Stat
         loading: false,
       };
     }
+
+    // REMOVE ALL
 
     case productCart.REMOVE_ALL: {
       return {
