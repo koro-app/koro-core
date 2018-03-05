@@ -2,15 +2,19 @@ item-collection-filter {
   .filter-collection {
     border-bottom: 1px solid #cdcdcd;
     padding: 3px 5px;
-    .sort-by {
+    .sort-by-1,
+    .sort-by-2 {
       color: color($colors, black);
       font-size: 11px;
       position: relative;
-      .icon-custom{
-  	    position: absolute;
-	    top: 5px;
-	    margin: auto;
-	    left: 12px;
+      // ion-label {
+      //   display: block;
+      // }
+      .icon-custom {
+        position: absolute;
+        top: 5px;
+        margin: auto;
+        left: 12px;
       }
     }
     ion-select {

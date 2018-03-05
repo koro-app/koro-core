@@ -11,9 +11,7 @@ import { ItemProvider } from './../../providers/item/item';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
 import 'rxjs/add/operator/take';
-import { combineLatest } from 'rxjs/observable/combineLatest';
 import { Store } from '@ngrx/store';
-import * as cartActions from '../../store/product-cart/product-cart.actions';
 import { ToastController } from 'ionic-angular';
 var ItemCollectionPage = /** @class */ (function () {
     function ItemCollectionPage(navCtrl, itemProvider, navParams, store, loadingCtrl, toastCtrl) {
@@ -65,26 +63,6 @@ var ItemCollectionPage = /** @class */ (function () {
     ItemCollectionPage.prototype.goDetail = function (handle) {
         this.navCtrl.push('ItemProductPage', { handle: handle });
     };
-    ItemCollectionPage.prototype.addToCart = function (collectionProduct) {
-        var _this = this;
-        var entities$ = this.store.select('cart', 'entities').take(1);
-        var productVariant$ = this.normalizeItem(collectionProduct);
-        combineLatest(entities$, productVariant$, function (variants, _a) {
-            var product = _a.product, variant = _a.variant;
-            if (variants[variant.id] == undefined || variants[variant.id].selectedVariant != variant.selectedVariant) {
-                _this.store.dispatch(new cartActions.AddAction(variant));
-                _this.presentToast("\u0110\u00E3 th\u00EAm " + product.title + " lo\u1EA1i " + variant.title);
-            }
-            else {
-                _this.store.dispatch(new cartActions.IncreaseAction(variant));
-                _this.presentToast("T\u0103ng 1 s\u1EA3n ph\u1EA9m " + product.title + " b\u1EA3n " + variant.title);
-            }
-            console.log('product ' + JSON.stringify(product));
-            console.log('variants ' + JSON.stringify(variants));
-            console.log('collectionProduct ' + JSON.stringify(collectionProduct));
-        })
-            .subscribe();
-    };
     ItemCollectionPage.prototype.normalizeItem = function (collectionProduct) {
         return this.itemProvider
             .getProduct(collectionProduct.handle).take(1)
@@ -99,12 +77,30 @@ var ItemCollectionPage = /** @class */ (function () {
     };
     ItemCollectionPage.prototype.changeFilter = function (filter) {
         var _this = this;
-        if (filter.indexOf(':') != -1) {
-            if (filter == "0:max")
-                this.getProducts();
+        if (filter != 'auto') {
+            if (filter.indexOf(':') != -1) {
+                if (filter == "0:max")
+                    this.getProducts();
+                else {
+                    var loading_1 = this.startLoading();
+                    this.itemProvider.searchRange(this.navParams.get('id'), filter.split(":")[0], filter.split(":")[1])
+                        .take(1)
+                        .subscribe(function (data) {
+                        data.products.map(function (product) {
+                            if (product.featured_image.startsWith('//')) {
+                                product['featured_image'] = 'https:' + product.featured_image;
+                            }
+                            return product;
+                        });
+                        _this.products = data.products;
+                        _this.paginate = data.paginate;
+                        loading_1.dismiss();
+                    });
+                }
+            }
             else {
-                var loading_1 = this.startLoading();
-                this.itemProvider.searchRange(this.navParams.get('id'), filter.split(":")[0], filter.split(":")[1])
+                var loading_2 = this.startLoading();
+                this.itemProvider.getProductsSortBy(this.navParams.get('handle'), filter)
                     .take(1)
                     .subscribe(function (data) {
                     data.products.map(function (product) {
@@ -115,33 +111,10 @@ var ItemCollectionPage = /** @class */ (function () {
                     });
                     _this.products = data.products;
                     _this.paginate = data.paginate;
-                    loading_1.dismiss();
+                    loading_2.dismiss();
                 });
             }
         }
-        else {
-            var loading_2 = this.startLoading();
-            this.itemProvider.getProductsSortBy(this.navParams.get('handle'), filter)
-                .take(1)
-                .subscribe(function (data) {
-                data.products.map(function (product) {
-                    if (product.featured_image.startsWith('//')) {
-                        product['featured_image'] = 'https:' + product.featured_image;
-                    }
-                    return product;
-                });
-                _this.products = data.products;
-                _this.paginate = data.paginate;
-                loading_2.dismiss();
-            });
-        }
-    };
-    ItemCollectionPage.prototype.presentToast = function (text) {
-        var toast = this.toastCtrl.create({
-            message: text,
-            duration: 3000
-        });
-        toast.present();
     };
     ItemCollectionPage.prototype.viewNoti = function () {
         this.navCtrl.push('ItemNotificationsPage');

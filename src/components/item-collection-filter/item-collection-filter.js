@@ -19,7 +19,7 @@ var ItemCollectionFilterComponent = /** @class */ (function () {
         this.filterList = [
             {
                 name: 'Bộ lọc',
-                range: '0:max',
+                range: 'auto',
                 selected: true
             },
             {
@@ -107,11 +107,10 @@ var ItemCollectionFilterComponent = /** @class */ (function () {
     }
     ItemCollectionFilterComponent.prototype.turnOffSort = function () {
         this.sortRange = 'auto';
-        console.log('this.sortRange', this.sortRange);
     };
     ItemCollectionFilterComponent.prototype.turnOffFilter = function () {
-        this.filterRange = '0:max';
-        console.log('this.filterRange', this.filterRange);
+        this.filterRange = 'auto';
+        // this.filterRange = '0:max';
     };
     __decorate([
         Output(),

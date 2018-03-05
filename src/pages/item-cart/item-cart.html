@@ -1,8 +1,8 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar [hideBackButton]="!viewPage">
     <ion-title>
     <!-- button back -->
-      <button class="btn-title" ion-button color="black" clear>
+      <button class="btn-title btn-view" ion-button color="black" clear *ngIf="!viewPage">
         <ion-icon class="fsize-22" name="arrow-back" tappable (tap)="dismiss()" padding-horizontal></ion-icon>
       </button>
       <button ion-button color="black" disabled clear text-uppercase>
@@ -11,7 +11,7 @@
     </ion-title>
     <!-- del all button  -->
     <ion-buttons end>
-      <button ion-button icon-only tappable (tap)="removeAll()">
+      <button ion-button icon-only tappable (tap)="removeAll()" [disabled]="itemsCart?.length < 1">
         <i class="fas fa-trash-alt"></i>
       </button>
     </ion-buttons>
@@ -75,7 +75,7 @@
   </ng-container>
   <ion-grid>
     <ion-row class="note">
-      <ion-col col-12 class="note-content" tappable (tap)="addNote()">
+      <ion-col col-12 class="note-content" tappable (tap)="addNote()" *ngIf="itemsCart?.length > 0">
         <!-- <textarea rows="3"></textarea> -->
         <div class="title-note" text-uppercase>
           Ghi chú:
@@ -93,7 +93,7 @@
             <ion-label no-margin class="fsize-12 novflow">
               Chọn tất cả
             </ion-label>
-            <ion-checkbox [checked]="isSelectedAll" [(ngModel)]="isSelectedAll" class="check-all" tappable (tap)="selectAllItems( !isSelectedAll)" #btncheckall></ion-checkbox>
+            <ion-checkbox [checked]="isSelectedAll" [(ngModel)]="isSelectedAll" class="check-all" tappable (tap)="selectAllItems( !isSelectedAll)" [disabled]="itemsCart?.length < 1" #btncheckall></ion-checkbox>
             <!-- <ion-checkbox [checked]="isSelectedAll" class="check-all" (ionChange)="selectAllItems( btncheckall.checked)" #btncheckall></ion-checkbox> -->
           </ion-item>
         </ion-list>
@@ -108,7 +108,7 @@
   <ion-grid no-padding>
     <ion-row>
       <ion-col col-12>
-        <button class="btn-checkout" color="saleoff" text-uppercase tappable (tap)="checkout()" [disabled]="clicked" ion-button full>
+        <button class="btn-checkout" color="saleoff" text-uppercase tappable (tap)="checkout()" [disabled]="clicked || itemsCart?.length < 1" ion-button full>
           Tiến hành thanh toán
         </button>
       </ion-col>

@@ -4,6 +4,11 @@ import { IonicPage, NavParams, ViewController, NavController, AlertController } 
 import { ThemeableBrowser, ThemeableBrowserOptions, ThemeableBrowserObject } from '@ionic-native/themeable-browser';
 // storage
 import { Storage } from '@ionic/storage';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
+import * as cartActions from '../../store/product-cart/product-cart.actions';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/take';
 
 @IonicPage()
 @Component({
@@ -13,6 +18,7 @@ import { Storage } from '@ionic/storage';
 export class ItemCheckoutPage {
   checkoutLink:any;
   brower;
+  variants;
   // checkout
   public data_post_structor = {
    "line_items":[],
@@ -52,7 +58,8 @@ export class ItemCheckoutPage {
     public alertCtrl: AlertController,
     public navCtrl: NavController,
     public themeBrowser: ThemeableBrowser,
-    public storage: Storage
+    public storage: Storage,
+    public store: Store<any>
   ) {
     // let variants = this.navParams.get('variants');
     // this.checkoutLink = 'https://suplo-fashion.myharavan.com/cart/' + variants;
@@ -69,24 +76,24 @@ export class ItemCheckoutPage {
     this.storage.get('noteToCart').then((note) => {
       this.data_post_structor.note = note;
     });
-    let variants = this.navParams.get('variants');
-    console.log('variants checkout',variants);
-    for(let i = 0; i <= variants.length - 1; i++){
-      let item = {
-        "variant_id": variants[i].variant_id,
-        "title": variants[i].title,
-        "vendor": variants[i].vendor,
-        "quantity": variants[i].quantity
-      };
-      this.data_post_structor.line_items.push(item);
+    this.variants = this.navParams.get('variants');
+    for(let i = 0; i <= this.variants.length - 1; i++){
+      if (this.variants[i] != null && this.variants[i] != undefined) {
+        let item = {
+          "variant_id": this.variants[i].id,
+          "title": this.variants[i].productTitle,
+          "vendor": this.variants[i].vendor,
+          "quantity": this.variants[i].quantity
+        };
+        this.data_post_structor.line_items.push(item);
+      }
     }
-    console.log('data', this.data_post_structor);
       
     let data_post_encode = encodeURIComponent(JSON.stringify(this.data_post_structor));
     //tao url
     let url = "https://suplo-fashion.myharavan.com/cart?data="+data_post_encode+"&view=app&themeid=1000232392";
     this.brower = this.themeBrowser.create(url,'_blank', this.options);
-
+    this.actionInBrowser();
   }
   // kiem tra su kien tren browser checkout
   actionInBrowser(){
@@ -103,14 +110,14 @@ export class ItemCheckoutPage {
     this.brower.on("closePressed").subscribe(data =>{
       console.log("closePressed :  " + data.url.indexOf('thank_you'))
       if(data.url.indexOf('thank_you') !== -1){
-        // this.clearCart();
+        this.removeItemWhenCheckoutSuccess();
         this.brower.close();
       }else{
         this.brower.close();
-        this.navCtrl.push(this.navCtrl.getActive().component).then(() => {
-          let index = this.viewCtrl.index;
-          this.navCtrl.remove(index);
-        })
+        // this.navCtrl.push(this.navCtrl.getActive().component).then(() => {
+        //   let index = this.viewCtrl.index;
+        //   this.navCtrl.remove(index);
+        // })
       }
     });
     this.brower.on("loadfail").subscribe(error =>{
@@ -132,6 +139,15 @@ export class ItemCheckoutPage {
     this.brower.on("critical").subscribe(error =>{
       console.log(error);
     });
+  }
+
+  // when checkout success, remove item has selected = true
+  removeItemWhenCheckoutSuccess(){
+    for(let i = 0; i <= this.variants.length - 1; i++){
+      if (this.variants[i] != null && this.variants[i] != undefined) {
+        this.store.dispatch(new cartActions.RemoveItemCheckout(this.variants[i]));
+      }
+    }
   }
 
   alertNoti(text){

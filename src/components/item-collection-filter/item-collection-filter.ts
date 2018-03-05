@@ -14,7 +14,7 @@ export class ItemCollectionFilterComponent {
   filterList = [
     {
       name:'Bộ lọc',
-      range:'0:max',
+      range:'auto',
       selected: true
     },
     {
@@ -106,11 +106,10 @@ export class ItemCollectionFilterComponent {
   }
   turnOffSort(){
     this.sortRange = 'auto';
-    console.log('this.sortRange',this.sortRange);
   }
   turnOffFilter(){
-    this.filterRange = '0:max';
-    console.log('this.filterRange',this.filterRange);
+    this.filterRange = 'auto';
+    // this.filterRange = '0:max';
   }
 
 }

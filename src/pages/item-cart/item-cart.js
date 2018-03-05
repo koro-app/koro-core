@@ -8,24 +8,31 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { ItemProvider } from './../../providers/item/item';
-import { Component } from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { Store } from '@ngrx/store';
 import * as cartActions from '../../store/product-cart/product-cart.actions';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/take';
 var ItemCartPage = /** @class */ (function () {
-    function ItemCartPage(navCtrl, navParams, modalCtrl, store, itemProvider) {
+    function ItemCartPage(navCtrl, navParams, modalCtrl, store, itemProvider, element) {
         this.navCtrl = navCtrl;
         this.navParams = navParams;
         this.modalCtrl = modalCtrl;
         this.store = store;
         this.itemProvider = itemProvider;
+        this.element = element;
         this.gross = 0;
         this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
+        this.customBackElement = document.querySelector('.btn-view');
+        // customBackElement: any = this.element.nativeElement.getElementsByClassName('btn-view')[0];
         this.isSelectedAll = true;
         this.clicked = false;
         this.selectedAllClick = false;
+        this.viewPage = false;
+        if (this.navParams.get('view') == true) {
+            this.viewPage = this.navParams.get('view');
+        }
         this.setVariants();
     }
     ItemCartPage.prototype.dismiss = function () {
@@ -36,34 +43,33 @@ var ItemCartPage = /** @class */ (function () {
         this.variants = this.store.select('cart', 'entities')
             .map(function (variants) { return Object.keys(variants || {}).map(function (key) { return variants[key]; }); })
             .do(function (variants) {
-            _this.gross = 0;
-            variants.map(function (variant) {
-                if (variant.selected == true) {
-                    _this.gross += variant.price * variant.quantity;
-                }
-            });
-        })
-            .do(function (variants) {
-            console.log('variants', variants);
             _this.itemsCart = variants;
+            _this.totalPrice();
         });
     };
-    ItemCartPage.prototype.ionViewDidLoad = function () {
-        // console.log('ionViewDidLoad ItemCheckoutPage');
+    ItemCartPage.prototype.totalPrice = function () {
+        var _this = this;
+        this.gross = 0;
+        if (this.itemsCart != null && this.itemsCart != undefined) {
+            this.itemsCart.forEach(function (item) {
+                if (item.selected == true) {
+                    _this.gross += item.price * item.quantity;
+                }
+            });
+        }
     };
     ItemCartPage.prototype.increase = function (variant) {
-        this.store.dispatch(new cartActions.IncreaseAction(variant));
+        this.store.dispatch(new cartActions.IncreaseAction(variant, 1));
     };
     ItemCartPage.prototype.decrease = function (variant) {
-        if (variant.quantity != 1)
-            this.store.dispatch(new cartActions.DecreaseAction(variant));
-    };
-    ItemCartPage.prototype.select = function () {
+        if (variant.quantity > 1)
+            this.store.dispatch(new cartActions.DecreaseAction(variant, 1));
     };
     ItemCartPage.prototype.remove = function (variant) {
         this.store.dispatch(new cartActions.RemoveAction(variant));
     };
     ItemCartPage.prototype.removeAll = function () {
+        this.clicked = false;
         this.store.dispatch(new cartActions.RemoveAllAction());
     };
     ItemCartPage.prototype.viewProduct = function (handle) {
@@ -84,28 +90,18 @@ var ItemCartPage = /** @class */ (function () {
             });
             this.clicked = true;
         }
-        /*
-        // ok with ionChange
-        this.selectedAllClick = true;
-        setTimeout(() => this.store.dispatch(new cartActions.SelectedAllAction(isSelectedAll)));
-        */
+        this.totalPrice();
     };
     ItemCartPage.prototype.selectItem = function (isSelected, index) {
-        console.log('isSelected first', isSelected, index);
+        var _this = this;
         isSelected = !isSelected;
-        // this.storage.get('itemCarts').then((data) => {
-        //   this.storage.set('itemCarts', this.itemCarts);
-        // });
-        // this.itemsCart[index].selected = isSelected;
-        console.log('isSelected after', isSelected, index);
-        console.log('items', this.itemsCart);
-        // setTimeout(()=>{
         if (isSelected == false) {
             this.isSelectedAll = false;
             this.disableCheckout();
         }
         else {
             this.isSelectedAll = true;
+            this.clicked = false;
             for (var i = 0; i <= this.itemsCart.length - 1; i++) {
                 if (index !== i) {
                     if (this.itemsCart[i].selected == false) {
@@ -115,18 +111,13 @@ var ItemCartPage = /** @class */ (function () {
                 }
             }
         }
-        // }, 300)
-        /*
-        // ok with ionChange
-        if (this.selectedAllClick == false) {
-          this.selectedAllClick = false;
-          setTimeout(() => this.store.dispatch(new cartActions.SelectedAction(variant)));
-        }
-        */
+        setTimeout(function () {
+            _this.totalPrice();
+        }, 200);
     };
     // check disable btn checkout?
     ItemCartPage.prototype.disableCheckout = function () {
-        var countUncheck = 0;
+        var countUncheck = 1;
         for (var i = 0; i <= this.itemsCart.length - 1; i++) {
             if (this.itemsCart[i].selected == false) {
                 countUncheck++;
@@ -146,30 +137,19 @@ var ItemCartPage = /** @class */ (function () {
     };
     ItemCartPage.prototype.checkout = function () {
         var _this = this;
-        // this.setNewCartsWhenCheckoutSuccess();
+        this.setNewCartsWhenCheckoutClicked();
         this.variants.map(function (variants) { return variants.map(function (variant) {
-            // variant =>variant.id+':'+variant.quantity)
             if (variant.selected == true) {
-                return {
-                    variant_id: variant.id,
-                    title: variant.productTitle,
-                    vendor: variant.vendor,
-                    quantity: variant.quantity
-                };
+                return variant;
             }
         }); })
             .take(1)
             .subscribe(function (variants) {
             _this.navCtrl.push('ItemCheckoutPage', { variants: variants });
         });
-        // this.variants.map(variants => variants.map(variant =>variant.id+':'+variant.quantity))
-        // .take(1)
-        // .map(variants =>variants.join(','))
-        // .subscribe((variants:string) =>{
-        //   this.navCtrl.push('ItemCheckoutPage',{variants})
-        // })
     };
-    ItemCartPage.prototype.setNewCartsWhenCheckoutSuccess = function () {
+    // changed this.variants to this.itemsCart in cart store
+    ItemCartPage.prototype.setNewCartsWhenCheckoutClicked = function () {
         this.store.dispatch(new cartActions.SetNewCart(this.itemsCart));
     };
     // hide tabbartabroot cart
@@ -183,6 +163,15 @@ var ItemCartPage = /** @class */ (function () {
         if (this.tabBarElement != null) {
             this.tabBarElement.style.display = 'flex';
         }
+        if (this.customBackElement != null) {
+            this.customBackElement.style.display = 'inline-block';
+        }
+    };
+    ItemCartPage.prototype.ionViewDidLoad = function () {
+        // console.log(this.customBackElement);
+        // if (this.navParams.get('view') == true && this.customBackElement != null) {
+        //   this.customBackElement.style.display = 'none';
+        // }
     };
     ItemCartPage = __decorate([
         IonicPage(),
@@ -194,7 +183,8 @@ var ItemCartPage = /** @class */ (function () {
             NavParams,
             ModalController,
             Store,
-            ItemProvider])
+            ItemProvider,
+            ElementRef])
     ], ItemCartPage);
     return ItemCartPage;
 }());

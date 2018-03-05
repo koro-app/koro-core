@@ -75,24 +75,6 @@ export class ItemCollectionPage {
     this.navCtrl.push('ItemProductPage',{handle})
   }
 
-  addToCart(collectionProduct) {
-    let entities$ = this.store.select('cart','entities').take(1)
-    let productVariant$ = this.normalizeItem(collectionProduct);
-    combineLatest(entities$,productVariant$,(variants,{product,variant}) =>{
-      if (variants[variant.id] == undefined || variants[variant.id].selectedVariant != variant.selectedVariant) {
-        this.store.dispatch(new cartActions.AddAction(variant));
-        this.presentToast(`Đã thêm ${product.title} loại ${variant.title}`);
-      } else {
-        this.store.dispatch(new cartActions.IncreaseAction(variant));
-        this.presentToast(`Tăng 1 sản phẩm ${product.title} bản ${variant.title}`);
-      }
-      console.log('product '+JSON.stringify(product));
-      console.log('variants '+JSON.stringify(variants));
-      console.log('collectionProduct '+JSON.stringify(collectionProduct));
-    })
-    .subscribe();
-  }
-
   normalizeItem(collectionProduct) {
     return this.itemProvider
     .getProduct(collectionProduct.handle).take(1)
@@ -108,11 +90,28 @@ export class ItemCollectionPage {
   }
 
   changeFilter(filter:string) {
-    if (filter.indexOf(':') != -1) {
-      if (filter == "0:max") this.getProducts()
-      else {
+    if (filter != 'auto') {
+      if (filter.indexOf(':') != -1) {
+        if (filter == "0:max") this.getProducts()
+        else {
+          let loading = this.startLoading();
+          this.itemProvider.searchRange(this.navParams.get('id'),filter.split(":")[0],filter.split(":")[1])
+          .take(1)
+          .subscribe((data:{products:any[],paginate:any}) => {
+            data.products.map((product) => {
+              if ((<string>product.featured_image).startsWith('//')) {
+                product['featured_image'] = 'https:' + product.featured_image;
+              }
+              return product;
+            })
+            this.products = data.products;
+            this.paginate = data.paginate;
+            loading.dismiss();
+          })
+        }
+      }else{
         let loading = this.startLoading();
-        this.itemProvider.searchRange(this.navParams.get('id'),filter.split(":")[0],filter.split(":")[1])
+        this.itemProvider.getProductsSortBy(this.navParams.get('handle'),filter)
         .take(1)
         .subscribe((data:{products:any[],paginate:any}) => {
           data.products.map((product) => {
@@ -126,31 +125,7 @@ export class ItemCollectionPage {
           loading.dismiss();
         })
       }
-    }else{
-      let loading = this.startLoading();
-      this.itemProvider.getProductsSortBy(this.navParams.get('handle'),filter)
-      .take(1)
-      .subscribe((data:{products:any[],paginate:any}) => {
-        data.products.map((product) => {
-          if ((<string>product.featured_image).startsWith('//')) {
-            product['featured_image'] = 'https:' + product.featured_image;
-          }
-          return product;
-        })
-        this.products = data.products;
-        this.paginate = data.paginate;
-        loading.dismiss();
-      })
     }
-  
-  }
-
-  presentToast(text) {
-    let toast = this.toastCtrl.create({
-      message: text,
-      duration: 3000
-    });
-    toast.present();
   }
 
   viewNoti(){

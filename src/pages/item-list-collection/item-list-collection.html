@@ -10,14 +10,12 @@
     <!-- search button  -->
     <ion-buttons end>
       <button ion-button icon-only tappable (click)="goSearch()">
-        <!-- <ion-icon name="search"></ion-icon> -->
         <i class="fas fa-search"></i>
       </button>
     </ion-buttons>
     <!-- call button  -->
     <ion-buttons end>
       <button ion-button icon-only>
-        <!-- <ion-icon name="call"></ion-icon> -->
         <i class="fas fa-phone-volume"></i>
       </button>
     </ion-buttons>
@@ -33,8 +31,8 @@
 <ion-content>
   <ion-grid>
     <ion-row class="horizontal-container">
-      <ion-col col-6 col-md-3 col-lg-3 col-xl-3 *ngFor="let collection of collections.collections" class="horizontal">
-        <div class="horizontal-item" tappable (tap)="openCollection(collection)">
+      <ion-col col-6 col-md-3 col-lg-3 col-xl-3 *ngFor="let collection of collections" class="horizontal">
+        <div class="horizontal-item" tappable (tap)="goCollection(collection)">
           <a class="item-col">
             <img src="{{collection.image}}">
           	<span class="transit" text-uppercase>{{collection.title}}</span>

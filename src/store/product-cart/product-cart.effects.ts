@@ -26,27 +26,27 @@ export class ProductCartEffects {
 
   @Effect() add$ = this.actions$
   .ofType(productCart.ADD)
-  .switchMap((action:any) => this.productCartService.addCart(action.payload)
+  .switchMap((action:any) => this.productCartService.addCart(action.payload, action.quantity)
     // If successful, dispatch success action with result
-    .map(res => ({ type: productCart.ADD_SUCCESS, payload: res }))
+    .map(res => ({ type: productCart.ADD_SUCCESS, payload: res.product,quantity:res.quantity }))
     // If request fails, dispatch failed action
     .catch(() => Observable.of({ type: productCart.ADD_FAIL}))
   );
 
   @Effect() increase$ = this.actions$
   .ofType(productCart.INCREASE)
-  .switchMap((action:any) => this.productCartService.increaseCart(action.payload)
+  .switchMap((action:any) => this.productCartService.increaseCart(action.payload, action.quantity)
     // If successful, dispatch success action with result
-    .map(res => ({ type: productCart.INCREASE_SUCCESS, payload: res }))
+    .map(res => ({ type: productCart.INCREASE_SUCCESS, payload: res.product,quantity:res.quantity }))
     // If request fails, dispatch failed action
     .catch(() => Observable.of({ type: productCart.INCREASE_FAIL}))
   );
 
   @Effect() decrease$ = this.actions$
   .ofType(productCart.DECREASE)
-  .switchMap((action:any) => this.productCartService.decreaseCart(action.payload)
+  .switchMap((action:any) => this.productCartService.decreaseCart(action.payload, action.quantity)
     // If successful, dispatch success action with result
-    .map(res => ({ type: productCart.DECREASE_SUCCESS, payload: res }))
+    .map(res => ({ type: productCart.DECREASE_SUCCESS, payload: res.product,quantity:res.quantity }))
     // If request fails, dispatch failed action
     .catch(() => Observable.of({ type: productCart.DECREASE_FAIL}))
   );
@@ -58,5 +58,14 @@ export class ProductCartEffects {
     .map(res => ({ type: productCart.REMOVE_SUCCESS, payload: res }))
     // If request fails, dispatch failed action
     .catch(() => Observable.of({ type: productCart.REMOVE_FAIL}))
+  );
+
+  @Effect() removeAll$ = this.actions$
+  .ofType(productCart.REMOVE_ALL)
+  .switchMap((action:any) => this.productCartService.removeAllCart()
+    // If successful, dispatch success action with result
+    .map(res => ({ type: productCart.REMOVE_ALL_SUCCESS, payload: res }))
+    // If request fails, dispatch failed action
+    .catch(() => Observable.of({ type: productCart.REMOVE_ALL_FAIL}))
   );
 }

@@ -64,7 +64,7 @@ export function reducer(state = initialState, action: productCart.Actions): Stat
           ...state.entities,
           [action.payload.id]: {
             ...action.payload,
-            quantity: 1
+            quantity: action.quantity
           }
         },
         ids: [
@@ -97,7 +97,7 @@ export function reducer(state = initialState, action: productCart.Actions): Stat
           ...state.entities,
           [action.payload.id]: {
             ...state.entities[action.payload.id],
-            quantity: (+state.entities[action.payload.id].quantity)+1
+            quantity: (+state.entities[action.payload.id].quantity)+(+action.quantity)
           }
         }
        
@@ -159,7 +159,7 @@ export function reducer(state = initialState, action: productCart.Actions): Stat
           ...state.entities,
           [action.payload.id]: {
             ...state.entities[action.payload.id],
-            quantity: (+state.entities[action.payload.id].quantity)-1
+            quantity: (+state.entities[action.payload.id].quantity)-(+action.quantity)
           }
         }
        
@@ -208,6 +208,34 @@ export function reducer(state = initialState, action: productCart.Actions): Stat
         ...state,
          entities: {},
         ids:[]
+      };
+    }
+
+    case productCart.REMOVE_ALL_SUCCESS: {
+      return {
+        ...state,
+         entities: {},
+        ids:[]
+      };
+    }
+
+     case productCart.REMOVE_FAIL: {
+      return {
+        ...state,
+        loading: false,
+      };
+    }
+
+    // REMOVE ITEM CHECKOUT
+
+    case productCart.REMOVE_ITEM_CHECKOUT: {
+      let { [action.payload.id]: deletedItem, ...rest } = state.entities;
+      return {
+        ...state,
+        entities: rest,
+        ids: [...state.ids.filter((id) => {
+          return id != action.payload.id;
+        })]
       };
     }
 

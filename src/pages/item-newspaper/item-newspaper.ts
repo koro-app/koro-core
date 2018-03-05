@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
 import { ItemProvider } from '../../providers/item/item';
 import { Storage } from '@ionic/storage';
 
@@ -23,29 +23,42 @@ export class ItemNewspaperPage {
   constructor(
   	public navCtrl: NavController,
   	public navParams: NavParams,
+    public loadingCtrl: LoadingController,
   	public itemProvider: ItemProvider,
-  	private storage: Storage) {
+  	private storage: Storage
+    ) {
 	this.getBlog();
   }
 
   getBlog(){
+    let loading = this.startLoading();
   	this.itemProvider.getBlog().subscribe((data:any) => {
       this.blogs = data.articles;
       this.seenAll = true;
-        this.blogs.forEach(item => {
-          //kiểm tra xem noti đã đọc
-          this.storage.get('articleseen').then((articleseen)=>{
-            if(typeof articleseen !== "undefined" && articleseen !== null){
+      //kiểm tra xem noti đã đọc
+      this.blogs.forEach(item => {
+        this.storage.get('articleseen').then((articleseen)=>{
+          if(typeof articleseen !== "undefined" && articleseen !== null){
 	          if(!articleseen.some(x => x === item.url)){
 	            item.seen = false;
 	            this.seenAll = false;
 	          }else{
 	            item.seen = true;
 	          }
-			}
-          })
-        });
+		      }
+        })
+      });
+      loading.dismiss();
     });
+  }
+
+  startLoading() {
+    // start loading
+    let loading = this.loadingCtrl.create({
+      content: 'Đang tải dữ liệu...'
+    });
+    loading.present();
+    return loading;
   }
 
   // doc tat ca

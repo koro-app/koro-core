@@ -45,37 +45,39 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-  <ion-grid class="bg-white quantity" no-padding>
+  <ion-grid class="bg-white quantity" no-padding *ngIf="variants[selectedIndex].inventory_quantity > 0">
   	<ion-row align-items-center>
       <ion-col col-3 class="qty-title">Số lượng</ion-col>
       <ion-col col-9 class="btn-inpt">
-        <ion-input type="number" class="qty-num" value="1" min="1" (keyup)="changeNum($event, qtynum.value)" #qtynum></ion-input>
-        <button ion-button clear class="qty-minus" tappable (tap)="doMinus()">
+        <ion-input type="number" class="qty-num" value="{{quantity}}" min="1" (keyup)="changeNum($event)"></ion-input>
+        <button ion-button clear class="qty-minus" tappable (tap)="decrease()">
           <i class="fas fa-minus"></i>
         </button>
-        <button ion-button clear class="qty-plus" tappable (tap)="doPlus()">
+        <button ion-button clear class="qty-plus" tappable (tap)="increase(variants[selectedIndex])">
           <i class="fas fa-plus"></i>
         </button>
       </ion-col>
     </ion-row>
   </ion-grid>
   <ion-grid no-padding>
-    <ion-row class="btn-bottom">
+    <ion-row class="btn-bottom" *ngIf="variants[selectedIndex].inventory_quantity > 0">
       <ion-col col-6>
         <div class="bt-f-left" text-uppercase tappable (tap)="addToCart(variants[selectedIndex])">
           Thêm vào giỏ
         </div>
       </ion-col>
       <ion-col col-6>
-        <div class="bt-f-right" text-uppercase tappable (tap)="gotoCart(qtynum.value)">
+        <div class="bt-f-right" text-uppercase tappable (tap)="gotoCart(variants[selectedIndex])">
           Mua ngay
         </div>
       </ion-col>
-      <!-- <ion-col col-12 *ngIf="variantQuantity == 0">
+    </ion-row>
+    <ion-row class="btn-bottom" *ngIf="variants[selectedIndex].inventory_quantity < 1">
+      <ion-col col-12>
         <div class="bt-f-right" text-uppercase>
-          Hết
+          Hết Hàng
         </div>
-      </ion-col> -->
+      </ion-col>
     </ion-row>
   </ion-grid>
 </ion-footer>

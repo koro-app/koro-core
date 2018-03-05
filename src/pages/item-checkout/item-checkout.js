@@ -13,16 +13,21 @@ import { IonicPage, NavParams, ViewController, NavController, AlertController } 
 import { ThemeableBrowser } from '@ionic-native/themeable-browser';
 // storage
 import { Storage } from '@ionic/storage';
+import { Store } from '@ngrx/store';
+import * as cartActions from '../../store/product-cart/product-cart.actions';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/take';
 var ItemCheckoutPage = /** @class */ (function () {
     function ItemCheckoutPage(navParams, 
     // public sanitizer: DomSanitizer,
-    viewCtrl, alertCtrl, navCtrl, themeBrowser, storage) {
+    viewCtrl, alertCtrl, navCtrl, themeBrowser, storage, store) {
         this.navParams = navParams;
         this.viewCtrl = viewCtrl;
         this.alertCtrl = alertCtrl;
         this.navCtrl = navCtrl;
         this.themeBrowser = themeBrowser;
         this.storage = storage;
+        this.store = store;
         // checkout
         this.data_post_structor = {
             "line_items": [],
@@ -67,22 +72,23 @@ var ItemCheckoutPage = /** @class */ (function () {
         this.storage.get('noteToCart').then(function (note) {
             _this.data_post_structor.note = note;
         });
-        var variants = this.navParams.get('variants');
-        console.log('variants checkout', variants);
-        for (var i = 0; i <= variants.length - 1; i++) {
-            var item = {
-                "variant_id": variants[i].variant_id,
-                "title": variants[i].title,
-                "vendor": variants[i].vendor,
-                "quantity": variants[i].quantity
-            };
-            this.data_post_structor.line_items.push(item);
+        this.variants = this.navParams.get('variants');
+        for (var i = 0; i <= this.variants.length - 1; i++) {
+            if (this.variants[i] != null && this.variants[i] != undefined) {
+                var item = {
+                    "variant_id": this.variants[i].id,
+                    "title": this.variants[i].productTitle,
+                    "vendor": this.variants[i].vendor,
+                    "quantity": this.variants[i].quantity
+                };
+                this.data_post_structor.line_items.push(item);
+            }
         }
-        console.log('data', this.data_post_structor);
         var data_post_encode = encodeURIComponent(JSON.stringify(this.data_post_structor));
         //tao url
         var url = "https://suplo-fashion.myharavan.com/cart?data=" + data_post_encode + "&view=app&themeid=1000232392";
         this.brower = this.themeBrowser.create(url, '_blank', this.options);
+        this.actionInBrowser();
     };
     // kiem tra su kien tren browser checkout
     ItemCheckoutPage.prototype.actionInBrowser = function () {
@@ -100,15 +106,15 @@ var ItemCheckoutPage = /** @class */ (function () {
         this.brower.on("closePressed").subscribe(function (data) {
             console.log("closePressed :  " + data.url.indexOf('thank_you'));
             if (data.url.indexOf('thank_you') !== -1) {
-                // this.clearCart();
+                _this.removeItemWhenCheckoutSuccess();
                 _this.brower.close();
             }
             else {
                 _this.brower.close();
-                _this.navCtrl.push(_this.navCtrl.getActive().component).then(function () {
-                    var index = _this.viewCtrl.index;
-                    _this.navCtrl.remove(index);
-                });
+                // this.navCtrl.push(this.navCtrl.getActive().component).then(() => {
+                //   let index = this.viewCtrl.index;
+                //   this.navCtrl.remove(index);
+                // })
             }
         });
         this.brower.on("loadfail").subscribe(function (error) {
@@ -130,6 +136,14 @@ var ItemCheckoutPage = /** @class */ (function () {
         this.brower.on("critical").subscribe(function (error) {
             console.log(error);
         });
+    };
+    // when checkout success, remove item has selected = true
+    ItemCheckoutPage.prototype.removeItemWhenCheckoutSuccess = function () {
+        for (var i = 0; i <= this.variants.length - 1; i++) {
+            if (this.variants[i] != null && this.variants[i] != undefined) {
+                this.store.dispatch(new cartActions.RemoveItemCheckout(this.variants[i]));
+            }
+        }
     };
     ItemCheckoutPage.prototype.alertNoti = function (text) {
         var noti = this.alertCtrl.create({
@@ -156,7 +170,8 @@ var ItemCheckoutPage = /** @class */ (function () {
             AlertController,
             NavController,
             ThemeableBrowser,
-            Storage])
+            Storage,
+            Store])
     ], ItemCheckoutPage);
     return ItemCheckoutPage;
 }());

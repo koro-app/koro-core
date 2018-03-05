@@ -30,19 +30,19 @@ export const ADD_FAIL =            '[Product Cart] Add Fail';
 
 export class AddAction implements Action {
   readonly type = ADD;
-  constructor(public payload: any) { }
+  constructor(public payload: any, public quantity: number) { }
 }
 
 export class AddSuccessAction implements Action {
   readonly type = ADD_SUCCESS;
 
-  constructor(public payload: any) { }
+  constructor(public payload: any, public quantity: number) { }
 }
 
 export class AddFailAction implements Action {
   readonly type = ADD_FAIL;
 
-  constructor(public payload: any) { }
+  constructor(public payload: any, public quantity: number) { }
 }
 
 // INCREASE PRODUCT
@@ -53,19 +53,19 @@ export const INCREASE_FAIL =            '[Product Cart] Increase Fail';
 
 export class IncreaseAction implements Action {
   readonly type = INCREASE;
-  constructor(public payload: any) { }
+  constructor(public payload: any, public quantity: number) { }
 }
 
 export class IncreaseSuccessAction implements Action {
   readonly type = INCREASE_SUCCESS;
 
-  constructor(public payload: any) { }
+  constructor(public payload: any, public quantity: number) { }
 }
 
 export class IncreaseFailAction implements Action {
   readonly type = INCREASE_FAIL;
 
-  constructor(public payload: any) { }
+  constructor(public payload: any, public quantity: number) { }
 }
 
 // DECREASE PRODUCT
@@ -76,19 +76,19 @@ export const DECREASE_FAIL =            '[Product Cart] Decrease Fail';
 
 export class DecreaseAction implements Action {
   readonly type = DECREASE;
-  constructor(public payload: any) { }
+  constructor(public payload: any, public quantity: number) { }
 }
 
 export class DecreaseSuccessAction implements Action {
   readonly type = DECREASE_SUCCESS;
 
-  constructor(public payload: any) { }
+  constructor(public payload: any, public quantity: number) { }
 }
 
 export class DecreaseFailAction implements Action {
   readonly type = DECREASE_FAIL;
 
-  constructor(public payload: any) { }
+  constructor(public payload: any, public quantity: number) { }
 }
 
 // SELECTED PRODUCT
@@ -144,10 +144,33 @@ export class RemoveFailAction implements Action {
 // REMOVE ALL PRODUCT
 
 export const REMOVE_ALL =                 '[Product Cart] Remove All';
+export const REMOVE_ALL_SUCCESS =         '[Product Cart] Remove All Success';
+export const REMOVE_ALL_FAIL =            '[Product Cart] Remove All Fail';
 
 export class RemoveAllAction implements Action {
   readonly type = REMOVE_ALL;
   constructor() { }
+}
+
+export class RemoveAllSuccessAction implements Action {
+  readonly type = REMOVE_ALL_SUCCESS;
+
+  constructor() { }
+}
+
+export class RemoveAllFailAction implements Action {
+  readonly type = REMOVE_ALL_FAIL;
+
+  constructor() { }
+}
+
+// REMOVE PRODUCT CHECKOUT SUCCESS
+
+export const REMOVE_ITEM_CHECKOUT =                 '[Product Cart] Remove Item Checkout';
+
+export class RemoveItemCheckout implements Action {
+  readonly type = REMOVE_ITEM_CHECKOUT;
+  constructor(public payload: any) { }
 }
 
 export type Actions =
@@ -170,6 +193,8 @@ export type Actions =
   | RemoveSuccessAction
   | RemoveFailAction
   | RemoveAllAction
-
+  | RemoveAllSuccessAction
+  | RemoveAllFailAction
+  | RemoveItemCheckout
 
 

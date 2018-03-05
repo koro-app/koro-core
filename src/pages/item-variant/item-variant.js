@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Store } from '@ngrx/store';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, AlertController, ViewController } from 'ionic-angular';
 import * as cartActions from '../../store/product-cart/product-cart.actions';
 /**
  * Generated class for the ItemVariantPage page.
@@ -18,11 +18,13 @@ import * as cartActions from '../../store/product-cart/product-cart.actions';
  * Ionic pages and navigation.
  */
 var ItemVariantPage = /** @class */ (function () {
-    function ItemVariantPage(navCtrl, navParams, store, toastCtrl) {
+    function ItemVariantPage(navCtrl, navParams, store, toastCtrl, alertCtrl, viewCtrl) {
         this.navCtrl = navCtrl;
         this.navParams = navParams;
         this.store = store;
         this.toastCtrl = toastCtrl;
+        this.alertCtrl = alertCtrl;
+        this.viewCtrl = viewCtrl;
         this.selectedIndex = 0;
         this.first1 = true;
         this.indexOption = 0;
@@ -33,6 +35,7 @@ var ItemVariantPage = /** @class */ (function () {
         // 	"OptionStockOut": []
         // };
         this.listOptionStockOut = [];
+        this.quantity = 1;
         this.getFirstVariant();
         this.checkVariantStockIn();
         this.checkDetail();
@@ -122,25 +125,53 @@ var ItemVariantPage = /** @class */ (function () {
             }
         }
     };
+    ItemVariantPage.prototype.increase = function (variant) {
+        if (this.quantity < variant.inventory_quantity) {
+            this.quantity++;
+            console.log(this.quantity);
+            // debugger;
+            // this.quantity += 1;
+        }
+        else {
+            this.alertNoti('Số lượng sản phẩm trong kho không đủ');
+        }
+    };
+    ItemVariantPage.prototype.decrease = function () {
+        if (this.quantity > 1) {
+            this.quantity--;
+        }
+    };
     ItemVariantPage.prototype.addToCart = function (variant) {
         var _this = this;
-        // setup product title
-        variant['productTitle'] = this.navParams.get('title');
-        variant['selected'] = true;
-        console.log('title', this.navParams.get('title'));
-        this.store.select('cart', 'entities')
-            .take(1)
-            .subscribe(function (variants) {
-            // let variant = this.getVariantByTitle(product,product.selectedVariant);
-            if (variants[variant.id] == undefined) {
-                _this.store.dispatch(new cartActions.AddAction(variant));
-                _this.presentToast("\u0110\u00E3 th\u00EAm s\u1EA3n ph\u1EA9m v\u00E0o gi\u1ECF h\u00E0ng");
-            }
-            else {
-                _this.store.dispatch(new cartActions.IncreaseAction(variant));
-                _this.presentToast("\u0110\u00E3 gia t\u0103ng th\u00EAm 1 s\u1EA3n ph\u1EA9m n\u00E0y");
-            }
-        });
+        if (this.quantity <= variant.inventory_quantity) {
+            // setup product title
+            variant['productTitle'] = this.navParams.get('title');
+            variant['selected'] = true;
+            this.store.select('cart', 'entities')
+                .take(1)
+                .subscribe(function (variants) {
+                // let variant = this.getVariantByTitle(product,product.selectedVariant);
+                if (variants[variant.id] == undefined) {
+                    _this.store.dispatch(new cartActions.AddAction(variant, _this.quantity));
+                    _this.presentToast("\u0110\u00E3 th\u00EAm " + _this.quantity + " " + variant['productTitle'] + ", lo\u1EA1i " + variant['title'] + " v\u00E0o gi\u1ECF h\u00E0ng");
+                }
+                else {
+                    _this.store.dispatch(new cartActions.IncreaseAction(variant, _this.quantity));
+                    _this.presentToast("\u0110\u00E3 t\u0103ng th\u00EAm " + _this.quantity + " " + variant['productTitle'] + ", lo\u1EA1i " + variant['title']);
+                }
+            });
+            return true;
+        }
+        else {
+            this.alertNoti('Số lượng sản phẩm trong kho không đủ');
+            return false;
+        }
+    };
+    ItemVariantPage.prototype.gotoCart = function (variant) {
+        if (this.addToCart(variant)) {
+            this.viewCtrl.dismiss();
+            this.navCtrl.push('ItemCartPage', { view: true });
+        }
     };
     ItemVariantPage.prototype.presentToast = function (text) {
         var toast = this.toastCtrl.create({
@@ -148,6 +179,17 @@ var ItemVariantPage = /** @class */ (function () {
             duration: 3000
         });
         toast.present();
+    };
+    ItemVariantPage.prototype.alertNoti = function (text) {
+        var noti = this.alertCtrl.create({
+            message: text
+        });
+        noti.present();
+        setTimeout(function () {
+            if (noti.isOverlay) {
+                noti.dismiss();
+            }
+        }, 3000);
     };
     ItemVariantPage.prototype.getFirstVariant = function () {
         this.variants = this.navParams.get('variants');
@@ -261,7 +303,9 @@ var ItemVariantPage = /** @class */ (function () {
         __metadata("design:paramtypes", [NavController,
             NavParams,
             Store,
-            ToastController])
+            ToastController,
+            AlertController,
+            ViewController])
     ], ItemVariantPage);
     return ItemVariantPage;
 }());

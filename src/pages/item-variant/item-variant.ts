@@ -1,6 +1,6 @@
 import { Store } from '@ngrx/store';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, AlertController, ViewController } from 'ionic-angular';
 import * as cartActions from '../../store/product-cart/product-cart.actions';
 
 /**
@@ -30,11 +30,14 @@ export class ItemVariantPage {
   // 	"OptionStockOut": []
   // };
   public listOptionStockOut = [];
+  quantity = 1;
   constructor(
   	public navCtrl: NavController,
   	public navParams: NavParams,
   	public store: Store<any>,
     public toastCtrl: ToastController,
+    public alertCtrl: AlertController,
+    public viewCtrl: ViewController
   	) {
   	this.getFirstVariant();
     this.checkVariantStockIn();
@@ -74,19 +77,19 @@ export class ItemVariantPage {
   }
 
   disableOption1StockOut(){
-	let indexFirstOption1 = 0;
-  	for (let z = 0; z <= this.options[0].details.length - 1; z++) {
-  		if (this.listOptionStockOut != null && this.listOptionStockOut != undefined && this.listOptionStockOut.length > 0) {
-	      	for(let j = 0; j <= this.listOptionStockOut.length-1; j++) {
-	      	  if (this.listOptionStockOut[j] == this.options[0].details[z].name) {
-	      	  	this.options[0].details[z].disabled = true;
-	      	  }else{
-	      	  	indexFirstOption1 = z;
-	      	  }
-	      	}
-      	}
-	}
-	this.firstSelectedVariant(this.options[0].details[indexFirstOption1]);
+  	let indexFirstOption1 = 0;
+    	for (let z = 0; z <= this.options[0].details.length - 1; z++) {
+    		if (this.listOptionStockOut != null && this.listOptionStockOut != undefined && this.listOptionStockOut.length > 0) {
+  	      	for(let j = 0; j <= this.listOptionStockOut.length-1; j++) {
+  	      	  if (this.listOptionStockOut[j] == this.options[0].details[z].name) {
+  	      	  	this.options[0].details[z].disabled = true;
+  	      	  }else{
+  	      	  	indexFirstOption1 = z;
+  	      	  }
+  	      	}
+        	}
+  	}
+  	this.firstSelectedVariant(this.options[0].details[indexFirstOption1]);
   }
 
   firstSelectedVariant(detail){
@@ -126,25 +129,51 @@ export class ItemVariantPage {
   	}
   }
 
-  addToCart(variant) {
-		// setup product title
-    variant['productTitle'] = this.navParams.get('title');
-		variant['selected'] = true;
-    console.log('title',this.navParams.get('title'));
+  increase(variant) {
+    if (this.quantity < variant.inventory_quantity){
+      this.quantity++
+      console.log(this.quantity);
+      // debugger;
+      // this.quantity += 1;
+    }else{
+      this.alertNoti('Số lượng sản phẩm trong kho không đủ');
+    }
+  }
 
-    this.store.select('cart','entities')
-    .take(1)
-    .subscribe((variants) => {
-      // let variant = this.getVariantByTitle(product,product.selectedVariant);
-      if (variants[variant.id] == undefined) {
-        this.store.dispatch(new cartActions.AddAction(variant));
-        this.presentToast(`Đã thêm sản phẩm vào giỏ hàng`);
-      } else {
-        this.store.dispatch(new cartActions.IncreaseAction(variant));
-        this.presentToast(`Đã gia tăng thêm 1 sản phẩm này`);
-      }
-    })
-    
+  decrease() {
+    if (this.quantity > 1) {
+      this.quantity--;
+    }
+  }
+
+  addToCart(variant) {
+    if (this.quantity <= variant.inventory_quantity) {
+  		// setup product title
+      variant['productTitle'] = this.navParams.get('title');
+  		variant['selected'] = true;
+      this.store.select('cart','entities')
+      .take(1)
+      .subscribe((variants) => {
+        // let variant = this.getVariantByTitle(product,product.selectedVariant);
+        if (variants[variant.id] == undefined) {
+          this.store.dispatch(new cartActions.AddAction(variant, this.quantity));
+          this.presentToast(`Đã thêm ${this.quantity} ${variant['productTitle']}, loại ${variant['title']} vào giỏ hàng`);
+        } else {
+          this.store.dispatch(new cartActions.IncreaseAction(variant, this.quantity));
+          this.presentToast(`Đã tăng thêm ${this.quantity} ${variant['productTitle']}, loại ${variant['title']}`);
+        }
+      });
+      return true;
+    }else{
+      this.alertNoti('Số lượng sản phẩm trong kho không đủ');
+      return false;
+    }
+  }
+  gotoCart(variant){
+    if (this.addToCart(variant)) {
+      this.viewCtrl.dismiss();
+      this.navCtrl.push('ItemCartPage',{view: true});
+    }
   }
 
   presentToast(text) {
@@ -153,6 +182,18 @@ export class ItemVariantPage {
       duration: 3000
     });
     toast.present();
+  }
+
+  alertNoti(text){
+    let noti = this.alertCtrl.create({
+      message: text
+    });
+    noti.present();
+    setTimeout(() => {
+      if(noti.isOverlay){
+        noti.dismiss();
+      }
+    }, 3000);
   }
 
   getFirstVariant(){

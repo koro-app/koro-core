@@ -318,7 +318,7 @@ page-home {
 
 // popover backdrop
 ion-popover ion-backdrop{
-  opacity: 0.4;
+  opacity: 0.2 !important;
   background-color: color($colors, black);
 }
 

@@ -10,11 +10,11 @@
       Blogs
     </ion-title>
     <!-- view all button  -->
-    <ion-buttons end>
+    <!-- <ion-buttons end>
       <button ion-button icon-only tappable (tap)="readAll()" [ngClass]="{'seen': seenAll}" [disabled]="seenAll">
         <ion-icon name="done-all"></ion-icon>
       </button>
-    </ion-buttons>
+    </ion-buttons> -->
   </ion-navbar>
 </ion-header>
 <ion-content>
@@ -29,14 +29,14 @@
           <ion-col class="item-article_date" col-8 no-padding>
             {{article.published_at | date: 'dd/MM/yyyy H:mm'}}
           </ion-col>
-          <button ion-button item-end class="read-more" clear>
+          <!-- <button ion-button item-end class="read-more" clear>
             <span *ngIf="article.seen == true">
               Đã đọc
             </span>
             <span *ngIf="article.seen == false">
               Chưa đọc
             </span>
-          </button>
+          </button> -->
         </ion-item>
       </ion-item-sliding>
     </ion-list>

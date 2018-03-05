@@ -1,6 +1,6 @@
 
 import { ItemProvider } from './../../providers/item/item';
-import { Component } from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController} from 'ionic-angular';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
@@ -18,17 +18,23 @@ export class ItemCartPage {
   itemsCart: any[];
   gross: number = 0;
   tabBarElement: any = document.querySelector('.tabbar.show-tabbar');
+  customBackElement: any = document.querySelector('.btn-view');
+  // customBackElement: any = this.element.nativeElement.getElementsByClassName('btn-view')[0];
   isSelectedAll: boolean = true;
   clicked: boolean = false;
   selectedAllClick: boolean = false;
+  viewPage = false;
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
     public modalCtrl: ModalController,
     public store: Store<any>,
-    public itemProvider: ItemProvider
+    public itemProvider: ItemProvider,
+    public element: ElementRef
   ) {
-      
+      if (this.navParams.get('view') == true) {
+        this.viewPage = this.navParams.get('view');
+      }
       this.setVariants();
   }
 
@@ -39,34 +45,29 @@ export class ItemCartPage {
   setVariants() {
     this.variants = this.store.select('cart','entities')
     .map(variants => Object.keys(variants || {}).map(key => variants[key]))
-    .do((variants:any[]) => {
-      this.gross = 0;
-      variants.map(variant => {
-        if (variant.selected == true) {
-          this.gross += variant.price * variant.quantity;
-        }
-      })
-    })
     .do((variants) => {
-      console.log('variants', variants);
       this.itemsCart = variants;
+      this.totalPrice();
     })
   }
 
-  ionViewDidLoad() {
-    // console.log('ionViewDidLoad ItemCheckoutPage');
+  totalPrice(){
+    this.gross = 0;
+    if (this.itemsCart != null && this.itemsCart != undefined) {
+      this.itemsCart.forEach(item => {
+        if(item.selected == true){
+          this.gross += item.price * item.quantity;
+        }
+      });
+    }
   }
 
   increase(variant) {
-    this.store.dispatch(new cartActions.IncreaseAction(variant))
+    this.store.dispatch(new cartActions.IncreaseAction(variant,1));
   }
 
   decrease(variant) {
-    if (variant.quantity != 1) this.store.dispatch(new cartActions.DecreaseAction(variant))
-  }
-
-  select(){
-    
+    if (variant.quantity > 1) this.store.dispatch(new cartActions.DecreaseAction(variant,1));
   }
 
   remove(variant) {
@@ -74,6 +75,7 @@ export class ItemCartPage {
   }
 
   removeAll(){
+    this.clicked = false;
     this.store.dispatch(new cartActions.RemoveAllAction());
   }
 
@@ -95,29 +97,17 @@ export class ItemCartPage {
       });
       this.clicked = true;
     }
-    /* 
-    // ok with ionChange
-    this.selectedAllClick = true;
-    setTimeout(() => this.store.dispatch(new cartActions.SelectedAllAction(isSelectedAll)));
-    */
+    this.totalPrice();
   }
 
   selectItem(isSelected: boolean, index){
-
-    console.log('isSelected first', isSelected, index);
     isSelected = !isSelected;
-    // this.storage.get('itemCarts').then((data) => {
-    //   this.storage.set('itemCarts', this.itemCarts);
-    // });
-    // this.itemsCart[index].selected = isSelected;
-    console.log('isSelected after', isSelected, index);
-    console.log('items', this.itemsCart);
-    // setTimeout(()=>{
       if(isSelected == false){
         this.isSelectedAll = false;
         this.disableCheckout();
       }else{
         this.isSelectedAll = true;
+        this.clicked = false;
         for (let i = 0; i <= this.itemsCart.length - 1; i++) {
           if(index !== i){
             if (this.itemsCart[i].selected == false) {
@@ -127,20 +117,14 @@ export class ItemCartPage {
           }
         }
       }
-    // }, 300)
-
-    /* 
-    // ok with ionChange
-    if (this.selectedAllClick == false) {
-      this.selectedAllClick = false;
-      setTimeout(() => this.store.dispatch(new cartActions.SelectedAction(variant)));
-    }
-    */
+    setTimeout(()=>{
+        this.totalPrice();
+    }, 200)
   }
 
   // check disable btn checkout?
   disableCheckout(){
-    let countUncheck = 0;
+    let countUncheck = 1;
     for (var i = 0; i <= this.itemsCart.length - 1; i++) {
       if (this.itemsCart[i].selected == false) {
         countUncheck++;
@@ -160,50 +144,20 @@ export class ItemCartPage {
   }
 
   checkout() {
-    // this.setNewCartsWhenCheckoutSuccess();
+    this.setNewCartsWhenCheckoutClicked();
     this.variants.map(variants => variants.map(variant => {
-      // variant =>variant.id+':'+variant.quantity)
       if (variant.selected == true) {
-        return {
-          variant_id: variant.id,
-          title: variant.productTitle,
-          vendor: variant.vendor,
-          quantity: variant.quantity
-        }
+        return variant
       }
-    })
-    )
-    /*let newVariants: any[];
-    for(let iItem = 0; iItem <= this.itemsCart.length-1; iItem++) {
-      // push sp duoc chon
-      if (this.itemsCart[iItem].selected == true) {
-        // push từng sp trong cart
-        let item = {
-          "variant_id": this.itemsCart[iItem].variant.id,
-          "title":this.itemsCart[iItem].title,
-          "vendor": this.itemsCart[iItem].vendor,
-          "quantity": this.itemsCart[iItem].quantity
-        };
-        console.log('itemsCart', this.itemsCart[iItem]);
-        newVariants.push(this.itemsCart[iItem]);
-      }
-    }
-    this.navCtrl.push('ItemCheckoutPage',{newVariants})*/
+    }))
     .take(1)
-    // .map(variants =>variants.join(','))
-    // .subscribe((variants:string) =>{
     .subscribe((variants) =>{
       this.navCtrl.push('ItemCheckoutPage',{variants})
     })
-    // this.variants.map(variants => variants.map(variant =>variant.id+':'+variant.quantity))
-    // .take(1)
-    // .map(variants =>variants.join(','))
-    // .subscribe((variants:string) =>{
-    //   this.navCtrl.push('ItemCheckoutPage',{variants})
-    // })
   }
 
-  setNewCartsWhenCheckoutSuccess(){
+  // changed this.variants to this.itemsCart in cart store
+  setNewCartsWhenCheckoutClicked(){
     this.store.dispatch(new cartActions.SetNewCart(this.itemsCart));
   }
 
@@ -220,6 +174,16 @@ export class ItemCartPage {
     if (this.tabBarElement != null) {
       this.tabBarElement.style.display = 'flex';
     }
+    if (this.customBackElement != null) {
+      this.customBackElement.style.display = 'inline-block';
+    }
+  }
+
+  ionViewDidLoad() {
+      // console.log(this.customBackElement);
+    // if (this.navParams.get('view') == true && this.customBackElement != null) {
+    //   this.customBackElement.style.display = 'none';
+    // }
   }
 
 }

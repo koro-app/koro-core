@@ -20,7 +20,6 @@ import { ItemProvider } from './../../providers/item/item';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController, LoadingController } from 'ionic-angular';
 import { ModalController, PopoverController } from 'ionic-angular';
-import * as cartActions from '../../store/product-cart/product-cart.actions';
 import * as seenProductActions from '../../store/seen-product/seen-product.actions';
 import 'rxjs/add/operator/take';
 var ItemProductPage = /** @class */ (function () {
@@ -135,29 +134,6 @@ var ItemProductPage = /** @class */ (function () {
     ItemProductPage.prototype.presentModal = function () {
         var modal = this.modalCtrl.create('ItemProductDescriptionPage', { description: this.productDetail.body_html });
         modal.present();
-    };
-    ItemProductPage.prototype.addToCart = function (product) {
-        var _this = this;
-        this.store.select('cart', 'entities')
-            .take(1)
-            .subscribe(function (variants) {
-            var variant = _this.getVariantByTitle(product, product.selectedVariant);
-            if (variants[variant.id] == undefined || variants[variant.id].selectedVariant != variant.selectedVariant) {
-                _this.store.dispatch(new cartActions.AddAction(variant));
-                _this.presentToast("\u0110\u00E3 th\u00EAm " + product.title + " lo\u1EA1i " + variant.title);
-            }
-            else {
-                _this.store.dispatch(new cartActions.IncreaseAction(variant));
-                _this.presentToast("T\u0103ng 1 s\u1EA3n ph\u1EA9m " + product.title + " b\u1EA3n " + variant.title);
-            }
-        });
-    };
-    ItemProductPage.prototype.presentToast = function (text) {
-        var toast = this.toastCtrl.create({
-            message: text,
-            duration: 3000
-        });
-        toast.present();
     };
     ItemProductPage.prototype.selectedVariant = function (event) {
         this.product['selectedVariant'] = event;

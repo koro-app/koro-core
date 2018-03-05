@@ -163,7 +163,7 @@
     </ion-row>
     <ion-row class="list-products">
       <ng-container *ngFor="let related of product.related_products; let i=index">
-        <ion-col class="product-lineitem" col-6 col-md-3 col-lg-3 col-xl-4 *ngIf="i<3">
+        <ion-col class="product-lineitem" col-6 col-md-3 col-lg-3 col-xl-4 *ngIf="i < 2">
           <div class="product-item">
             <div class="product-img">
               <a text-center tappable (click)="viewProduct(related.handle)">
@@ -205,7 +205,7 @@
     </ion-row>
     <ion-row class="list-products" *ngIf="seenProducts | async; let seenProducts">
       <ng-container  *ngFor="let seen of seenProducts; let i=index">
-        <ion-col class="product-lineitem" col-6 col-md-3 col-lg-3 col-xl-4 *ngIf="i<3">
+        <ion-col class="product-lineitem" col-6 col-md-3 col-lg-3 col-xl-4 *ngIf="i < 2">
           <div class="product-item">
             <div class="product-img">
               <a text-center tappable (click)="viewProduct(seen.handle)">

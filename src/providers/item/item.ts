@@ -21,6 +21,10 @@ export class ItemProvider {
     return this.http.get(`${this.endpoint}/collections/${handle}?view=app.json`)
   }
 
+  getListCollection(){
+    return this.http.get(`${this.endpoint}/collections/?view=app.json`);
+  }
+
   getProduct(handle) {
     // return this.http.get(`${this.endpoint}/products/${handle}.js`)
     return this.http.get(`${this.endpoint}/products/${handle}?view=app.json`)

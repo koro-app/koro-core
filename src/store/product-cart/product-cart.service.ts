@@ -24,40 +24,41 @@ export class ProductCartService {
     )
   }
 
-  addCart(product) : Observable<any> {
+  addCart(product, quantity:number) : Observable<any> {
+    console.log('quantity', quantity);
     this.cart = {
       ...this.cart,
       [product.id]: {
         ...product,
-        quantity: 1
+        quantity: quantity
       }
     }
     return Observable.from(this.checkPoint())
-    .mergeMap(() =>Observable.of(product))
+    .mergeMap(() =>Observable.of({product,quantity}))
   }
 
-  increaseCart(product) : Observable<any> {
+  increaseCart(product, quantity:number) : Observable<any> {
     this.cart = {
       ...this.cart,
       [product.id]: {
         ...this.cart[product.id],
-        quantity: (+this.cart[product.id].quantity)+1
+        quantity: (+this.cart[product.id].quantity)+(+quantity)
       }
     }
     return Observable.from(this.checkPoint())
-    .mergeMap(() =>Observable.of(product))
+    .mergeMap(() =>Observable.of({product,quantity}))
   }
 
-  decreaseCart(product) : Observable<any> {
+  decreaseCart(product, quantity:number) : Observable<any> {
     this.cart = {
       ...this.cart,
       [product.id]: {
         ...this.cart[product.id],
-        quantity: (+this.cart[product.id].quantity)-1
+        quantity: (+this.cart[product.id].quantity)-(+quantity)
       }
     }
     return Observable.from(this.checkPoint())
-    .mergeMap(() =>Observable.of(product))
+    .mergeMap(() =>Observable.of({product,quantity}))
   }
 
   removeCart(product) {
@@ -65,6 +66,12 @@ export class ProductCartService {
     this.cart = rest;
     return Observable.from(this.checkPoint())
     .mergeMap(() =>Observable.of(product))
+  }
+
+  removeAllCart(){
+    this.cart = {};
+    return Observable.from(this.checkPoint())
+    .mergeMap(() =>Observable.of())
   }
 
   selectedItemCart(product) : Observable<any> {

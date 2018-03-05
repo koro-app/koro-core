@@ -142,30 +142,6 @@ export class ItemProductPage {
     modal.present();
   }
 
-  addToCart(product) {
-    this.store.select('cart','entities')
-    .take(1)
-    .subscribe((variants) => {
-      let variant = this.getVariantByTitle(product,product.selectedVariant);
-      if (variants[variant.id] == undefined || variants[variant.id].selectedVariant != variant.selectedVariant) {
-        this.store.dispatch(new cartActions.AddAction(variant));
-        this.presentToast(`Đã thêm ${product.title} loại ${variant.title}`);
-      } else {
-        this.store.dispatch(new cartActions.IncreaseAction(variant));
-        this.presentToast(`Tăng 1 sản phẩm ${product.title} bản ${variant.title}`);
-      }
-    })
-    
-  }
-
-  presentToast(text) {
-    let toast = this.toastCtrl.create({
-      message: text,
-      duration: 3000
-    });
-    toast.present();
-  }
-
   selectedVariant(event) {
     this.product['selectedVariant'] = event;
   }
