@@ -112,17 +112,17 @@ export function reducer(state = initialState, action: productCart.Actions): Stat
     }
 
     // SET NEW CART
-    case productCart.SELECTED: {
-      return {
-      ...state,
-        entities: action.payload
-      }
-    }
+    // case productCart.SELECTED: {
+    //   return {
+    //   ...state,
+    //     entities: action.payload
+    //   }
+    // }
 
     // SELECTED PRODUCT
     case productCart.SELECTED: {
       return {
-     ...state,
+        ...state,
         entities: {
           ...state.entities,
           [action.payload.id]: {

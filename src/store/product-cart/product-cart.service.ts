@@ -25,7 +25,6 @@ export class ProductCartService {
   }
 
   addCart(product, quantity:number) : Observable<any> {
-    console.log('quantity', quantity);
     this.cart = {
       ...this.cart,
       [product.id]: {

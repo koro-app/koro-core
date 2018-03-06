@@ -1,28 +1,26 @@
-<ion-header>
-  <ion-navbar [hideBackButton]="!viewPage">
-    <ion-title>
-    <!-- button back -->
-      <button class="btn-title btn-view" ion-button color="black" clear *ngIf="!viewPage">
-        <ion-icon class="fsize-22" name="arrow-back" tappable (tap)="dismiss()" padding-horizontal></ion-icon>
-      </button>
-      <button ion-button color="black" disabled clear text-uppercase>
-        Giỏ hàng
-      </button>
-    </ion-title>
-    <!-- del all button  -->
-    <ion-buttons end>
-      <button ion-button icon-only tappable (tap)="removeAll()" [disabled]="itemsCart?.length < 1">
-        <i class="fas fa-trash-alt"></i>
-      </button>
-    </ion-buttons>
-  </ion-navbar>
-</ion-header>
-<ion-content>
-  <ng-container *ngIf="variants | async; let variants">
-  </ng-container>
-  <ng-container>
-    <ion-list class="list-item-cart no-mg-bottom" *ngIf="itemsCart?.length > 0">
-      <ion-item-sliding no-padding class="item-cart" *ngFor="let variant of itemsCart; let num = index">
+<ng-container *ngIf="variants | async; let variants">
+  <ion-header>
+    <ion-navbar [hideBackButton]="!viewPage">
+      <ion-title [ngClass]="{'viewastab': viewPage == false}">
+        <!-- button back -->
+        <button class="btn-title btn-view" ion-button color="black" clear *ngIf="!viewPage">
+          <ion-icon class="fsize-22" name="arrow-back" tappable (tap)="dismiss()" padding-horizontal></ion-icon>
+        </button>
+        <button ion-button color="black" disabled clear text-uppercase>
+          Giỏ hàng
+        </button>
+      </ion-title>
+      <!-- del all button  -->
+      <ion-buttons end>
+        <button ion-button icon-only tappable (tap)="removeAll()" [disabled]="variants?.length < 1">
+          <i class="fas fa-trash-alt"></i>
+        </button>
+      </ion-buttons>
+    </ion-navbar>
+  </ion-header>
+  <ion-content>
+    <ion-list class="list-item-cart no-mg-bottom" *ngIf="variants?.length > 0">
+      <ion-item-sliding no-padding class="item-cart" *ngFor="let variant of variants; let num = index">
         <ion-item class="line-item">
           <ion-label no-margin>
             <ion-row no-padding align-items-center>
@@ -67,62 +65,48 @@
               </ion-col>
             </ion-row>
           </ion-label>
-          <ion-checkbox [checked]="variant.selected" [(ngModel)]="variant.selected" class="check-item" tappable (tap)="selectItem(variant.selected, num)"></ion-checkbox>
-          <!-- <ion-checkbox [checked]="variant.selected" class="check-item" (ionChange)="selectItem(variant)"></ion-checkbox> -->
+          <ion-checkbox [checked]="variant.selected" class="check-item" (ionChange)="selectItem(variant, num.checked)" tappable (tap)="clickedItem(num.checked)" #num></ion-checkbox>
         </ion-item>
       </ion-item-sliding>
     </ion-list>
-  </ng-container>
-  <ion-grid>
-    <ion-row class="note">
-      <ion-col col-12 class="note-content" tappable (tap)="addNote()" *ngIf="itemsCart?.length > 0">
-        <!-- <textarea rows="3"></textarea> -->
-        <div class="title-note" text-uppercase>
-          Ghi chú:
-        </div>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-</ion-content>
-<ion-footer>
-  <ion-grid class="bg-white">
-    <ion-row align-items-center class="pd-cart">
-      <ion-col col-4 class="count-item">
-        <ion-list no-margin>
-          <ion-item no-padding class="bg-white">
-            <ion-label no-margin class="fsize-12 novflow">
-              Chọn tất cả
-            </ion-label>
-            <ion-checkbox [checked]="isSelectedAll" [(ngModel)]="isSelectedAll" class="check-all" tappable (tap)="selectAllItems( !isSelectedAll)" [disabled]="itemsCart?.length < 1" #btncheckall></ion-checkbox>
-            <!-- <ion-checkbox [checked]="isSelectedAll" class="check-all" (ionChange)="selectAllItems( btncheckall.checked)" #btncheckall></ion-checkbox> -->
-          </ion-item>
-        </ion-list>
-      </ion-col>
-      <ion-col col-8 text-right class="total">
-        <p class="title" no-margin>Tổng cộng:
-          <span class="price">{{gross | number: '1.0-2' }}₫</span>
-        </p>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-  <ion-grid no-padding>
-    <ion-row>
-      <ion-col col-12>
-        <button class="btn-checkout" color="saleoff" text-uppercase tappable (tap)="checkout()" [disabled]="clicked || itemsCart?.length < 1" ion-button full>
-          Tiến hành thanh toán
-        </button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-  <!-- <ion-toolbar class="botbar">
-    <p start class="gross">
-      Tổng: {{gross / 100 | number: '1.0-2' }}₫
-    </p>
-    <ion-buttons end>
-      <button ion-button icon-start outline color="secondary" (click)="checkout()">
-        <ion-icon name="cart"></ion-icon>
-        Thanh toán
-      </button>
-    </ion-buttons>
-  </ion-toolbar> -->
-</ion-footer>
+    <ion-grid>
+      <ion-row class="note">
+        <ion-col col-12 class="note-content" tappable (tap)="addNote()" *ngIf="variants?.length > 0">
+          <div class="title-note" text-uppercase>
+            Ghi chú:
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-content>
+  <ion-footer>
+    <ion-grid class="bg-white">
+      <ion-row align-items-center class="pd-cart">
+        <ion-col col-4 class="count-item">
+          <ion-list no-margin>
+            <ion-item no-padding class="bg-white">
+              <ion-label no-margin class="fsize-12 novflow">
+                Chọn tất cả
+              </ion-label>
+              <ion-checkbox [checked]="isSelectedAll" [disabled]="variants?.length < 1" class="check-all" tappable (tap)="selectAllItems( btncheckall.checked)" #btncheckall></ion-checkbox>
+            </ion-item>
+          </ion-list>
+        </ion-col>
+        <ion-col col-8 text-right class="total">
+          <p class="title" no-margin>Tổng cộng:
+            <span class="price">{{gross | number: '1.0-2' }}₫</span>
+          </p>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-grid no-padding>
+      <ion-row>
+        <ion-col col-12>
+          <button class="btn-checkout" color="saleoff" text-uppercase tappable (tap)="checkout()" [disabled]="clicked || variants?.length < 1" ion-button full>
+            Tiến hành thanh toán
+          </button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-footer>
+</ng-container>

@@ -1,7 +1,7 @@
 
 import { ItemProvider } from './../../providers/item/item';
 import { Component, ElementRef } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController} from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, AlertController} from 'ionic-angular';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import * as cartActions from '../../store/product-cart/product-cart.actions';
@@ -15,8 +15,10 @@ import 'rxjs/add/operator/take';
 })
 export class ItemCartPage {
   variants: Observable<any>;
-  itemsCart: any[];
+  lengthVariants: number = 0;
   gross: number = 0;
+  countUncheck: number = 0;
+  countCheck: number = 0;
   tabBarElement: any = document.querySelector('.tabbar.show-tabbar');
   customBackElement: any = document.querySelector('.btn-view');
   // customBackElement: any = this.element.nativeElement.getElementsByClassName('btn-view')[0];
@@ -28,6 +30,7 @@ export class ItemCartPage {
     public navCtrl: NavController, 
     public navParams: NavParams,
     public modalCtrl: ModalController,
+    public alertCtrl: AlertController,
     public store: Store<any>,
     public itemProvider: ItemProvider,
     public element: ElementRef
@@ -46,20 +49,27 @@ export class ItemCartPage {
     this.variants = this.store.select('cart','entities')
     .map(variants => Object.keys(variants || {}).map(key => variants[key]))
     .do((variants) => {
-      this.itemsCart = variants;
-      this.totalPrice();
-    })
-  }
-
-  totalPrice(){
-    this.gross = 0;
-    if (this.itemsCart != null && this.itemsCart != undefined) {
-      this.itemsCart.forEach(item => {
-        if(item.selected == true){
-          this.gross += item.price * item.quantity;
+      this.gross = 0;
+      this.countUncheck = 0;
+      this.countCheck = 0;
+      this.lengthVariants = variants.length;
+      this.clicked = true;
+      variants.map(variant => {
+        // tinh tong tien variant nao selected
+        if (variant.selected == true) {
+          this.gross += variant.price * variant.quantity;
         }
-      });
-    }
+        // dem so variant unselected
+        if (variant.selected == false) {
+          this.countUncheck++;
+        }else{
+          this.countCheck++;
+        }
+      })
+        // neu so variant unselected = so variant co trong variants => disabled btn checkout (clicked = true)
+      this.disableCheckout();
+      this.checkSelectedAll();
+    })
   }
 
   increase(variant) {
@@ -71,12 +81,44 @@ export class ItemCartPage {
   }
 
   remove(variant) {
-    this.store.dispatch(new cartActions.RemoveAction(variant));
+    let confirm = this.alertCtrl.create({
+        message: 'Xóa sản phẩm này khỏi giỏ hàng?',
+        buttons: [
+          {
+            text: 'Không',
+            handler: () => {
+            }
+          },
+          {
+            text: 'Xóa',
+            handler: () => {
+              this.store.dispatch(new cartActions.RemoveAction(variant));
+            }
+          }
+        ]
+      });
+    confirm.present();
   }
 
   removeAll(){
-    this.clicked = false;
-    this.store.dispatch(new cartActions.RemoveAllAction());
+    let confirm = this.alertCtrl.create({
+        message: 'Xóa tất cả sản phẩm khỏi giỏ hàng?',
+        buttons: [
+          {
+            text: 'Không',
+            handler: () => {
+            }
+          },
+          {
+            text: 'Xóa tất cả',
+            handler: () => {
+              this.clicked = false;
+              this.store.dispatch(new cartActions.RemoveAllAction());
+            }
+          }
+        ]
+      });
+    confirm.present();
   }
 
   viewProduct(handle){
@@ -84,57 +126,41 @@ export class ItemCartPage {
   }
 
   // checked/unchecked khi click btn chọn tất cả
-  selectAllItems(isSelectedAll:boolean) {
-    isSelectedAll = isSelectedAll;
-    if(isSelectedAll){
-      this.itemsCart.forEach(item => {
-        item.selected = true;
-      });
-      this.clicked = false;
-    }else{
-      this.itemsCart.forEach(item => {
-        item.selected = false;
-      });
-      this.clicked = true;
-    }
-    this.totalPrice();
+  selectAllItems(valueSelectedAll:boolean) {
+    this.selectedAllClick = true;
+    setTimeout(() => this.store.dispatch(new cartActions.SelectedAllAction(!valueSelectedAll)));
   }
 
-  selectItem(isSelected: boolean, index){
-    isSelected = !isSelected;
-      if(isSelected == false){
-        this.isSelectedAll = false;
-        this.disableCheckout();
-      }else{
-        this.isSelectedAll = true;
-        this.clicked = false;
-        for (let i = 0; i <= this.itemsCart.length - 1; i++) {
-          if(index !== i){
-            if (this.itemsCart[i].selected == false) {
-              this.isSelectedAll = false;
-              break;
-            }
-          }
-        }
+  clickedItem( value:boolean){
+    this.selectedAllClick = false;
+  }
+
+  selectItem(variant, value:boolean){
+    setTimeout(() => {
+      if (this.selectedAllClick == false) {
+        this.store.dispatch(new cartActions.SelectedAction(variant, value))
       }
-    setTimeout(()=>{
-        this.totalPrice();
-    }, 200)
+    });
   }
 
-  // check disable btn checkout?
+  // check disabled btn checkout?
   disableCheckout(){
-    let countUncheck = 1;
-    for (var i = 0; i <= this.itemsCart.length - 1; i++) {
-      if (this.itemsCart[i].selected == false) {
-        countUncheck++;
-      }
-    }
     // ko co sp nao dc chon thi disable btn checkout
-    if (countUncheck == this.itemsCart.length) {
+    if (this.countUncheck == this.lengthVariants) {
       this.clicked = true;
     }else{
       this.clicked = false;
+    }
+  }
+
+  // check SelectedAll?
+  checkSelectedAll(){
+    if (this.selectedAllClick == false) {
+      if (this.countCheck == this.lengthVariants) {
+        this.isSelectedAll = true;
+      }else{
+        this.isSelectedAll = false;
+      }
     }
   }
 
@@ -144,7 +170,6 @@ export class ItemCartPage {
   }
 
   checkout() {
-    this.setNewCartsWhenCheckoutClicked();
     this.variants.map(variants => variants.map(variant => {
       if (variant.selected == true) {
         return variant
@@ -155,12 +180,6 @@ export class ItemCartPage {
       this.navCtrl.push('ItemCheckoutPage',{variants})
     })
   }
-
-  // changed this.variants to this.itemsCart in cart store
-  setNewCartsWhenCheckoutClicked(){
-    this.store.dispatch(new cartActions.SetNewCart(this.itemsCart));
-  }
-
 
   // hide tabbartabroot cart
   ionViewWillEnter() {

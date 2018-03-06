@@ -59,7 +59,6 @@ export class ItemProductPage {
     this.seenProducts = this.store.select('seenProduct', 'entities')
     .map(products => Object.keys(products || {}).map(key => products[key]))
     .do((products) => {
-      console.log('products', products);
     })
   }
 
@@ -123,7 +122,7 @@ export class ItemProductPage {
           selectedDetail: '40cm'
         }
       */
-      return {...option,details,selectedDetail:details[0]}
+      return {...option,details,selectedDetail:""}
     })
   }
 
@@ -191,14 +190,16 @@ export class ItemProductPage {
   }
 
   // hide tabbar on page product
-  ionViewWillEnter() {
+  // ionViewWillEnter() {
+  ionViewCanEnter() {
     if (this.tabBarElement != null) {
       this.tabBarElement.style.display = 'none';
     }
   }
 
   // show normail tabbar
-  ionViewWillLeave() {
+  // ionViewWillLeave() {
+    ionViewCanLeave(){
     if (this.tabBarElement != null) {
       this.tabBarElement.style.display = 'flex';
     }
