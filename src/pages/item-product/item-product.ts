@@ -3,6 +3,7 @@ import { ItemProvider } from './../../providers/item/item';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController, LoadingController } from 'ionic-angular';
 import { ModalController, PopoverController } from 'ionic-angular';
+import { SocialSharing } from '@ionic-native/social-sharing';
 import * as cartActions from '../../store/product-cart/product-cart.actions';
 import * as seenProductActions from '../../store/seen-product/seen-product.actions';
 import 'rxjs/add/operator/take';
@@ -30,7 +31,8 @@ export class ItemProductPage {
     public store: Store<any>,
     public toastCtrl: ToastController,
     public popoverCtrl: PopoverController,
-    public loadingCtrl: LoadingController
+    public loadingCtrl: LoadingController,
+    public socialSharing: SocialSharing
   ) {
     this.getProduct();
     this.getSeenProduct();
@@ -134,6 +136,11 @@ export class ItemProductPage {
 
   ionViewDidLoad() {
 
+  }
+  
+  goShare(){
+    var urlShare = `https://suplo-fashion.myharavan.com/products/${this.productDetail.handle}`;
+    this.socialSharing.share(null, 'Chia sẻ', null, urlShare);
   }
 
   presentModal() {

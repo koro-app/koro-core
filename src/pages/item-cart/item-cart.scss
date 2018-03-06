@@ -16,9 +16,9 @@ page-item-cart {
       margin: 0 !important;
       padding: 0 !important;
       // text-transform: none !important;
-      width: 20px;
+      width: 37px;
       font-size: 20px;
-      margin-right: 17px !important;
+      margin-right: 0px !important;
     }
     button[disabled] {
       font-weight: bold;
@@ -27,6 +27,9 @@ page-item-cart {
       margin: 0 !important;
       padding: 0 !important;
     }
+    // .bar-buttons .bar-button {
+    //   width: 40px;
+    // }
   }
   &.ion-page .toolbar-ios ion-title{
     width: inherit;
@@ -334,5 +337,6 @@ textarea{
     line-height: 2.3;
     font-size: 14px;
     height: 32px;
+    margin-bottom: 0;
   }
 }

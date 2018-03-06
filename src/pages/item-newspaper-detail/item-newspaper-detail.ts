@@ -27,7 +27,9 @@ export class ItemNewspaperDetailPage {
 
   getArticle(){
   	this.itemProvider.getArticle(this.navParams.get('url')).subscribe((data:any) => {
+      data.article.content = data.article.content.replace('src="//', 'src="http://');;
       this.detailNoti = data.article;
+      this.detailNoti.content = data.article.content.replace('src="//', 'src="http://');
     });
   }
 

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { ItemProductPage } from './item-product';
 import { ComponentsModule } from '../../components/components.module';
+import { SocialSharing } from '@ionic-native/social-sharing';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,9 @@ import { ComponentsModule } from '../../components/components.module';
   ],
   entryComponents: [
     ItemProductPage
+  ],
+  providers: [
+    SocialSharing
   ]
 })
 export class ItemProductPageModule {}

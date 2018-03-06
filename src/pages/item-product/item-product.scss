@@ -116,12 +116,12 @@ page-item-product {
         position: absolute;
         right: 50px;
         border-radius: 50%;
-        height: 28px;
-        width: 28px;
+        height: 32px;
+        width: 32px;
         text-align: center;
         margin: 0 auto;
-        top: -14px;
-        line-height: 28px;
+        top: -16px;
+        line-height: 32px;
         background: color($colors, white);
         cursor: pointer;
         z-index: 10;
@@ -131,16 +131,19 @@ page-item-product {
         position: absolute;
         right: 9px;
         border-radius: 50%;
-        height: 28px;
-        width: 28px;
+        height: 32px;
+        width: 32px;
         text-align: center;
         margin: 0 auto;
-        top: -14px;
-        line-height: 28px;
+        top: -16px;
+        line-height: 32px;
         background: color($colors, white);
         cursor: pointer;
         z-index: 10;
         border: 1px solid #b7b7b7;
+      }
+      i{
+        font-size: 14px;
       }
     }
   } // cus header title
