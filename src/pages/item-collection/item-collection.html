@@ -9,7 +9,7 @@
     <ion-title>{{pageName}}</ion-title>
     <!-- search button  -->
     <ion-buttons end>
-      <button ion-button icon-only tappable (click)="goSearch()">
+      <button ion-button icon-only tappable (tap)="goSearch()">
         <!-- <ion-icon name="search"></ion-icon> -->
         <i class="fas fa-search"></i>
       </button>
@@ -23,7 +23,7 @@
     </ion-buttons>
     <!-- noti button  -->
     <!-- <ion-buttons end>
-      <button class="noti-btn" ion-button icon-only tappable (click)="viewNoti()">
+      <button class="noti-btn" ion-button icon-only tappable (tap)="viewNoti()">
         <i class="fas fa-bell"></i>
         <ion-badge item-end class="badge-header">0</ion-badge>
       </button>

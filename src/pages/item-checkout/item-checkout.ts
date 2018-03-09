@@ -73,6 +73,7 @@ export class ItemCheckoutPage {
   }
 
   directCheckout(){
+    
     this.storage.get('noteToCart').then((note) => {
       this.data_post_structor.note = note;
     });
@@ -111,13 +112,21 @@ export class ItemCheckoutPage {
       console.log("closePressed :  " + data.url.indexOf('thank_you'))
       if(data.url.indexOf('thank_you') !== -1){
         this.removeItemWhenCheckoutSuccess();
-        this.brower.close();
-      }else{
-        this.brower.close();
+        // this.navCtrl.setRoot('ItemCartPage').then(() => {
+        //   let index = this.viewCtrl.index - 1;
+        //   console.log
+        //   this.navCtrl.remove(index);
+        // })
+        // this.navCtrl.setRoot('ItemCartPage');
         // this.navCtrl.push(this.navCtrl.getActive().component).then(() => {
         //   let index = this.viewCtrl.index;
         //   this.navCtrl.remove(index);
         // })
+        setTimeout(() => {
+          this.brower.close();
+        }, 500);
+      }else{
+        this.brower.close();
       }
     });
     this.brower.on("loadfail").subscribe(error =>{
@@ -145,9 +154,16 @@ export class ItemCheckoutPage {
   removeItemWhenCheckoutSuccess(){
     for(let i = 0; i <= this.variants.length - 1; i++){
       if (this.variants[i] != null && this.variants[i] != undefined) {
-        this.store.dispatch(new cartActions.RemoveItemCheckout(this.variants[i]));
+        console.log(this.variants[i]);
+        this.store.dispatch(new cartActions.RemoveAction(this.variants[i]));
       }
-    }
+    };
+    setTimeout(() => {
+      // this.navCtrl.push(this.navCtrl.getActive().component).then(() => {
+      //   let index = this.viewCtrl.index;
+      //   this.navCtrl.remove(index);
+      // })
+    }, 3000);
   }
 
   alertNoti(text){

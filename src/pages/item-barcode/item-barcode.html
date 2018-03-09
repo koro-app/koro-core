@@ -28,7 +28,7 @@
         <ion-col col-6 *ngFor="let product of results">
           <div class="product-item">
             <div class="product-img">
-              <a text-center tappable (click)="viewProduct(product.handle)">
+              <a text-center tappable (tap)="viewProduct(product.handle)">
             <img [src]="product.featured_image" [alt]="product.title">
           </a>
               <div class="product-tags">
@@ -37,7 +37,7 @@
               </div>
             </div>
             <div class="product-info">
-              <div class="product-title" text-uppercase tappable (click)="viewProduct(product.handle)">
+              <div class="product-title" text-uppercase tappable (tap)="viewProduct(product.handle)">
                 {{product.title}}
               </div>
               <div class="product-price" text-center>

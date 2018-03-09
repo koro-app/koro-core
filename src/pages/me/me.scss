@@ -9,4 +9,14 @@ page-me {
         width: 100%;
         display: none;
     }
+    .img-circular{
+     width: 100%;
+     // height: 200px;
+     background-image: url('../assets/icon/home-parallax-bgfrgrgr.jpg');
+     background-size: cover;
+     display: block;
+     // border-radius: 100px;
+     // -webkit-border-radius: 100px;
+     // -moz-border-radius: 100px;
+    }
 }

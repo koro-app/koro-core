@@ -7,9 +7,9 @@
 <ion-header>
 
   <ion-navbar>
-      <button ion-button menuToggle>
-          <ion-icon name="menu"></ion-icon>
-        </button>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
     <ion-title>me</ion-title>
   </ion-navbar>
 
@@ -17,14 +17,19 @@
 
 
 <ion-content>
+  <div class="img-circular"></div>
+  <!-- <p>{{inforAccount}}</p> -->
   <!-- <iframe class="iframe" #iframe src="https://suplo-food.myharavan.com/account?view=suplo"></iframe> -->
 
-  <ng-container *ngIf="showUserFrame else showLoginFrame">
+  <!-- <ng-container *ngIf="showUserFrame else showLoginFrame">
     <iframe #iframeAccount class="iframe-account" src="https://suplo-food.myharavan.com/account" frameborder="0" (load)="accountLoad($event,iframeAccount)"></iframe>
-  </ng-container>
+  </ng-container> -->
 
-  <ng-template #showLoginFrame>
-      <iframe #iframeLogin class="iframe-login" src="https://suplo-food.myharavan.com/account/login" frameborder="0" (load)="accountLoad($event,iframeLogin)"></iframe>
-  </ng-template>
+ <!--  <ng-template #showLoginFrame>
+      <iframe #iframeLogin class="iframe-login" src="https://suplo-fashion.myharavan.com/account/login" frameborder="0" (load)="accountLoad($event,iframeLogin)"></iframe>
+  </ng-template> -->
+  <!-- <ng-template #showLoginFrame>
+      <iframe #iframeLogin class="iframe-login" [src]="regisLink" frameborder="0" (load)="registerAction($event,iframeLogin)"></iframe>
+  </ng-template> -->
 
 </ion-content>

@@ -33,7 +33,7 @@
 	                <span>{{detail.name}}</span>
 	                <img class="crossed-out" src="assets/icon/soldout.png">
 	              </ion-label>
-	              <ion-radio tappable (click)="selectedDetail(option,detail)" [disabled]="detail.disabled" [checked]="option.selectedDetail == detail.name" #optionSelected></ion-radio>
+	              <ion-radio tappable (tap)="selectedDetail(option,detail)" [disabled]="detail.disabled" [checked]="option.selectedDetail == detail.name" #optionSelected></ion-radio>
 	            </ion-item>
 	          </div>
 	        </ion-list>

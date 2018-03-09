@@ -9,7 +9,7 @@
     <ion-title></ion-title>
     <!-- search button  -->
     <ion-buttons end>
-      <button ion-button icon-only tappable (click)="goSearch()">
+      <button ion-button icon-only tappable (tap)="goSearch()">
         <!-- <ion-icon name="search"></ion-icon> -->
         <i class="fas fa-search"></i>
       </button>
@@ -23,7 +23,7 @@
     </ion-buttons>
     <!-- noti button  -->
     <!-- <ion-buttons end>
-      <button class="noti-btn" ion-button icon-only tappable (click)="viewNoti()">
+      <button class="noti-btn" ion-button icon-only tappable (tap)="viewNoti()">
         <i class="fas fa-bell"></i>
         <ion-badge item-end class="badge-header">0</ion-badge>
       </button>
@@ -136,7 +136,7 @@
         <div class="text-title" text-uppercase>
           Mô tả sản phẩm
         </div>
-        <div class="icon-title" tappable (click)="presentModal()">
+        <div class="icon-title" tappable (tap)="presentModal()">
           <i class="fas fa-angle-right"></i>
         </div>
       </ion-col>
@@ -156,7 +156,7 @@
         <div class="text-title" text-uppercase>
           Sản phẩm liên quan
         </div>
-        <div class="icon-title" tappable (click)="goCollection(product.related_handle, product.related_title)">
+        <div class="icon-title" tappable (tap)="goCollection(product.related_handle, product.related_title)">
           <i class="fas fa-angle-right"></i>
         </div>
       </ion-col>
@@ -166,7 +166,7 @@
         <ion-col class="product-lineitem" col-6 col-md-3 col-lg-3 col-xl-4 *ngIf="i < 2">
           <div class="product-item">
             <div class="product-img">
-              <a text-center tappable (click)="viewProduct(related.handle)">
+              <a text-center tappable (tap)="viewProduct(related.handle)">
                 <img [src]="related.featured_image" [alt]="related.title">
               </a>
               <div class="product-tags">
@@ -175,7 +175,7 @@
               </div>
             </div>
             <div class="product-info">
-              <div class="product-title" text-uppercase tappable (click)="viewProduct(related.handle)">
+              <div class="product-title" text-uppercase tappable (tap)="viewProduct(related.handle)">
                 {{related.title}}
               </div>
               <div class="product-price" text-center>
@@ -198,7 +198,7 @@
         <div class="text-title" text-uppercase>
           Sản phẩm đã xem
         </div>
-        <div class="icon-title" tappable (click)="goSeenProduct()">
+        <div class="icon-title" tappable (tap)="goSeenProduct()">
           <i class="fas fa-angle-right"></i>
         </div>
       </ion-col>
@@ -208,7 +208,7 @@
         <ion-col class="product-lineitem" col-6 col-md-3 col-lg-3 col-xl-4 *ngIf="i < 2">
           <div class="product-item">
             <div class="product-img">
-              <a text-center tappable (click)="viewProduct(seen.handle)">
+              <a text-center tappable (tap)="viewProduct(seen.handle)">
                 <img [src]="seen.images[0]" [alt]="seen.title">
               </a>
               <div class="product-tags">
@@ -217,7 +217,7 @@
               </div>
             </div>
             <div class="product-info">
-              <div class="product-title" text-uppercase tappable (click)="viewProduct(seen.handle)">
+              <div class="product-title" text-uppercase tappable (tap)="viewProduct(seen.handle)">
                 {{seen.title}}
               </div>
               <div class="product-price" text-center>
@@ -240,7 +240,7 @@
     <p class="item-price">{{product.price}}₫</p>
     <p class="item-title">{{product.title}}</p>
     <item-product-variants *ngIf="options" [options]="options" (selectedVariant)="selectedVariant($event)"></item-product-variants>
-    <div class="item-description" [innerHTML]="product.description" tappable (click)="presentModal()"></div>
+    <div class="item-description" [innerHTML]="product.description" tappable (tap)="presentModal()"></div>
   </div> -->
   <!-- add cart -->
   <!-- <div class="add-cart">

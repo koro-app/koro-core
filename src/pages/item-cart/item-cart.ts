@@ -204,5 +204,8 @@ export class ItemCartPage {
     //   this.customBackElement.style.display = 'none';
     // }
   }
+  ionViewDidEnter() {
+    // this.navCtrl.pop();
+  }
 
 }

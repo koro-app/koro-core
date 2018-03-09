@@ -33,13 +33,26 @@ export class UserProvider {
     }))
   }
 
+  userDataView(){
+     return this.storage.get('user').then((user) => {
+      user;
+    })
+  }
+
   userState(state) {
     this.user = state;
     this.storage.set('user',this.user)
   }
 
   saveUsername(username) {
-    this.storage.set('username',username)
+    this.storage.set('user',username)
+  }
+
+  getUserData(){
+    return this.http.get(`https://suplo-fashion.myharavan.com/account?view=app.json`).subscribe((data) => {
+      console.log('user',data);
+      this.saveUsername(data['name']);
+    });
   }
 
 }

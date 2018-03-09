@@ -41,10 +41,10 @@
                 <ion-row align-items-center>
                   <ion-col col-12 class="no-pd-bottom">
                     <ion-input type="number" class="qty-num" value="{{variant.quantity}}" min="1" #qtynum></ion-input>
-                    <button ion-button clear class="qty-minus" tappable (click)="decrease(variant)">
+                    <button ion-button clear class="qty-minus" tappable (tap)="decrease(variant)">
                       <i class="fas fa-minus"></i>
                     </button>
-                    <button ion-button clear class="qty-plus" tappable (click)="increase(variant)">
+                    <button ion-button clear class="qty-plus" tappable (tap)="increase(variant)">
                       <i class="fas fa-plus"></i>
                     </button>
                   </ion-col>

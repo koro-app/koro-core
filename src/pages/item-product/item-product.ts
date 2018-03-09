@@ -197,16 +197,16 @@ export class ItemProductPage {
   }
 
   // hide tabbar on page product
-  // ionViewWillEnter() {
-  ionViewCanEnter() {
+  ionViewWillEnter() {
+  // ionViewCanEnter() {
     if (this.tabBarElement != null) {
       this.tabBarElement.style.display = 'none';
     }
   }
 
   // show normail tabbar
-  // ionViewWillLeave() {
-    ionViewCanLeave(){
+  ionViewWillLeave() {
+    // ionViewCanLeave(){
     if (this.tabBarElement != null) {
       this.tabBarElement.style.display = 'flex';
     }
