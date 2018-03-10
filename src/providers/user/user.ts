@@ -7,6 +7,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class UserProvider {
   user:boolean = null;
+  userInfor;
   
   constructor(
     public http: HttpClient,
@@ -18,12 +19,12 @@ export class UserProvider {
 
   checkUser() {
     return this.storage.ready().then(() => 
-    this.storage.get('user').then((user) => 
+    this.storage.get('account').then((account) => 
     {
-      if (user) {
+      if (account) {
         this.user = true;
         console.log('from memory: user logged')
-        return user;
+        return account;
       }
       else {
         this.user = false;
@@ -34,18 +35,18 @@ export class UserProvider {
   }
 
   userDataView(){
-     return this.storage.get('user').then((user) => {
-      user;
-    })
+    return this.storage.ready().then(() =>
+      this.storage.get('account')
+    )
   }
 
   userState(state) {
     this.user = state;
-    this.storage.set('user',this.user)
+    this.storage.set('account',this.user)
   }
 
-  saveUsername(username) {
-    this.storage.set('user',username)
+  saveUsername(userinfor) {
+    this.storage.set('account',userinfor);
   }
 
   getUserData(){

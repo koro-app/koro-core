@@ -1,22 +1,79 @@
 page-me {
-    .iframe-account {
-        height: 100%;
-        width: 100%;
-        display: none;
+  &.ion-page ion-header .toolbar .bar-buttons .bar-button {
+    color: color($colors, white);
+  }
+  ion-content {
+    background-color: #fafafa !important;
+  }
+  .iframe-account {
+    height: 100%;
+    width: 100%;
+    display: none;
+  }
+  .iframe-login {
+    height: 100%;
+    width: 100%;
+    display: none;
+  }
+  .header-account {
+    position: relative;
+    width: 100%;
+    height: 128px;
+    border-radius: 0 0 194px 50%/15px;
+    background-image: url('../assets/icon/bg-account.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position-y: -8px;
+    .header_avatar {
+      position: absolute;
+      top: 42px;
+      left: 20px;
+      img {
+        border-radius: 100%;
+        width: 50%;
+      }
     }
-    .iframe-login {
-        height: 100%;
-        width: 100%;
-        display: none;
+    .header_text {
+      position: absolute;
+      color: #fff;
+      text-align: center;
+      top: 60%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 100%;
+      .text_row_1 {
+        font-size: 14px;
+        padding-bottom: 8px;
+      }
+      .text_row_2 {
+        font-size: 12px;
+      }
     }
-    .img-circular{
-     width: 100%;
-     // height: 200px;
-     background-image: url('../assets/icon/home-parallax-bgfrgrgr.jpg');
-     background-size: cover;
-     display: block;
-     // border-radius: 100px;
-     // -webkit-border-radius: 100px;
-     // -moz-border-radius: 100px;
+  }
+  .box-item {
+    padding: 0 !important;
+  }
+  .item-func-account {
+    background: #fff;
+    margin: 5px 0;
+    padding: 0 12px 0 16px;
+    cursor: pointer;
+    &:first-child {
+      margin-bottom: 0;
+      margin-top: 10px;
     }
+  }
+  .item-order {
+    background: #fff;
+    margin-bottom: 5px;
+  }
+  .box-icon-order {
+    width: 40px;
+    height: 40px;
+    background: #716f70;
+    border-radius: 50%;
+    padding: 8px;
+    margin: 5px auto;
+    img {}
+  }
 }

@@ -98,6 +98,6 @@
     <plugin name="cordova-plugin-ionic-webview" spec="^1.1.16" />
     <plugin name="phonegap-plugin-barcodescanner" spec="^7.0.2" />
     <plugin name="cordova-plugin-x-socialsharing" spec="^5.3.1" />
-    <plugin name="cordova-plugin-themeablebrowser" spec="^0.2.17" />
     <plugin name="cordova-plugin-statusbar" spec="^2.4.1" />
+    <plugin name="cordova-plugin-themeablebrowser" spec="^0.2.17" />
 </widget>
