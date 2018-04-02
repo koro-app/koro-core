@@ -11,13 +11,13 @@ import { Component, Output, EventEmitter, Input } from '@angular/core';
   templateUrl: 'item-collection-list.html'
 })
 export class ItemCollectionListComponent {
+  @Input() showResult: boolean;
+  @Input() myInput = "";
   @Input() products:any[];
   @Output() goDetail: EventEmitter<any> = new EventEmitter();
-  @Output() addToCart: EventEmitter<any> = new EventEmitter();
 
   constructor() {
-    console.log('Hello ItemCollectionListComponent Component');
-    // select.open()
+    // console.log('Hello ItemCollectionListComponent Component');
   }
 
 }

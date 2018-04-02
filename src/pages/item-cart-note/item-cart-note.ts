@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 // storage
 import { Storage } from '@ionic/storage';
 
@@ -19,7 +19,8 @@ export class ItemCartNotePage {
   contentNote = "";
   constructor(
   	public navCtrl: NavController,
-  	public navParams: NavParams,
+    public navParams: NavParams,
+    public viewCtrl: ViewController,
   	public storage: Storage
   	) {
   	this.storage.get('noteToCart').then((note) => {
@@ -32,7 +33,8 @@ export class ItemCartNotePage {
   }
   dismiss(){
     this.storage.set('noteToCart', this.contentNote).then((data) => {
-      this.navCtrl.pop();
+      // this.navCtrl.pop();
+      this.viewCtrl.dismiss(data);
     })
   }
 

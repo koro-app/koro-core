@@ -4,15 +4,107 @@
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
-<ion-header>
-
+<ion-header no-padding-header>
   <ion-navbar>
-    <ion-title>item-order-detail</ion-title>
+    <ion-title>Chi tiết đơn hàng</ion-title>
   </ion-navbar>
-
 </ion-header>
-
-
-<ion-content padding>
-
+<ion-content>
+  <ion-grid class="no-pd" *ngIf="show">
+    <ion-row class="order-bg">
+      <ion-col col-xs-6 text-left no-padding>
+        Mã đơn hàng
+      </ion-col>
+      <ion-col class="red-price" col-xs-6 text-right no-padding>
+        {{detailOrder.name}}
+      </ion-col>
+    </ion-row>
+    <ion-row class="order-bg" align-items-center *ngFor="let item of detailOrder.line_items">
+      <ion-col col-2 no-padding tappable (tap)="viewProduct(item.handle)">
+        <img src="{{item.image}}">
+      </ion-col>
+      <ion-col class="infor-item" col-10 no-padding>
+        <ion-row text-left tappable (tap)="viewProduct(item.handle)">
+          <ion-col col-12 class="item-title">
+            {{item.title}}
+            </ion-col>
+        </ion-row>
+        <ion-row text-left *ngIf="item.variant_title != '' ">
+          <ion-col col-12 class="item-variant">
+            Loại hàng: {{item.variant_title}}
+          </ion-col>
+        </ion-row>
+        <ion-row text-left>
+          <ion-col col-9>
+            <div class="product__price red-price" no-padding>
+              {{item.price}}
+            </div>
+          </ion-col>
+          <ion-col col-3 text-right>
+            x {{item.quantity}}
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+    <ion-row class=" order-bg ">
+      <ion-col col-3 class="count-item " no-padding>
+        {{detailOrder.line_items.length}} sản phẩm
+      </ion-col>
+    </ion-row>
+    <ion-row class="pd-l-r-8">
+      <ion-col col-xs-6 text-left>
+        Phí vận chuyển:
+      </ion-col>
+      <ion-col col-xs-6 text-right>
+        {{detailOrder.shipping_price}}
+      </ion-col>
+    </ion-row>
+    <ion-row class="pd-l-r-8">
+      <ion-col col-xs-6 text-left>
+        Tổng thanh toán:
+      </ion-col>
+      <ion-col col-xs-6 text-right class="red-price">
+        {{detailOrder.total_price}}
+      </ion-col>
+    </ion-row>
+    <ion-row class="pd-l-r-8">
+      <ion-col col-xs-6 text-left>
+        Tình trạng thanh toán:
+      </ion-col>
+      <ion-col col-xs-6 text-right *ngIf="detailOrder.financial_status == 'paid'">Đã thanh toán</ion-col>
+      <ion-col col-xs-6 text-right *ngIf="detailOrder.financial_status == 'refunded'">Đã hoàn trả</ion-col>
+      <ion-col col-xs-6 text-right *ngIf="detailOrder.financial_status != 'refunded' && detailOrder.financial_status != 'paid'">Đang thực hiện</ion-col>
+    </ion-row>
+    <ion-row class="pd-l-r-8">
+      <ion-col col-xs-6 text-left>
+        Tình trạng vận chuyển:
+      </ion-col>
+      <ion-col col-xs-6 text-right *ngIf="detailOrder.fulfillment_status != 'fulfilled'">Chưa vận chuyển</ion-col>
+      <ion-col col-xs-6 text-right *ngIf="detailOrder.fulfillment_status == 'fulfilled'">Đã vận chuyển</ion-col>
+    </ion-row>
+    <ion-row class="pd-l-r-8">
+      <ion-col col-xs-6 text-left>
+        Địa chỉ giao hàng:
+      </ion-col>
+      <ion-col col-xs-6 text-right>
+        {{detailOrder.billing_address.address1}}
+      </ion-col>
+    </ion-row>
+    <ion-row class="pd-l-r-8">
+      <ion-col col-xs-6 text-left>
+        Người nhận:
+      </ion-col>
+      <ion-col col-xs-6 text-right>
+        {{detailOrder.billing_address.name}}
+      </ion-col>
+    </ion-row>
+    <ion-row class="pd-l-r-8">
+      <ion-col col-xs-6 text-left>
+        Số điện thoại người nhận:
+      </ion-col>
+      <ion-col col-xs-6 text-right>
+        {{detailOrder.billing_address.phone}}
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

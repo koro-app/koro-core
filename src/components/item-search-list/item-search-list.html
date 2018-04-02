@@ -1,0 +1,36 @@
+<!-- Generated template for the ItemSearchListComponent component -->
+<ion-grid *ngIf="products?.length > 0">
+    <ion-row>
+      <ion-col col-6 col-md-3 col-lg-3 col-xl-4 *ngFor="let product of products">
+        <div class="product-item">
+          <div class="product-img">
+            <a text-center tappable (tap)="goDetail.emit(product.handle)">
+              <img [src]="product.featured_image" [alt]="product.title">
+            </a>
+            <div class="product-tags">
+              <div class="tag-saleoff" text-center *ngIf="product.available && product.sale != '-0%'">{{product.sale}}</div>
+              <div class="tag-soldout" text-center *ngIf="!product.available">Hết</div>
+            </div>
+          </div>
+          <div class="product-info">
+            <div class="product-title" text-uppercase tappable (tap)="goDetail.emit(product.handle)">
+              {{product.title}}
+            </div>
+            <div class="product-price" text-center>
+              <span class="current-price">{{product.price_format}}</span>
+              <span class="original-price" *ngIf="product.compare_at_price_format != '0₫'">
+              <s>{{product.compare_at_price_format}}</s>
+            </span>
+            </div>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-grid *ngIf="myInput != '' && products?.length < 1">
+    <ion-row>
+      <ion-col col-12>
+        Không có kết quả tìm kiếm "{{myInput}}".
+      </ion-col>
+    </ion-row>
+  </ion-grid>

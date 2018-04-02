@@ -1,6 +1,7 @@
 slide {
   ion-slides {
     height: fit-content;
+    min-height: 195px;
     .swiper-pagination-bullet-active {
       // outline: rgba(0,0,0,0.2) 3px solid;
       width: 10px;

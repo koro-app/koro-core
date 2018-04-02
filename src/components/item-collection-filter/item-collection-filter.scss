@@ -1,7 +1,9 @@
 item-collection-filter {
   .filter-collection {
-    border-bottom: 1px solid #cdcdcd;
+    border-top: 1px solid #cdcdcd;
     padding: 3px 5px;
+    border-bottom: 1px solid #cdcdcd;
+    background: #fff;
     .sort-by-1,
     .sort-by-2 {
       color: color($colors, black);
@@ -21,6 +23,10 @@ item-collection-filter {
       max-width: 100%;
       padding: 0px 3px 0px 3px;
       position: relative;
+      border: none;
+      margin: 0;
+      line-height: normal;
+      height: 12px;
       .select-text {
         padding-left: 20px;
       }

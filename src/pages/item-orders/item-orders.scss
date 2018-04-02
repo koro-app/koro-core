@@ -1,3 +1,51 @@
 page-item-orders {
-
+  &.ion-page > ion-content{
+    background-color: #f4f4f4 !important;
+  }
+  .order-item {
+    margin-bottom: 16px;
+    display: block;
+    padding: 0 22px;
+  }
+  .datetime .datetime-text {
+    min-height: inherit;
+    border: none;
+    line-height: normal;
+  }
+  .order-bg {
+    background: #fff;
+    margin-bottom: 3px;
+    padding: 8px 12px;
+    border-bottom: 2px solid #f4f4f4;
+    .infor-item {
+      .item-title {
+        padding-bottom: 0;
+        font-size: 12px;
+      }
+      .item-variant {
+        font-size: 10px;
+        color: #908f8f;
+      }
+      .product__price {
+        font-size: 10px;
+      }
+    }
+    .count-item {
+      font-size: 10px;
+      color: #adacac;
+    }
+    p {
+      display: inline;
+      font-size: 10px;
+    }
+    .red-price {
+      color: color($colors, saleoff);
+      &.total {
+        font-size: 14px;
+      }
+    }
+    img {
+      max-height: 64px;
+    }
+  }
 }

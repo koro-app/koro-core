@@ -1,6 +1,13 @@
 page-item-collection {
-  .content .scroll-content {
-    // background: #e2e1e0;
+  ion-content{
+    .scroll-content {
+      margin-top: 74px !important;
+    }
+    &.has-padding{
+      .scroll-content{
+        margin-top: 94px !important;
+      }
+    }
   }
   // .filter-collection {
   //   border-bottom: 1px solid #cdcdcd;

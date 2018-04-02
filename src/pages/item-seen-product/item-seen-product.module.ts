@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { ItemSeenProductPage } from './item-seen-product';
+import { DirectivesModule } from '../../directives/directives.module';
 
 @NgModule({
   declarations: [
@@ -8,6 +9,7 @@ import { ItemSeenProductPage } from './item-seen-product';
   ],
   imports: [
     IonicPageModule.forChild(ItemSeenProductPage),
+    DirectivesModule
   ],
 })
 export class ItemSeenProductPageModule {}

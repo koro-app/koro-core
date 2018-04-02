@@ -3,7 +3,7 @@ import { IonicStorageModule } from '@ionic/storage';
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule, InjectionToken } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
-import { HTTP } from '@ionic-native/http';
+import { HttpModule } from '@angular/http';
 import { MyApp } from './app.component';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -16,6 +16,7 @@ import { reducers, getInitialState } from '../store/root.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { UserProvider } from '../providers/user/user';
 import { SeenProductStoreModule } from '../store/seen-product/seen-product.module';
+import { DirectivesModule } from '../directives/directives.module';
 
 export const REDUCERS_TOKEN = new InjectionToken<ActionReducerMap<any>>('Registered Reducers');
 // WORKAROUND HERE 
@@ -29,6 +30,8 @@ Object.assign(REDUCERS_TOKEN, reducers)
   ],
   imports: [
     BrowserModule,
+    HttpModule,
+    DirectivesModule,
     IonicModule.forRoot(MyApp,{
       // Tabs config
       // tabsHideOnSubPages: true,
@@ -47,7 +50,8 @@ Object.assign(REDUCERS_TOKEN, reducers)
     TabsPageModule,
     StoreModule.forRoot(
       REDUCERS_TOKEN,
-      {initialState: getInitialState}),
+      {initialState: getInitialState}
+    ),
     StoreDevtoolsModule.instrument({
       maxAge: 25 
     }),
@@ -64,7 +68,6 @@ Object.assign(REDUCERS_TOKEN, reducers)
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ItemProvider,
     { provide: REDUCERS_TOKEN, useValue: reducers },
-    HTTP,
     UserProvider,
   ]
 })

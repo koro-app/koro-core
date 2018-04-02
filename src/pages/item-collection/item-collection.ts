@@ -6,6 +6,7 @@ import { combineLatest } from 'rxjs/observable/combineLatest';
 import { Store } from '@ngrx/store';
 import * as cartActions from '../../store/product-cart/product-cart.actions'
 import { ToastController } from 'ionic-angular';
+import { Platform } from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -13,27 +14,56 @@ import { ToastController } from 'ionic-angular';
   templateUrl: 'item-collection.html',
 })
 export class ItemCollectionPage {
+  loading;
   pageName: string = "";
+  phone = "0934 323 882";
+  tabBarElement: any = document.querySelector('.tabbar.show-tabbar');
   collections: any;
   paginate: any;
   products:any[] = [];
+  showResult: boolean = false;
+  emptyImg;
+  sortByString = "created-descending";
+  paddingContent = true;
 
   constructor(
     public navCtrl: NavController, 
     public itemProvider: ItemProvider,
     public navParams: NavParams,
+    public platform: Platform,
     public store: Store<any>,
     public loadingCtrl: LoadingController,
     public toastCtrl: ToastController
   ) {
-
+    this.getPhoneAndSortByAndEmptyImg();
+    this.checkPatform();
     this.setPageName();
-    this.getProducts();
-    
+  }
+
+  checkPatform(){
+    if (this.platform.is('android')){
+      if(this.platform.version().num < 5){
+        this.paddingContent = false;
+      }
+    }
   }
 
   setPageName() {
     this.pageName = this.navParams.get('title');
+  }
+
+  getPhoneAndSortByAndEmptyImg(){
+    this.itemProvider.checkConfig()
+    .then((result:any) => {
+      if (result != false) {
+        if (result.phone != ""){
+          this.phone = result.phone;
+        }
+        this.emptyImg = result.collectionpage.empty;
+        this.sortByString = result.collectionpage.sortby;
+        this.getProducts();
+      }
+    })
   }
 
   startLoading() {
@@ -46,10 +76,9 @@ export class ItemCollectionPage {
   }
 
   getProducts() {
-    let loading = this.startLoading();
-
+    this.loading = this.startLoading()
     this.collections = this.itemProvider
-    .getProducts(this.navParams.get('handle'))
+    .getProducts(this.navParams.get('handle'),this.sortByString)
     .take(1)
     .subscribe((data:{products:any[],paginate:any}) => {
       data.products.map((product) => {
@@ -60,7 +89,8 @@ export class ItemCollectionPage {
       })
       this.products = data.products;
       this.paginate = data.paginate;
-      loading.dismiss();
+      this.showResult = true;
+      this.loading.dismiss();
     })
   }
 
@@ -132,4 +162,10 @@ export class ItemCollectionPage {
     this.navCtrl.push('ItemNotificationsPage');
   }
 
+  // show tabbar on page cart
+  ionViewWillEnter() {
+    if (this.tabBarElement != null) {
+      this.tabBarElement.style.display = 'flex';
+    }
+  }
 }

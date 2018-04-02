@@ -3,6 +3,7 @@ import { IonicPageModule } from 'ionic-angular';
 import { ItemProductPage } from './item-product';
 import { ComponentsModule } from '../../components/components.module';
 import { SocialSharing } from '@ionic-native/social-sharing';
+import { DirectivesModule } from '../../directives/directives.module';
 
 @NgModule({
   declarations: [
@@ -10,7 +11,8 @@ import { SocialSharing } from '@ionic-native/social-sharing';
   ],
   imports: [
     IonicPageModule.forChild(ItemProductPage),
-    ComponentsModule
+    ComponentsModule,
+    DirectivesModule
   ],
   entryComponents: [
     ItemProductPage

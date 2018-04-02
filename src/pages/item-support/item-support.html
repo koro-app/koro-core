@@ -1,0 +1,19 @@
+<!--
+  Generated template for the ItemSupportPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header no-padding-header>
+  <ion-navbar>
+    <ion-title>
+      <ng-container *ngIf="support">{{support.title}}</ng-container>
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <ion-grid *ngIf="support" class="support">
+    <div [innerHTML]="support.content" class="support-content"></div>
+  </ion-grid>
+</ion-content>
+

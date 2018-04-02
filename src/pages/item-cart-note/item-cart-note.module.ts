@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { ItemCartNotePage } from './item-cart-note';
+import { DirectivesModule } from '../../directives/directives.module';
 
 @NgModule({
   declarations: [
@@ -8,6 +9,7 @@ import { ItemCartNotePage } from './item-cart-note';
   ],
   imports: [
     IonicPageModule.forChild(ItemCartNotePage),
+    DirectivesModule
   ],
 })
 export class ItemCartNotePageModule {}

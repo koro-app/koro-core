@@ -1,12 +1,12 @@
 <ng-container *ngIf="variants | async; let variants">
-  <ion-header>
+  <ion-header no-padding-header>
     <ion-navbar [hideBackButton]="!viewPage">
       <ion-title [ngClass]="{'viewastab': viewPage == false}">
         <!-- button back -->
         <button class="btn-title btn-view" ion-button color="black" clear *ngIf="!viewPage">
-          <ion-icon class="fsize-22" name="arrow-back" tappable (tap)="dismiss()" padding-horizontal></ion-icon>
+          <ion-icon class="fsize-22" name="md-arrow-back" (click)="dismiss()"></ion-icon>
         </button>
-        <button ion-button color="black" disabled clear text-uppercase>
+        <button class="mg-l-12" ion-button color="black" disabled clear text-uppercase>
           Giỏ hàng
         </button>
       </ion-title>
@@ -18,7 +18,14 @@
       </ion-buttons>
     </ion-navbar>
   </ion-header>
-  <ion-content>
+  <ion-content [class.has-padding]="paddingContent">
+    <ion-grid class="box-empty" *ngIf="variants?.length < 1">
+      <ion-row>
+        <ion-col col-12>
+          <img [src]="emptyImg" class="img-empty">
+        </ion-col>
+      </ion-row>
+    </ion-grid>
     <ion-list class="list-item-cart no-mg-bottom" *ngIf="variants?.length > 0">
       <ion-item-sliding no-padding class="item-cart" *ngFor="let variant of variants; let num = index">
         <ion-item class="line-item">
@@ -73,7 +80,7 @@
       <ion-row class="note">
         <ion-col col-12 class="note-content" tappable (tap)="addNote()" *ngIf="variants?.length > 0">
           <div class="title-note" text-uppercase>
-            Ghi chú:
+            Ghi chú: <span>{{note}}</span>
           </div>
         </ion-col>
       </ion-row>

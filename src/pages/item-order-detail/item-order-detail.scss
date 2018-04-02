@@ -1,3 +1,36 @@
 page-item-order-detail {
-
+  .order-bg {
+    border-bottom: 1px solid #dbdbdb;
+    padding: 8px 12px;
+    .infor-item {
+      .item-title {
+        padding-bottom: 0;
+        font-size: 14px;
+      }
+      .item-variant {
+        font-size: 12px;
+        color: #908f8f;
+      }
+      .product__price {
+        font-size: 12px;
+      }
+    }
+    .count-item {
+      font-size: 12px;
+      color: #adacac;
+    }
+    p {
+      display: inline;
+      font-size: 12px;
+    }
+    img {
+      max-height: 64px;
+    }
+  }
+  .red-price {
+    color: color($colors, saleoff);
+    &.total {
+      font-size: 14px;
+    }
+  }
 }

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { ItemBarcodePage } from './item-barcode';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import { DirectivesModule } from '../../directives/directives.module';
 
 @NgModule({
   declarations: [
@@ -9,6 +10,7 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
   ],
   imports: [
     IonicPageModule.forChild(ItemBarcodePage),
+    DirectivesModule
   ],
   providers: [
   	BarcodeScanner

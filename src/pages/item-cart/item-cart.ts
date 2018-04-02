@@ -1,8 +1,10 @@
 
 import { ItemProvider } from './../../providers/item/item';
 import { Component, ElementRef } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, AlertController} from 'ionic-angular';
+import { Platform, IonicPage, NavController, NavParams, ModalController, AlertController, ViewController} from 'ionic-angular';
+import { StatusBar } from '@ionic-native/status-bar';
 import { Store } from '@ngrx/store';
+import { Storage } from '@ionic/storage';
 import { Observable } from 'rxjs/Observable';
 import * as cartActions from '../../store/product-cart/product-cart.actions';
 import 'rxjs/add/operator/do';
@@ -26,23 +28,79 @@ export class ItemCartPage {
   clicked: boolean = false;
   selectedAllClick: boolean = false;
   viewPage = false;
+  emptyImg;
+  note;
+  paddingContent = true;
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
+    public viewCtrl: ViewController,
+    public platform:Platform,
+    public statusBar: StatusBar,
     public modalCtrl: ModalController,
     public alertCtrl: AlertController,
+    public storage: Storage,
     public store: Store<any>,
     public itemProvider: ItemProvider,
     public element: ElementRef
   ) {
-      if (this.navParams.get('view') == true) {
-        this.viewPage = this.navParams.get('view');
+    // if (this.navParams.get('view') == true) {
+    //   this.viewPage = this.navParams.get('view');
+    // }
+    // this.getEmptyImg();
+    // this.checkPatform();
+    // this.setVariants();
+    // this.getNote();
+  }
+
+  getEmptyImg(){
+    this.itemProvider.checkConfig()
+    .then((result:any) => {
+      if (result == false) {
+        this.itemProvider.getConfig().subscribe((data:any) => {
+          this.emptyImg = data.emptycart;
+          this.itemProvider.saveStoreConfig(data);
+        })
+      }else{
+        this.emptyImg = result.emptycart;
       }
-      this.setVariants();
+    })
+  }
+
+  checkPatform(){
+    if (this.platform.is('android')){
+      if(this.platform.version().num < 5){
+        this.paddingContent = false;
+      }
+    }
+  }
+
+  getNote(){
+    this.storage.get('noteToCart').then((note) => {
+      this.note = note;
+      console.log('note',note);
+    });
+    // this.note = new Observable(observer => {this.storage.get('noteToCart');console.log('note',observer);})
+    // .then((note) => {
+    //   // new Observable(observer => { note });
+    //   console.log('note',note);
+    // });
+    // this.note = this.store.select('noteToCart')
+    // .map((note) => {
+    //   console.log('note',note);
+    // })
+    // .do((noteToCart) => {
+    //   console.log('noteToCart',noteToCart);
+    // })
   }
 
   dismiss(){
-    this.navCtrl.parent.select(0);
+    this.navCtrl.setRoot('HomePage');
+    // this.navCtrl.parent.select(0);
+    if ( this.tabBarElement != null) {
+      console.log('dismiss');
+      this.tabBarElement.style.cssText = 'display:flex !important';
+    }
   }
 
   setVariants() {
@@ -165,7 +223,12 @@ export class ItemCartPage {
   }
 
   addNote(){
+    this.note = "edited";
     let modal = this.modalCtrl.create('ItemCartNotePage');
+    modal.onDidDismiss(data => {
+      console.log(data);
+      this.note = data;
+    });
     modal.present();
   }
 
@@ -177,35 +240,48 @@ export class ItemCartPage {
     }))
     .take(1)
     .subscribe((variants) =>{
-      this.navCtrl.push('ItemCheckoutPage',{variants})
+      this.navCtrl.push('ItemCheckoutPage',{variants,view: this.viewPage})
     })
   }
 
   // hide tabbartabroot cart
   ionViewWillEnter() {
+    // setTimeout(() => {
+      if (this.navParams.get('view') == true) {
+        this.viewPage = this.navParams.get('view');
+      }
+      this.getEmptyImg();
+      this.checkPatform();
+      this.setVariants();
+      this.getNote();
+    // },500);
+    
     if (this.tabBarElement != null) {
-      this.tabBarElement.style.display = 'none';
+      this.tabBarElement.style.cssText = 'display:none !important';
     }
+    this.platform.ready().then(() => {
+      if (this.platform.is('cordova')){
+        this.statusBar.overlaysWebView(true);
+        this.statusBar.backgroundColorByHexString("#000000");
+        console.log('cart statusbar');
+      }
+    })
+  }
+
+  ionViewCanLeave() {
+    // return true;
+    // this.setVariants()
+    // this.getNote();
   }
 
   // show normail tabbar
   ionViewWillLeave() {
-    if (this.tabBarElement != null) {
-      this.tabBarElement.style.display = 'flex';
-    }
     if (this.customBackElement != null) {
       this.customBackElement.style.display = 'inline-block';
     }
   }
 
-  ionViewDidLoad() {
-      // console.log(this.customBackElement);
-    // if (this.navParams.get('view') == true && this.customBackElement != null) {
-    //   this.customBackElement.style.display = 'none';
-    // }
-  }
   ionViewDidEnter() {
-    // this.navCtrl.pop();
   }
 
 }

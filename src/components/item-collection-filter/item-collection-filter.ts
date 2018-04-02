@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
 
 /**
  * Generated class for the ItemCollectionFilterComponent component.
@@ -16,6 +16,11 @@ export class ItemCollectionFilterComponent {
       name:'Bộ lọc',
       range:'auto',
       selected: true
+    },
+    {
+      name:'Tất cả',
+      range:'0:max',
+      selected: false
     },
     {
       name:'Nhỏ hơn 100,000₫',
@@ -97,6 +102,7 @@ export class ItemCollectionFilterComponent {
   ]
   sortRange: any;
   filterRange: any;
+  @Input() sortname = "";
   @Output() filterEvent: EventEmitter<any> = new EventEmitter();
   sortBy = {
     cssClass: 'sort-and-filter',

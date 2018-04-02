@@ -2,6 +2,7 @@ import { ComponentsModule } from './../../components/components.module';
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { ItemSearchPage } from './item-search';
+import { DirectivesModule } from '../../directives/directives.module';
 
 @NgModule({
   declarations: [
@@ -9,7 +10,8 @@ import { ItemSearchPage } from './item-search';
   ],
   imports: [
     IonicPageModule.forChild(ItemSearchPage),
-    ComponentsModule
+    ComponentsModule,
+    DirectivesModule
   ],
 })
 export class ItemSearchPageModule {}

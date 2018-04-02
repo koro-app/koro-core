@@ -1,6 +1,8 @@
 import { Platform } from 'ionic-angular';
 import { HttpClient, } from '@angular/common/http';
 import { Injectable} from '@angular/core';
+import { Storage } from '@ionic/storage';
+import 'rxjs/add/operator/take';
 
 @Injectable()
 export class ItemProvider {
@@ -9,16 +11,66 @@ export class ItemProvider {
   constructor(
     public http: HttpClient,
     public platform: Platform,
+    public storage: Storage
   ) {
     if (platform.is('cordova')) this.endpoint = 'https://suplo-fashion.myharavan.com';
+    this.checkUpdateConfig();
+  }
+
+  // check update config
+  checkUpdateConfig(){
+    return this.storage.ready().then(() =>
+      this.storage.get('_config').then((currentdata) => {
+        if (currentdata) {
+          this.getConfig()
+          .subscribe((newdata:any) => {
+            if(JSON.stringify(newdata)  !== JSON.stringify(currentdata) ){
+              this.saveStoreConfig(newdata);
+              console.log('update config');
+              return newdata;
+            }else{
+              console.log('dont need update');
+              return currentdata;
+            }
+          })
+        }else{
+          this.getConfig()
+          .subscribe((newdata:any) => {
+            this.saveStoreConfig(newdata);
+            return newdata;
+          })
+        }
+      })
+    )
+  }
+
+  checkConfig(){
+    return this.storage.ready().then(() =>
+      this.storage.get('_config').then((data) => {
+        if (data) {
+          console.log('has config');
+          return data;
+        }else{
+          console.log('no config');
+          return false;
+        }
+      })
+    )
+  }
+
+  saveStoreConfig(settings){
+    this.storage.ready().then(() => {
+      console.log('set config');
+      this.storage.set('_config', settings);
+    })
   }
 
   getConfig(){
     return this.http.get(`${this.endpoint}/?view=settings.app.json`)
   }
 
-  getProducts(handle="all") {
-    return this.http.get(`${this.endpoint}/collections/${handle}?view=app.json`)
+  getProducts(handle="all", sort="created-descending") {
+    return this.http.get(`${this.endpoint}/collections/${handle}?sort_by=${sort}&view=app.json`)
   }
 
   getListCollection(){
@@ -76,6 +128,14 @@ export class ItemProvider {
     return this.http.get(`${this.endpoint}/collections/${handle}?price=${filter}&view=app.json`)
   }
 
+  getPolicyPage(handle:string){
+    return this.http.get(`${handle}?view=app.json`)
+  }
+
+  getSupportPage(handle:string){
+    return this.http.get(`${handle}?view=app.json`)
+  }
+
   searchRange(collectionId,min,max) {
     if (collectionId) {
       return this.http.get(`${this.endpoint}/search?q=filter=(((collectionid:product=${collectionId})&&(price:product>${min})&&(price:product<${max})))&view=app.json`)
@@ -88,9 +148,12 @@ export class ItemProvider {
   }
 
   searchString(string) {
-    console.log(`${this.endpoint}/search?&q=filter=((title:product**${string}))&view=app.json`)
-    return this.http.get(`${this.endpoint}/search?&q=filter=((title:product**${string}))&view=app.json`)
+    console.log(`${this.endpoint}/search?&q=filter=((title:product**${string}))&view=app.json`);
+    var par = encodeURIComponent(string);
+    console.log(`${this.endpoint}/search?&q=filter=((title:product**${par}))&view=app.json`);
+    return this.http.get(`${this.endpoint}/search?&q=filter=((title:product**${par}))&view=app.json`)
   }
+
   searchByCode(value: string) {
     return this.http.get(`${this.endpoint}/search?q=${value}&view=app.json`)
   }

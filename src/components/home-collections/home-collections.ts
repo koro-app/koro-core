@@ -24,10 +24,16 @@ export class HomeCollectionsComponent {
 
   // get home collections
   getHomeCollections(){
-    this.itemProvider.getConfig()
-    .subscribe((data:any) => {
-      this.collections = data.home.listcollections;
-    });
+    this.itemProvider.checkConfig()
+    .then((result:any) => {
+      if (result == false) {
+        this.itemProvider.getConfig().subscribe((data:any) => {
+          this.collections = data.home.listcollections;
+        })
+      }else{
+        this.collections = result.home.listcollections;
+      }
+    })
   }
  
   goCollection(collection) {

@@ -21,10 +21,16 @@ export class SlideComponent {
     public itemProvider: ItemProvider,
   ) {
     // get slides
-    this.itemProvider.getConfig()
-    .subscribe((data:any) => {
-      this.slides = data.home.slider;
-    });
+    this.itemProvider.checkConfig()
+    .then((result:any) => {
+      if (result == false) {
+        this.itemProvider.getConfig().subscribe((data:any) => {
+          this.slides = data.home.slider;
+        })
+      }else{
+        this.slides = result.home.slider;
+      }
+    })
     // this.slides = [
     //   'https://theme.hstatic.net/1000259614/1000332464/14/slideshow_1.png?v=162',
     //   'https://theme.hstatic.net/1000259614/1000332464/14/slideshow_2.png?v=162'

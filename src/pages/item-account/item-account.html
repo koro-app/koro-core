@@ -1,0 +1,145 @@
+<!--
+  Generated template for the ItemAccountPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header no-padding-header>
+
+  <ion-navbar>
+    <ion-title>Hồ sơ của tôi</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <!-- <ion-card no-padding no-margin class="list-choice" *ngIf="showUser">
+    <ion-item no-padding class="large">
+        <ion-label>Email</ion-label>
+        <ion-input type="email" placeholder="Chưa liên kết" value="{{userData.email}}" readonly *ngIf="userData.email != '' && userData.email != null"></ion-input>
+        <button ion-button item-end outline color="dogo-primary" *ngIf="infoAccount.email == '' || infoAccount.email == null" tappable (tap)="connectEmail()">Liên kết Email</button>
+        <button ion-button icon-only item-end color="dogo-primary" clear *ngIf="infoAccount.email != '' && infoAccount.email != null"><ion-icon name="checkmark-circle"></ion-icon></button>
+    </ion-item>
+  </ion-card> -->
+   <!-- action="https://suplo-fashion.myharavan.com/account/addresses/1012671620" -->
+  <!-- <form (ngSubmit)="sendData()" method="POST" #accountForm="ngForm"> -->
+    <ion-list class="account-info" *ngIf="showUser">
+    <!-- <ion-list class="account-info"> -->
+      <ion-item no-padding>
+        <ion-label>Email</ion-label>
+        <ion-input type="email" placeholder="Chưa liên kết" value="{{userData.email}}" text-right readonly *ngIf="userData.email != '' && userData.email != null"></ion-input>
+      </ion-item>
+      <ion-item no-padding>
+        <ion-label>Họ</ion-label>
+        <ion-input [(ngModel)]="userData.first_name" #first_name="ngModel" name="first_name" placeholder="Chưa có" type="text" value="{{userData.first_name}}"
+          text-right></ion-input>
+      </ion-item>
+      <ion-item no-padding>
+        <ion-label>Tên</ion-label>
+        <ion-input [(ngModel)]="userData.last_name" #last_name="ngModel" name="last_name" placeholder="Chưa có" type="text" value="{{userData.last_name}}"
+          text-right></ion-input>
+      </ion-item>
+      <ion-item no-padding>
+        <ion-label>Số điện thoại</ion-label>
+        <ion-input value="{{userData.phone}}" placeholder="Chưa có" type="phone" readonly text-right></ion-input>
+      </ion-item>
+      <ion-item no-padding>
+        <ion-label>Địa chỉ</ion-label>
+        <ion-input type="text" value="{{userData.address}}" name="address" placeholder="Chưa có" [(ngModel)]="userData.address" #address="ngModel"
+          text-right></ion-input>
+      </ion-item>
+      <ion-item no-padding>
+        <ion-label>Tỉnh thành</ion-label>
+        <!--  (change)="showDistricts($event)" -->
+        <ion-select cancelText="Hủy" okText="Xong" [(ngModel)]="userData.province_code" name="address[province]">
+          <ion-option value="" selected>Chọn tỉnh thành</ion-option>
+          <ion-option *ngFor="let province of provinces" value="{{province.province_code}}">
+            {{province.name}}
+          </ion-option>
+        </ion-select>
+
+        <!-- <select id="AddressProvince_1012671620" class="input-full" name="address[province]" data-default="Hà Nội">
+          <option value="Điện Biên">Điện Biên</option>
+          <option value="Bắc Kạn">Bắc Kạn</option>
+          <option value="Quảng Ninh">Quảng Ninh</option>
+          <option value="Vĩnh Phúc">Vĩnh Phúc</option>
+          <option value="Hà Nam">Hà Nam</option>
+          <option value="Yên Bái">Yên Bái</option>
+          <option value="Quảng Nam">Quảng Nam</option>
+          <option value="Hồ Chí Minh">Hồ Chí Minh</option>
+          <option value="Tiền Giang">Tiền Giang</option>
+          <option value="Cà Mau">Cà Mau</option>
+          <option value="Nghệ An">Nghệ An</option>
+          <option value="Thanh Hóa">Thanh Hóa</option>
+          <option value="Bình Định">Bình Định</option>
+          <option value="Ninh Thuận">Ninh Thuận</option>
+          <option value="Đắk Nông">Đắk Nông</option>
+          <option value="Quảng Ngãi">Quảng Ngãi</option>
+          <option value="Bà Rịa - Vũng Tàu">Bà Rịa - Vũng Tàu</option>
+          <option value="Khánh Hòa">Khánh Hòa</option>
+          <option value="Bình Thuận">Bình Thuận</option>
+          <option value="Hậu Giang">Hậu Giang</option>
+          <option value="Quảng Bình">Quảng Bình</option>
+          <option value="Hà Giang">Hà Giang</option>
+          <option value="Vĩnh Long">Vĩnh Long</option>
+          <option value="Kiên Giang">Kiên Giang</option>
+          <option value="Lạng Sơn">Lạng Sơn</option>
+          <option value="Hà Nội">Hà Nội</option>
+          <option value="Nam Định">Nam Định</option>
+          <option value="Phú Yên">Phú Yên</option>
+          <option value="Bình Dương">Bình Dương</option>
+          <option value="Tây Ninh">Tây Ninh</option>
+          <option value="Lào Cai">Lào Cai</option>
+          <option value="Thái Nguyên">Thái Nguyên</option>
+          <option value="Phú Thọ">Phú Thọ</option>
+          <option value="Lâm Đồng">Lâm Đồng</option>
+          <option value="Bình Phước">Bình Phước</option>
+          <option value="An Giang">An Giang</option>
+          <option value="Bạc Liêu">Bạc Liêu</option>
+          <option value="Thừa Thiên Huế">Thừa Thiên Huế</option>
+          <option value="Đồng Nai">Đồng Nai</option>
+          <option value="Trà Vinh">Trà Vinh</option>
+          <option value="Đồng Tháp">Đồng Tháp</option>
+          <option value="Tuyên Quang">Tuyên Quang</option>
+          <option value="Sơn La">Sơn La</option>
+          <option value="Bắc Giang">Bắc Giang</option>
+          <option value="Hải Dương">Hải Dương</option>
+          <option value="Bắc Ninh">Bắc Ninh</option>
+          <option value="Hưng Yên">Hưng Yên</option>
+          <option value="Quảng Trị">Quảng Trị</option>
+          <option value="Ninh Bình">Ninh Bình</option>
+          <option value="Đà Nẵng">Đà Nẵng</option>
+          <option value="Hà Tĩnh">Hà Tĩnh</option>
+          <option value="Hòa Bình">Hòa Bình</option>
+          <option value="Kon Tum">Kon Tum</option>
+          <option value="Đắk Lắk">Đắk Lắk</option>
+          <option value="Cao Bằng">Cao Bằng</option>
+          <option value="Cần Thơ">Cần Thơ</option>
+          <option value="Hải Phòng">Hải Phòng</option>
+          <option value="Long An">Long An</option>
+          <option value="Bến Tre">Bến Tre</option>
+          <option value="Lai Châu">Lai Châu</option>
+          <option value="Thái Bình">Thái Bình</option>
+          <option value="Gia Lai">Gia Lai</option>
+          <option value="Sóc Trăng">Sóc Trăng</option>
+        </select> -->
+
+
+      </ion-item>
+      <!-- <ion-item no-padding>
+        <ion-label no-margin>Ngày sinh</ion-label>
+        <ion-datetime cancelText="Hủy" doneText="Xong" placeholder="Chọn" min="1940" max="2010" no-padding displayFormat="DD/MM/YYYY"
+          [(ngModel)]="userData.birthday" text-right></ion-datetime>
+      </ion-item> -->
+      <ion-item no-padding>
+        <ion-label no-margin>Giới tính</ion-label>
+        <ion-select cancelText="Hủy" okText="Xong" [(ngModel)]="userData.gender" name="gender" placeholder="Chọn" interface="action-sheet" text-right>
+          <ion-option value="1">Nam</ion-option>
+          <ion-option value="0">Nữ</ion-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+    <!-- <button type="submit">Lưu</button> -->
+  <!-- </form> -->
+</ion-content>

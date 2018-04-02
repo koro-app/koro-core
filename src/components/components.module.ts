@@ -1,18 +1,20 @@
 import { HomeCollectionsComponent } from './home-collections/home-collections';
-import { IonicModule/*, Select*/ } from 'ionic-angular';
+import { IonicModule } from 'ionic-angular';
 import { NgModule } from '@angular/core';
 import { SlideComponent } from './slide/slide';
 import { CommonModule } from '@angular/common';
 import { ItemProductVariantsComponent } from './item-product-variants/item-product-variants';
 import { ItemCollectionFilterComponent } from './item-collection-filter/item-collection-filter';
 import { ItemCollectionListComponent } from './item-collection-list/item-collection-list';
+import { ItemSearchListComponent } from './item-search-list/item-search-list';
 @NgModule({
 	declarations: [
 		SlideComponent,
 	    HomeCollectionsComponent,
 	    ItemProductVariantsComponent,
 	    ItemCollectionFilterComponent,
-	    ItemCollectionListComponent
+	    ItemCollectionListComponent,
+    	ItemSearchListComponent
     ],
 	imports: [
 		CommonModule,
@@ -23,13 +25,13 @@ import { ItemCollectionListComponent } from './item-collection-list/item-collect
 	    HomeCollectionsComponent,
 	    ItemProductVariantsComponent,
 	    ItemCollectionFilterComponent,
-	    ItemCollectionListComponent
+	    ItemCollectionListComponent,
+    	ItemSearchListComponent
 	],
 	entryComponents: [
 		ItemProductVariantsComponent
 	],
 	providers: [
-		// Select
 	]
 })
 export class ComponentsModule {}

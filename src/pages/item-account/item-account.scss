@@ -1,0 +1,19 @@
+page-item-account {
+.account-info{
+    padding: 0 8px;
+    ion-input, ion-label, ion-select, ion-option, ion-datetime{
+        font-size: 12px;
+    }
+    .item.item-input.ng-valid.item-input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner,
+    .item.item-input.ng-valid.input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner,
+    .item.item-input.item-input-has-focus .item-inner,
+    .item.item-input.input-has-focus .item-inner{
+        border-bottom-color: #dedede;
+        -webkit-box-shadow: inset 0 0 0 0 #dedede;
+        box-shadow: inset 0 0 0 0 #dedede;
+    }
+    input{
+        text-align: right;
+    }
+}
+}

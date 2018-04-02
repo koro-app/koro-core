@@ -8,9 +8,10 @@
       <div class="icon-custom"><i class="fas fa-filter"></i></div>
     </ion-col>
     <ion-col col-6 class="sort-by-2">
+      
       <!-- <ion-label>Sắp xếp theo</ion-label> -->
       <ion-select interface="popover" [selectOptions]="sortBy" [(ngModel)]="sortRange" (ionChange)="filterEvent.emit($event)">
-        <ion-option [value]="price.range" [selected]="price.selected" (ionSelect)="turnOffFilter()" *ngFor="let price of sortList">{{price.name}}</ion-option>
+        <ion-option [value]="sort.range" [selected]="sortname == sort.range" (ionSelect)="turnOffFilter()" *ngFor="let sort of sortList">{{sort.name}}</ion-option>
       </ion-select>
       <div class="icon-custom"><i class="fas fa-sort"></i></div>
     </ion-col>

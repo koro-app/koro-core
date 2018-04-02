@@ -2,10 +2,17 @@ page-home {
   &.ion-page ion-header .toolbar .bar-buttons .bar-button {
     color: color($colors, white);
   }
+  // &.ion-page ion-header{
+  //   padding-top: $cordova-md-statusbar-padding;
+  // }
   &.ion-page .toolbar-ios ion-title{
     padding-left: 0;
     padding-right: 0;
-    width: calc(100% - 65px);
+    width: calc(100% - 30px);
+    &.title-md,
+    &.title-wp{
+      position: relative;
+    }
   }
   .toolbar-title {
     padding: 0 0 0 5px;
@@ -30,14 +37,29 @@ page-home {
           min-height: calc(44px + constant(safe-area-inset-top));
           min-height: calc(44px + env(safe-area-inset-top));
           width: auto !important; // padding: 0px 80px 1px 0px;
+          &.title-ios{
+            width: calc(100% - 30px) !important;
+            .toolbar-title-ios{
+              padding-left: 0 !important;
+            }
+          }
         }
     }
   } // style search header
   // first
   .search-header {
     display: inline-block !important;
-    width: calc(100% - 65px) !important;
-    padding: 8px !important;
+    width: calc(100% - 38px) !important;
+    // padding: 3px 24px 3px 8px !important;
+    padding: 5px 24px 0px 8px !important;
+    &.searchbar-wp,
+    &.searchbar-md{
+      margin-top: 5px;
+      position: absolute;
+    }
+    &.searchbar-ios{
+      top: 5px !important;
+    }
     .searchbar-input-container {
       border: 0 !important;
     }
@@ -48,11 +70,11 @@ page-home {
       padding: 0 6px 0 40px !important;
       background-color: #fff !important;
       color: color($colors, black) !important;
-      line-height: 2.2rem !important;
-      height: 2.2rem !important;
+      line-height: 2.5rem !important;
+      height: 2.5rem !important;
     }
     .searchbar-search-icon {
-      top: 3px !important;
+      top: 5px !important;
       background-size: 16px !important;
       left: 16px !important;
     }
@@ -86,10 +108,18 @@ page-home {
         background-image: url("data:image/svg+xml;charset=utf-8,<svg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2013%2013'><path%20fill='rgba(0, 0, 0, 0.5)'%20d='M5,1c2.2,0,4,1.8,4,4S7.2,9,5,9S1,7.2,1,5S2.8,1,5,1%20M5,0C2.2,0,0,2.2,0,5s2.2,5,5,5s5-2.2,5-5S7.8,0,5,0%20L5,0z'/><line%20stroke='rgba(0, 0, 0, 0.5)'%20stroke-miterlimit='10'%20x1='12.6'%20y1='12.6'%20x2='8.2'%20y2='8.2'/></svg>") !important;
       }
     }
+    &.searchbar-has-focus.searchbar-show-cancel .searchbar-search-icon,
+    &.searchbar-has-value.searchbar-show-cancel .searchbar-search-icon{
+      display: block;
+    }
   }
   .banner-home {
     width: 100%;
     padding: 8px 0;
+    min-height: 142px;
+    img{
+      width: 100%;
+    }
   }
 }
 

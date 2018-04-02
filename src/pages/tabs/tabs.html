@@ -1,9 +1,8 @@
 <ion-tabs class="tabs-bottom" #myTabs [selectedIndex]="selectedIndex" tabsPlacement="bottom" (ionChange)="tabChange($event)" >
   <ion-tab [root]="tab1Root" tabTitle="Trang chủ" tabIcon="customicon-home"></ion-tab>
-  
   <ion-tab [root]="tab2Root" tabTitle="Danh mục" tabIcon="customicon-list"></ion-tab>
   <ion-tab [root]="tab3Root" tabTitle="Blogs" tabIcon="customicon-news"></ion-tab>
-  <ion-tab [root]="tab4Root" tabIcon="customicon-cart" tabTitle="Giỏ hàng" tabBadge="{{productNumber | async}}" tabBadgeStyle="white">
+  <ion-tab [root]="tab4Root" tabTitle="Giỏ hàng" tabIcon="customicon-cart" tabBadge="{{productNumber | async}}" tabBadgeStyle="white">
   </ion-tab>
   <ion-tab  [root]="tab5Root" tabTitle="Tài khoản" tabIcon="customicon-contact"></ion-tab>
 </ion-tabs>

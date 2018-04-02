@@ -15,6 +15,7 @@ import { ItemProvider } from '../../providers/item/item';
   templateUrl: 'item-list-collection.html',
 })
 export class ItemListCollectionPage {
+  phone = "0934 323 882";
   collections: any[];
 
   constructor(
@@ -28,9 +29,24 @@ export class ItemListCollectionPage {
 
   getListCollection(){
     let loading = this.startLoading();
-    this.itemProviders.getListCollection().subscribe(data => {
-      this.collections = data['listcollections'];
-      loading.dismiss();
+    this.itemProviders.checkConfig()
+    .then((result:any) => {
+      if (result == false) {
+        this.itemProviders.getConfig().subscribe((data:any) => {
+          this.collections = data.collections;
+          if (data.phone != ""){
+            this.phone = data.phone;
+          }
+          loading.dismiss();
+          this.itemProviders.saveStoreConfig(data);
+        })
+      }else{
+        this.collections = result.collections;
+        if (result.phone != ""){
+          this.phone = result.phone;
+        }
+        loading.dismiss();
+      }
     })
   }
   startLoading() {

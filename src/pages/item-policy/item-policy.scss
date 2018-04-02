@@ -1,3 +1,16 @@
 page-item-policy {
-
+  .policy {
+    padding: 0 10px;
+    .policy-content {
+      font-size: 12px;
+      table {
+        width: 100% !important;
+        font-size: 12px !important;
+        td {
+          border: 1px solid color($colors, black) !important;
+          padding: 2px !important;
+        }
+      }
+    }
+  }
 }

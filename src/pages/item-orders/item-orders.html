@@ -4,15 +4,90 @@
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
-<ion-header>
-
+<ion-header no-padding-header>
   <ion-navbar>
-    <ion-title>item-orders</ion-title>
+    <ion-title>{{pageName}}</ion-title>
   </ion-navbar>
-
 </ion-header>
-
-
-<ion-content padding>
-
+<ion-content>
+  <ion-grid *ngIf="orders?.length < 1">
+    <ion-row>
+      <ion-col col-12>
+        Chưa có {{pageName}} nào.
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ng-container>
+    <ion-grid class="order-item" *ngFor="let order of orders" no-padding tappable (tap)="viewDetailOrder(order.url)">
+      <ion-row class="order-bg">
+        <ion-col col-xs-6 text-left no-padding>
+          <ion-icon class="red-price" name="clipboard"></ion-icon> Mã đơn hàng
+        </ion-col>
+        <ion-col col-xs-6 text-right no-padding>
+          {{order.name}}
+        </ion-col>
+      </ion-row>
+      <ion-row class="order-bg" align-items-center>
+        <ion-col col-2 no-padding>
+          <img src="{{order.first_item.image}}">
+        </ion-col>
+        <ion-col class="infor-item" col-10 no-padding>
+          <ion-row text-left>
+            <ion-col col-12 class="item-title">
+              {{order.first_item.title}}
+              </ion-col>
+          </ion-row>
+          <ion-row text-left *ngIf="order.first_item.variant_title != '' ">
+            <ion-col col-12 class="item-variant">
+              Loại hàng: {{order.first_item.variant_title}}
+            </ion-col>
+          </ion-row>
+          <ion-row text-left>
+            <ion-col col-9>
+              <div class="product__price red-price" no-padding>
+                {{order.first_item.price}}
+              </div>
+            </ion-col>
+            <ion-col col-3 text-right>
+              x {{order.first_item.quantity}}
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+      <ion-row class="order-bg" align-items-center>
+        <ion-col col-3 class="count-item" text-left no-padding>
+          {{order.count_items}} sản phẩm
+        </ion-col>
+        <ion-col col-9 text-right no-padding>
+          <ion-icon name="calculator" class="red-price"></ion-icon>
+          <p>Tổng thanh toán: <span class="red-price total">{{order.total_price}}</span></p>
+        </ion-col>
+      </ion-row>
+      <ion-row class="order-bg">
+        <ion-col col-xs-6 text-left no-padding *ngIf="order.fulfillment_status_label != 'fulfilled'">
+          <ion-icon class="red-price" ios="ios-cart" md="md-cart"></ion-icon> Chưa vận chuyển
+        </ion-col>
+        <ion-col col-xs-6 text-left no-padding *ngIf="order.fulfillment_status_label == 'fulfilled'">
+          <ion-icon class="red-price" ios="ios-cart" md="md-cart"></ion-icon> Đã vận chuyển
+        </ion-col>
+        <ion-col col-xs-6 text-right no-padding>{{order.created_at}}
+          <!-- <ion-datetime no-padding displayFormat="DD/MM/YYYY" disabled [(ngModel)]="order.created_at"></ion-datetime> -->
+        </ion-col>
+      </ion-row>
+      <ion-row class="order-bg">
+        <ion-col col-xs-6 text-left no-padding>
+          <ion-icon class="red-price" name="information-circle"></ion-icon> Trạng thái đơn
+        </ion-col>
+        <ion-col col-xs-6 text-right no-padding *ngIf="order.financial_status_label == 'refunded'">
+          Đã hủy
+        </ion-col>
+        <ion-col col-xs-6 text-right no-padding *ngIf="order.financial_status_label == 'pending'">
+          Đang chờ
+        </ion-col>
+        <ion-col col-xs-6 text-right no-padding *ngIf="order.financial_status_label == 'fulfilled'">
+          Hoàn thành
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ng-container>
 </ion-content>

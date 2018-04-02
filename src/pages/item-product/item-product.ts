@@ -1,7 +1,8 @@
 import { Store } from '@ngrx/store';
 import { ItemProvider } from './../../providers/item/item';
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, LoadingController } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { Platform, IonicPage, NavController, NavParams, ToastController, LoadingController } from 'ionic-angular';
+import { StatusBar } from '@ionic-native/status-bar';
 import { ModalController, PopoverController } from 'ionic-angular';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import * as cartActions from '../../store/product-cart/product-cart.actions';
@@ -23,9 +24,13 @@ export class ItemProductPage {
   }[];
   tabBarElement: any = document.querySelector('.tabbar.show-tabbar');
   seenProducts;
+  phone = "0934 323 882";
+  paddingContent = true;
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams, 
+    public platform:Platform,
+    public statusBar: StatusBar,
     public itemProvider: ItemProvider,
     public modalCtrl: ModalController,
     public store: Store<any>,
@@ -34,8 +39,29 @@ export class ItemProductPage {
     public loadingCtrl: LoadingController,
     public socialSharing: SocialSharing
   ) {
+    this.checkPatform();
+    this.getPhone();
     this.getProduct();
     this.getSeenProduct();
+  }
+
+  getPhone(){
+    this.itemProvider.checkConfig()
+    .then((result:any) => {
+      if (result != false) {
+        if (result.phone != ""){
+          this.phone = result.phone;
+        }
+      }
+    })
+  }
+
+  checkPatform(){
+    if (this.platform.is('android')){
+      if(this.platform.version().num < 5){
+        this.paddingContent = false;
+      }
+    }
   }
 
   startLoading() {
@@ -48,12 +74,14 @@ export class ItemProductPage {
   }
 
   getProduct() {
+    let loadding = this.startLoading();
     this.itemProvider
     .getProduct(this.navParams.get('handle'))
     .take(1)
     .subscribe((data:any) => {
       this.normalize(data);
-      this.store.dispatch(new seenProductActions.AddSeenAction(data.product))
+      this.store.dispatch(new seenProductActions.AddSeenAction(data.product));
+      loadding.dismiss();
     })
   }
 
@@ -134,10 +162,6 @@ export class ItemProductPage {
     });
   };
 
-  ionViewDidLoad() {
-
-  }
-  
   goShare(){
     var urlShare = `https://suplo-fashion.myharavan.com/products/${this.productDetail.handle}`;
     this.socialSharing.share(null, 'Chia sẻ', null, urlShare);
@@ -192,23 +216,35 @@ export class ItemProductPage {
     this.navCtrl.push('ItemSeenProductPage');
   }
 
+  goHome(){
+    this.navCtrl.setRoot('HomePage');
+    if ( this.tabBarElement != null) {
+      this.tabBarElement.style.cssText = 'display:flex !important';
+    }
+  }
+
   viewNoti(){
     this.navCtrl.push('ItemNotificationsPage');
   }
 
   // hide tabbar on page product
   ionViewWillEnter() {
-  // ionViewCanEnter() {
+    this.platform.ready().then(() => {
+      if (this.platform.is('cordova')){
+        this.statusBar.overlaysWebView(true);
+        this.statusBar.backgroundColorByHexString("#000000");
+        console.log('product statusbar');
+      }
+    })
     if (this.tabBarElement != null) {
-      this.tabBarElement.style.display = 'none';
+      this.tabBarElement.style.cssText = 'display:none !important';
     }
   }
 
   // show normail tabbar
   ionViewWillLeave() {
-    // ionViewCanLeave(){
     if (this.tabBarElement != null) {
-      this.tabBarElement.style.display = 'flex';
+      this.tabBarElement.style.cssText = 'display:flex !important';
     }
   }
 

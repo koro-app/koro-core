@@ -13,9 +13,8 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   rootPage: any = TabsPage;
-
   pages: Array<{title: string,name:string, index: number}>;
-
+  tabBarElement: any = document.querySelector('.tabbar.show-tabbar');
   colorPrimary = "#000000";
 
   constructor(
@@ -31,34 +30,31 @@ export class MyApp {
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Trang chủ',name:'HomePage', index:0 },
-      { title: 'Nhóm sản phẩm', name: 'ItemCollectionPage', index:1 },
-      { title: 'Giỏ hàng',name: 'ItemCartPage', index:2 },
-      { title: 'Tài khoản',name: 'MePage', index: 3 },
+      { title: 'Nhóm sản phẩm', name: 'ItemListCollectionPage', index:1 },
+      { title: 'Giỏ hàng',name: 'ItemCartPage', index:3 },
+      { title: 'Tài khoản',name: 'MePage', index:4 },
     ];
-
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
-      // this.statusBar.overlaysWebView(true);
-      // this.itemProvider.getConfig()
-      // .subscribe((data:any) => {
-      //   this.colorPrimary = data.home.color.primary;
-      //   this.statusBar.backgroundColorByHexString(this.colorPrimary);
-      // });
-        this.statusBar.backgroundColorByHexString("#33000000");
-      if (this.platform.is('ios') || this.platform.is('windows')) {
-        // this.statusBar.styleBlackTranslucent();
-        // this.statusBar.overlaysWebView(false);
-        // this.statusBar.backgroundColorByName('transparent');
-      }else{
-         // this.statusBar.backgroundColorByHexString("#33000000");
+      if (this.platform.is('cordova')){
+        // Okay, so the platform is ready and our plugins are available.
+        // Here you can do any higher level native things you might need.
+        this.statusBar.overlaysWebView(true);
         // this.statusBar.overlaysWebView(true);
+        this.statusBar.backgroundColorByHexString("#000000");
+        // this.statusBar.backgroundColorByHexString("#33000000");
+        // this.statusBar.styleBlackTranslucent();
+        if (this.platform.is('ios')) {
+          // this.statusBar.styleBlackTranslucent();
+          // this.statusBar.overlaysWebView(false);
+          // this.statusBar.backgroundColorByName('transparent');
+        }else{
+          // this.statusBar.backgroundColorByHexString("#33000000");
+        }
+        this.splashScreen.hide();
       }
-      // this.statusBar.backgroundColorByHexString('#000');
-      this.splashScreen.hide();
     });
   }
   openPage(page) {
@@ -72,8 +68,14 @@ export class MyApp {
     // setRoot on the nav to remove previous pages and only have this page
     // we wouldn't want the back button to show in this scenario
     if (page.index) {
-      params = { tabIndex: page.index };
+      params = {
+        tabIndex: page.index
+        // view: true 
+      };
       // console.log('this page',page)
+    }
+    if ( this.tabBarElement != null) {
+      this.tabBarElement.style.cssText = 'display:flex !important';
     }
 
     // If we are already on tabs just change the selected tab
@@ -82,6 +84,7 @@ export class MyApp {
     if (this.nav.getActiveChildNavs().length && page.index != undefined) {
      
        this.nav.getActiveChildNavs()[0].select(page.index);
+      //  console.log('page.index',page.index,page);
     } else {
       console.log('set root with page.namae',page.name)
       // Set the root of the nav with params if it's a tab index

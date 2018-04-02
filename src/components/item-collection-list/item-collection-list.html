@@ -1,4 +1,4 @@
-<ion-grid>
+<ion-grid *ngIf="products?.length > 0">
   <ion-row>
     <ion-col col-6 col-md-3 col-lg-3 col-xl-4 *ngFor="let product of products">
       <div class="product-item">
@@ -23,10 +23,13 @@
           </div>
         </div>
       </div>
-      <!-- <button class="addtocart" full ion-button outline clear (click)="addToCart.emit(product)">
-        <ion-icon name="cart"></ion-icon>
-        Thêm vào giỏ
-      </button> -->
+    </ion-col>
+  </ion-row>
+</ion-grid>
+<ion-grid *ngIf="showResult && myInput == '' && products?.length < 1">
+  <ion-row>
+    <ion-col col-12>
+      Nhóm chưa có sản phẩm nào.
     </ion-col>
   </ion-row>
 </ion-grid>
